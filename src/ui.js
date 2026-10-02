@@ -1,22 +1,22 @@
 // UI panel (markup in index.html): scenario toggle, Day / Night, light on/off,
-// tile / light / transition selects, sliders, quality select, FPS counter,
+// tile / light / transition / accent-extent selects, sliders, quality select, FPS counter,
 // camera presets, Hide UI (H).  Everything goes through the observable
 // state; the remodel components listen to the same state.
 //
-// Option lists come from state.options = {tiles, lights, transitions}
+// Option lists come from state.options = {tiles, lights, transitions, extents}
 // (each [{id, name, description?, mount?}]); call state.set({options}) any
 // time and the selects repopulate.  Until then each select shows a
 // placeholder "none" item.
 //
 // Keys: H panel, N day/night, L light on/off, 1-6 presets.
-// Gamepad: A light, B tile, X transition, Y scenario, Start UI,
+// Gamepad: A light, B tile, X transition, Y scenario, Back accent extent, Start UI,
 //          D-pad left/right previous/next preset.
 
 const $ = (id) => document.getElementById(id);
 
 export function buildUI({ state, controls, presets, applyPreset, quality }) {
   const panel = $('ui');
-  const sel = { tile: $('sel-tile'), light: $('sel-light'), transition: $('sel-transition') };
+  const sel = { tile: $('sel-tile'), light: $('sel-light'), transition: $('sel-transition'), accentExtent: $('sel-extent') };
 
   // ---- selects
   const fill = (el, list, current) => {
@@ -43,6 +43,7 @@ export function buildUI({ state, controls, presets, applyPreset, quality }) {
     tile: state.options?.tiles || [],
     light: state.options?.lights || [],
     transition: state.options?.transitions || [],
+    accentExtent: state.options?.extents || [],
   });
   function refreshOptions() {
     const L = lists();
@@ -83,7 +84,7 @@ export function buildUI({ state, controls, presets, applyPreset, quality }) {
   // when the light changes).
   const lightMount = () => lists().light.find((o) => o.id === state.light)?.mount || 'ceiling';
   const HANG = { key: 'lightHangBottomIn', label: 'Light hang (bottom)', min: 60, max: 110, step: 0.5 };
-  const WALL = { key: 'sconceCentreIn', label: 'Sconce height (centre)', min: 56, max: 80, step: 0.5 };
+  const WALL = { key: 'sconceCentreIn', label: 'Sconce height (centre)', min: 56, max: 84, step: 0.5 };
   const sliders = [
     { id: 'rng-accentTop', key: 'accentTopIn', fmt: (v) => `${v}"` },
     { id: 'rng-mirrorBottom', key: 'mirrorBottomIn', fmt: (v) => `${v}"` },
@@ -172,10 +173,11 @@ export function buildUI({ state, controls, presets, applyPreset, quality }) {
     const i = list.findIndex((o) => o.id === state[key]);
     state.set({ [key]: list[(i + 1) % list.length].id });
   };
-  for (const b of ['A', 'B', 'X', 'Y', 'Start', 'Left', 'Right']) controls.clearButton(b);
+  for (const b of ['A', 'B', 'X', 'Y', 'Back', 'Start', 'Left', 'Right']) controls.clearButton(b);
   controls.onButton('A', () => cycle('light', lists().light));
   controls.onButton('B', () => cycle('tile', lists().tile));
   controls.onButton('X', () => cycle('transition', lists().transition));
+  controls.onButton('Back', () => cycle('accentExtent', lists().accentExtent));
   controls.onButton('Y', () => state.set({ scenario: state.scenario === 'current' ? 'remodel' : 'current' }));
   controls.onButton('Start', () => state.set({ uiVisible: !state.uiVisible }));
   controls.onButton('Left', () => stepPreset(-1));

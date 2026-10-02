@@ -124,8 +124,12 @@ function sconce(THREE, mats, glowMat, shadows, candela) {
   return s;
 }
 
-// Default glass-centre height AFF (inches); see the sconce note in config.js REMODEL.
-const DEFAULT_CENTRE_IN = 64;
+// Glass centre on the oval mirror's widest point, i.e. its vertical centre
+// (mirror bottom + height / 2: 42 + 56 / 2 = 70" at the defaults); see the
+// sconce note in config.js REMODEL.  DEFAULT_CENTRE_IN is that value at the
+// default mirror, used when build() gets no height at all.
+const mirrorCentre = ({ mirrorBottomIn = 42, mirrorHeightIn = 56 } = {}) => mirrorBottomIn + mirrorHeightIn / 2;
+const DEFAULT_CENTRE_IN = mirrorCentre();
 // Default offsets from the sink centre: each sconce centred in its strip of
 // accent wall between the mirror frame and the accent edge (config.js).
 const DEFAULT_OFFSETS_IN = [-17.75, 16.75];
@@ -136,8 +140,10 @@ export default {
   order: 30,
   mount: 'wall',          // integration: the height slider sets the glass centre
   description: 'Two 2-light brass sconces with fluted clear glass, flanking the mirror',
-  // Per-option default for the height slider (glass centre AFF).
-  defaultMountCentreIn: DEFAULT_CENTRE_IN,
+  // Per-option default for the height slider (glass centre AFF): derived
+  // from the mirror, so it follows the "Mirror bottom" slider (a function
+  // default, see docs/ADDING_OPTIONS.md).
+  defaultMountCentreIn: mirrorCentre,
   build(ctx, opts = {}) {
     const { THREE } = ctx;
     const D = remodelDims(ctx);

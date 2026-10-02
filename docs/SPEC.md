@@ -192,11 +192,41 @@ be placed from the photos and is not modelled.*
 
 ## 4. Remodel scenario
 
-Accent region on the north wall: **x 30–76, y 40–120** (column tile edge to
-window trim edge after the br-736 corrections) (from the top of the
-existing wainscot to the ceiling; height configurable in the UI). The tile /
-wallpaper sits on the drywall plane; its finished face is proud of drywall
-by `thickness + 3 mm` thinset (wallpaper: 0.4 mm, no thinset).
+Accent region on the north wall, y 40–120 (from the top of the existing
+wainscot to the ceiling; height configurable in the UI), across one of two
+extents (`accentExtent` state field, panel select "Accent extent", hash
+`extent=full|strip`, gamepad Back; br-dli):
+- `full-wall` (default, "Full wall, around window"): **x 30–102**, from the
+  column tile edge across the vanity strip, round the window and into the
+  inside corner with the east wall (the east wall is not tiled; the slab has
+  no end face there, it dies into the wall). The window is cut out to the
+  outer edge of its trim, read from `config.WINDOW` (`trimX0/X1`, `head`,
+  `sillTop`, `stoolThick`, `stoolHorn`, `apronH`; src/room.js builds the
+  trim from the same numbers): casing + apron x 76–99, y 41.5–90, and the
+  stool with its horns x 75.5–99.5, y 43.25–44. Tile stops 1.5 mm short of
+  that outline and the gap is caulked (colour-matched, to 0.3 mm behind the
+  shallower of tile face and casing face); wallpaper is trimmed tight. All
+  cut edges are real faces of the slab, so a lowered accent top (below the
+  90" head) simply runs its top edge into the casing sides.
+- `vanity-strip` ("Vanity strip only"): **x 30–76** (column tile edge to
+  window trim edge after the br-736 corrections), exactly the pre-br-dli
+  geometry.
+The pattern origin is the bottom-left of the vanity strip (x 30, the bottom
+of the new material) in both, so the vanity strip is identical and the full
+wall continues the same grid east (no mirroring, no re-centring). Config:
+`REMODEL.vanityStripX0/X1` (30 / 76; `accentX0/X1` are aliases) and
+`REMODEL.fullWallX1` (= room width). The sconce offsets, mirror, pendants and
+junction-inspector anchor are derived from the vanity strip only and do not
+move with the extent.
+
+The tile / wallpaper sits on the drywall plane; its finished face is proud
+of drywall by `thickness + 3 mm` thinset (wallpaper: 0.4 mm, no thinset).
+The window casing and apron are 5/8" (15.2 mm) proud and the stool nose
+1.5", so every option sits behind the casing face: Sage Fan 13 mm (2.2 mm
+behind), glass subway 11 mm (4.2), ceramic subway 9 mm (6.2), wallpaper
+0.4 mm, `flush-fill` 13 mm for all. Only a thickness override above 12.2 mm
+puts the tile proud of the casing; it is then shown standing past it with
+its cut edge exposed.
 
 *Correction (br-uio): the existing wainscot has **no bullnose cap** (section
 3): the top course is the field tile with a ~6 mm light-sand eased edge, face
@@ -204,7 +234,9 @@ by `thickness + 3 mm` thinset (wallpaper: 0.4 mm, no thinset).
 accent wall only adds what goes on top of it. The old ids `keep-cap`,
 `remove-cap` described a cap that does not exist and were replaced.*
 
-Transition detail at y = 40 (`transition` option, default `butt-joint`):
+Transition detail at y = 40 (`transition` option, default `butt-joint`),
+along the whole length of the accent extent (in `full-wall` also under the
+window and behind the toilet tank, whose top at 30" is well below it):
 - `butt-joint` ("Butt joint + caulk"): new tile sits on the existing edge,
   colour-matched caulk joint (1.5 mm).
 - `metal-edge` ("Metal edge strip"): 1/8" brushed-nickel Schluter strip on
@@ -224,8 +256,11 @@ cross-section inset (canvas, bottom-left) with the wainscot thickness, eased
 edge, new material thickness, and the step in mm and fractional inches, plus
 thin dimension lines and labels drawn in 3D.
 
-The towel ring and the vanity GFCI (both inside the accent span) move out to
-the new finished face in the remodel and back to the drywall in current.
+The towel ring and the vanity GFCI (both inside the vanity strip, so inside
+either extent) move out to the new finished face in the remodel and back to
+the drywall in current. The GFCI just left of the window in photo 54 is that
+same vanity outlet (x 68.5); nothing else is mounted on the north wall east
+of it (the little frame stands on the stool).
 
 Oval mirror: 56" tall x 23" wide, 1.5" cherry/mahogany wood frame, 3/4" deep,
 hung **flat like a framed picture** (hidden wire, felt bumpers: frame back
@@ -249,7 +284,7 @@ reflection, with the bottom kept above ~74" so a person at the sink still
 sees their face. "Light hang (bottom)" slider 60–110" and "Light distance from
 wall" slider 6–36" (fixture centre off the finished face); each fixture clamps
 itself so it never enters the ceiling. Wall fixtures (`mount: 'wall'`): the
-height slider sets the glass centre (56–80"); the distance slider is hidden.
+height slider sets the glass centre (56–84"); the distance slider is hidden.
 - `rattan-linear`: Adara-style 4-light oval rattan linear chandelier,
   ~32" x 12" x 10", black frame, natural rattan weave (texture pack + alpha
   map, so the weave throws dappled shadows), on chains. Default bottom
@@ -260,9 +295,17 @@ height slider sets the glass centre (56–80"); the distance slider is hidden.
   **76"** (lantern 76–94", below the mirror top), **16"** off the wall.
 - `harlan-sconces`: pair of brass 2-light sconces with ribbed clear-glass
   cylinders, 4.25" x 14", each centred in its strip of accent wall between
-  the mirror frame and the accent edge: **x = 36.25" and 70.75"** (54 − 17.75
+  the mirror frame and the vanity-strip edge: **x = 36.25" and 70.75"** (54 − 17.75
   / 54 + 16.75; glass 4.1" / 3.1" clear of the frame and inside x 30–76).
-  Default glass centre **64"** (glass 57–71").
+  Default glass centre on the **mirror's widest point**, its vertical centre
+  = mirror bottom + 28" (**70"** at the default 42" mirror, glass 63–77"),
+  derived from the mirror (`defaultMountCentreIn` is a function of
+  `{ mirrorBottomIn, mirrorHeightIn }`) so it follows the "Mirror bottom"
+  slider (36–56" -> 64–84", all inside the 56–84" range, clamped to it)
+  until the user moves the sconce slider for this light or gives `#sconce=`
+  (br-dli). Horizontal positions unchanged; at the mirror's widest point the
+  glass is 4.1" (west) / 3.1" (east) clear of the frame edge (x 42.5" /
+  65.5"), the 2.6" backplate 4.9" / 3.9".
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,
@@ -297,6 +340,7 @@ Tile / wallpaper options (registry):
 - **Gamepad (Xbox controller) via the Gamepad API**: left stick move,
   right stick look, LT/RT (or bumpers) down/up, A = next light option,
   B = next tile option, X = next transition, Y = toggle current/remodel,
+  Back = toggle the accent extent,
   D-pad left/right = previous/next preset, Start = toggle UI. Dead-zone 0.15,
   poll in the render loop (a pad that is already awake is adopted on the
   first poll), show a small "🎮 connected" badge and a one-line controller
@@ -306,12 +350,13 @@ Tile / wallpaper options (registry):
   the accent wall, x = 49.5"), 6 Tub.
 - UI panel (top-right, plain HTML/CSS, no framework): Scenario
   (Current / Remodel), Day / Night, Light on / off, Tile/Wallpaper select,
-  Light select, Transition select (with a one-line description), sliders:
+  Light select, Accent extent select, Transition select (with a one-line
+  description), sliders:
   accent top height, mirror bottom height, light height (hang bottom for
   ceiling fixtures, centre for sconces), light distance from wall (ceiling
   fixtures only), tile thickness override; Quality
   select; FPS counter with the quality level; "Hide UI" (H).
-- URL hash: `preset`, `scenario`, `tile`, `light`, `transition`, `night`,
+- URL hash: `preset`, `scenario`, `tile`, `light`, `transition`, `extent`, `night`,
   `lights`, `top`, `mirror`, `hang`, `fromwall`, `sconce`, `thick`, `q`, `auto`, `ui`,
   `cam`, `off` (README).
 - Renderer: `WebGLRenderer({antialias:true})`, `outputColorSpace = SRGB`,

@@ -1,9 +1,15 @@
-// Accent wall: the new tile / wallpaper on the north (vanity) wall between
-// the tub column (x 30") and the window trim (x 76"), from the top of the
-// existing wainscot to the ceiling, with the three transition details of
-// SPEC section 4.
+// Accent wall: the new tile / wallpaper on the north (vanity) wall, from the
+// top of the existing wainscot to the ceiling, with the three transition
+// details of SPEC section 4.  Two extents (`extent`):
+//   'full-wall'     (default) from the tub column (x 30") across the vanity
+//                   strip, round the window (cut out to the outer edge of its
+//                   casing, stool and apron, with a caulk joint) and into the
+//                   east inside corner (x 102").
+//   'vanity-strip'  the tub column (x 30") to the window trim (x 76") only.
+// The pattern origin is the bottom-left of the vanity strip in both, so the
+// strip looks the same and the full wall simply continues the pattern east.
 //
-//   buildAccentWall(ctx, { tile, transition, topIn, thicknessMmOverride,
+//   buildAccentWall(ctx, { tile, transition, topIn, thicknessMmOverride, extent?,
 //                          bottomIn?, x0In?, x1In?, buildOutMmOverride? }) -> THREE.Group
 //   computeJunction(ctx, sameOpts) -> layer numbers (metres), also used by
 //                                     the junction inspector.
@@ -29,6 +35,14 @@ export const TRANSITIONS = [
     description: 'Wall built out so faces are flush' },
 ];
 const DEFAULT_TRANSITION = TRANSITIONS[0].id;
+
+export const EXTENTS = [
+  { id: 'full-wall', name: 'Full wall, around window',
+    description: 'Across the whole vanity wall, round the window trim, into the corner' },
+  { id: 'vanity-strip', name: 'Vanity strip only',
+    description: 'Tub column to the window trim (x 30-76")' },
+];
+const DEFAULT_EXTENT = EXTENTS[0].id;
 
 const STRIP_LEG = mm(1.0);           // Schluter profile: metal thickness
 const STRIP_FACE = inch(1 / 8);      // visible strip height (1/8")
@@ -78,16 +92,38 @@ export function computeJunction(ctx, opts = {}) {
   const hasStrip = transition === 'metal-edge';
   const joint = hasStrip || isWallpaper ? 0 : JOINT;
   const bottom = capTop + (hasStrip ? STRIP_FACE : joint);
+  const extent = EXTENTS.some((e) => e.id === opts.extent) ? opts.extent : DEFAULT_EXTENT;
+  const full = extent === 'full-wall';
+  const x0 = opts.x0In != null ? inch(opts.x0In) : D.accentX0;
+  const x1 = opts.x1In != null ? inch(opts.x1In) : (full ? D.fullWallX1 : D.accentX1);
+  // Window outline (casing + apron, and the stool with its horns) as
+  // rectangles [x0, x1, y0, y1] on the wall plane; only cut out when the
+  // region actually reaches the window (the full wall).
+  const W = D.window;
+  const stoolBottom = W.sillTop - W.stoolThick;
+  const outline = [
+    [W.trimX0, W.trimX1, stoolBottom - W.apronH, W.head],
+    [W.trimX0 - W.stoolHorn, W.trimX1 + W.stoolHorn, stoolBottom, W.sillTop],
+  ].filter((r) => full && r[1] > x0 && r[0] < x1);
   return {
-    option, transition, isWallpaper,
+    option, transition, isWallpaper, extent,
     wainscotProud: D.wainscotProud, wainscotThinset: D.wainscotThinset,
     capTop, capBottom, capChamfer: CAP_CHAMFER,
     buildOut, thinset, material, face,
     step: face - D.wainscotProud,
     bottom, joint,
     top: opts.topIn != null ? inch(opts.topIn) : Math.min(D.accentTop, D.ceiling),
-    x0: opts.x0In != null ? inch(opts.x0In) : D.accentX0,
-    x1: opts.x1In != null ? inch(opts.x1In) : D.accentX1,
+    x0, x1,
+    // window cut-out: raw trim outline, the tile's caulk gap round it (0 for
+    // wallpaper, which is trimmed tight to the casing), casing projection
+    // and how far the new face stands past it (+ = proud of the casing)
+    window: outline,
+    trimGap: outline.length && !isWallpaper ? JOINT : 0,
+    casingProud: W.casingProud,
+    stoolNose: W.stoolNose,
+    caseStep: face - W.casingProud,
+    // the slab dies into the east wall at the inside corner (no end face)
+    endsInCorner: x1 >= D.roomWidth - mm(0.5),
     hasCap: true,
     hasStrip,
     strip: { leg: STRIP_LEG, face: STRIP_FACE, depth: Math.max(face, D.wainscotProud) + mm(0.5) },
@@ -133,6 +169,83 @@ export function slabGeometry(THREE, b, rw, rh, ox = 0, oy = 0) {
   return g;
 }
 
+const inRect = (r, x, y) => x > r[0] && x < r[1] && y > r[2] && y < r[3];
+const grow = (r, d) => [r[0] - d, r[1] + d, r[2] - d, r[3] + d];
+
+/**
+ * Slab on the wall plane over the region b = {x0, x1, y0, y1, z0, z1}
+ * minus the rectangles `holes` ([x0, x1, y0, y1]), optionally limited to
+ * cells inside one of `only` (used for the caulk ring round the window).
+ * The region is split on a grid at every rectangle edge; each filled cell
+ * gets its front face, and every cell side with no filled neighbour gets an
+ * edge face (the slab's real thickness, also round the cut-out), except the
+ * east end when `openRight` (it dies into the east wall).  UVs as in
+ * slabGeometry (texture repeats from ox, oy; edges continue the pattern
+ * across the thickness), so a grout grid runs straight through the cut-out.
+ * Groups: 0 = front face, 1 = edges.
+ */
+export function regionGeometry(THREE, b, holes, rw, rh, ox = 0, oy = 0, { only = null, openRight = false } = {}) {
+  const { x0, x1, y0, y1, z0, z1 } = b;
+  const cuts = (lo, hi, k0, k1) => {
+    const v = [lo, hi];
+    for (const r of [...holes, ...(only || [])]) for (const c of [r[k0], r[k1]]) if (c > lo && c < hi) v.push(c);
+    v.sort((a, c) => a - c);
+    return v.filter((c, i) => i === 0 || c - v[i - 1] > 1e-6);
+  };
+  const xs = cuts(x0, x1, 0, 1), ys = cuts(y0, y1, 2, 3);
+  const nx = xs.length - 1, ny = ys.length - 1;
+  const fill = [];
+  for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+    const cx = (xs[i] + xs[i + 1]) / 2, cy = (ys[j] + ys[j + 1]) / 2;
+    fill[j * nx + i] = !holes.some((r) => inRect(r, cx, cy)) && (!only || only.some((r) => inRect(r, cx, cy)));
+  }
+  const F = (i, j) => i >= 0 && j >= 0 && i < nx && j < ny && fill[j * nx + i];
+  const P = [], N = [], U = [];
+  const quad = (a, bb, c, d, n, uv) => {
+    for (const [p, t] of [[a, uv[0]], [bb, uv[1]], [c, uv[2]], [a, uv[0]], [c, uv[2]], [d, uv[3]]]) {
+      P.push(...p); N.push(...n); U.push(...t);
+    }
+  };
+  const ux = (x) => (x - ox) / rw, vy = (y) => (y - oy) / rh;
+  const du = (z1 - z0) / rw, dv = (z1 - z0) / rh;
+  // front faces, merged into horizontal runs per row
+  for (let j = 0; j < ny; j++) {
+    for (let i = 0; i < nx; i++) {
+      if (!F(i, j)) continue;
+      let k = i;
+      while (F(k + 1, j)) k++;
+      const a = xs[i], c = xs[k + 1], lo = ys[j], hi = ys[j + 1];
+      quad([a, lo, z1], [c, lo, z1], [c, hi, z1], [a, hi, z1], [0, 0, 1],
+        [[ux(a), vy(lo)], [ux(c), vy(lo)], [ux(c), vy(hi)], [ux(a), vy(hi)]]);
+      i = k;
+    }
+  }
+  const front = P.length / 3;
+  for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+    if (!F(i, j)) continue;
+    const a = xs[i], c = xs[i + 1], lo = ys[j], hi = ys[j + 1];
+    if (!F(i - 1, j)) // -x
+      quad([a, lo, z0], [a, lo, z1], [a, hi, z1], [a, hi, z0], [-1, 0, 0],
+        [[ux(a) - du, vy(lo)], [ux(a), vy(lo)], [ux(a), vy(hi)], [ux(a) - du, vy(hi)]]);
+    if (!F(i + 1, j) && !(openRight && i === nx - 1)) // +x
+      quad([c, lo, z1], [c, lo, z0], [c, hi, z0], [c, hi, z1], [1, 0, 0],
+        [[ux(c), vy(lo)], [ux(c) + du, vy(lo)], [ux(c) + du, vy(hi)], [ux(c), vy(hi)]]);
+    if (!F(i, j - 1)) // -y
+      quad([a, lo, z0], [c, lo, z0], [c, lo, z1], [a, lo, z1], [0, -1, 0],
+        [[ux(a), vy(lo) - dv], [ux(c), vy(lo) - dv], [ux(c), vy(lo)], [ux(a), vy(lo)]]);
+    if (!F(i, j + 1)) // +y
+      quad([a, hi, z1], [c, hi, z1], [c, hi, z0], [a, hi, z0], [0, 1, 0],
+        [[ux(a), vy(hi)], [ux(c), vy(hi)], [ux(c), vy(hi) + dv], [ux(a), vy(hi) + dv]]);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(P, 3));
+  g.setAttribute('normal', new THREE.Float32BufferAttribute(N, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(U, 2));
+  g.addGroup(0, front, 0);
+  g.addGroup(front, P.length / 3 - front, 1);
+  return g;
+}
+
 export function buildAccentWall(ctx, opts = {}) {
   const { THREE } = ctx;
   const J = computeJunction(ctx, opts);
@@ -149,10 +262,17 @@ export function buildAccentWall(ctx, opts = {}) {
   const edgeMat = faceMat; // tile edges show the same glaze / print
 
   const x0 = J.x0, x1 = J.x1, y0 = J.bottom, y1 = J.top;
+  // Plain rectangle (vanity strip: exactly the old geometry) or the full
+  // wall with the window cut out (holes grown by `d`) and the east end open.
+  const shaped = J.window.length > 0 || J.endsInCorner;
+  const cutout = (d) => J.window.map((r) => grow(r, J.trimGap + d));
+  const slab = (b, d = 0) => (shaped
+    ? regionGeometry(THREE, b, cutout(d), rw, rh, x0, y0, { openRight: J.endsInCorner })
+    : slabGeometry(THREE, b, rw, rh, x0, y0));
   let z = 0;
   if (J.buildOut > 0) {
     const boMat = keep(new THREE.MeshStandardMaterial({ color: 0xc4c6c0, roughness: 0.95 }));
-    const g = keep(slabGeometry(THREE, { x0, x1, y0, y1, z0: z, z1: z + J.buildOut }, rw, rh, x0, y0));
+    const g = keep(slab({ x0, x1, y0, y1, z0: z, z1: z + J.buildOut }));
     const m = new THREE.Mesh(g, [boMat, boMat]);
     m.name = 'buildOut'; m.receiveShadow = true; m.castShadow = true;
     group.add(m);
@@ -161,16 +281,29 @@ export function buildAccentWall(ctx, opts = {}) {
   if (J.thinset > 0) {
     const tsMat = keep(new THREE.MeshStandardMaterial({ color: 0x8d8b85, roughness: 1 }));
     const inset = mm(2);
-    const g = keep(slabGeometry(THREE, { x0: x0 + inset, x1: x1 - inset, y0: y0 + inset, y1, z0: z, z1: z + J.thinset }, rw, rh, x0, y0));
+    const g = keep(slab({ x0: x0 + inset, x1: x1 - inset, y0: y0 + inset, y1, z0: z, z1: z + J.thinset }, inset));
     const m = new THREE.Mesh(g, [tsMat, tsMat]);
     m.name = 'thinset'; m.receiveShadow = true;
     group.add(m);
     z += J.thinset;
   }
   {
-    const g = keep(slabGeometry(THREE, { x0, x1, y0, y1, z0: z, z1: z + J.material }, rw, rh, x0, y0));
+    const g = keep(slab({ x0, x1, y0, y1, z0: z, z1: z + J.material }));
     const m = new THREE.Mesh(g, [faceMat, edgeMat]);
     m.name = 'accentFace'; m.receiveShadow = true; m.castShadow = !J.isWallpaper;
+    group.add(m);
+  }
+  const caulkMat = () => keep(new THREE.MeshStandardMaterial({ color: option && option.groutColor ? option.groutColor : 0xdedcd6, roughness: 0.6 }));
+  if (J.trimGap > 0) {
+    // Caulk joint where the tile butts the window casing, stool horns and
+    // apron: fills the gap from the drywall to 0.3 mm behind the shallower
+    // of the tile face and the casing face.  (A tile that stands proud of
+    // the casing shows its cut edge beyond the casing; nothing hides it.)
+    const dep = Math.max(Math.min(J.face, J.casingProud) - mm(0.3), mm(0.6));
+    const g = keep(regionGeometry(THREE, { x0, x1, y0, y1, z0: 0, z1: dep }, J.window, rw, rh, x0, y0,
+      { only: cutout(0), openRight: J.endsInCorner }));
+    const m = new THREE.Mesh(g, caulkMat());
+    m.name = 'trimCaulk'; m.receiveShadow = true;
     group.add(m);
   }
 
@@ -197,7 +330,7 @@ export function buildAccentWall(ctx, opts = {}) {
   if (J.joint > 0) {
     // Colour-matched caulk bead in the joint between the old edge and the
     // new material (stops 0.3 mm behind the new face).
-    const caulk = keep(new THREE.MeshStandardMaterial({ color: option && option.groutColor ? option.groutColor : 0xdedcd6, roughness: 0.6 }));
+    const caulk = caulkMat();
     const dep = Math.max(Math.min(J.face, J.wainscotProud) - mm(0.3), mm(0.6));
     const g = keep(new THREE.BoxGeometry(x1 - x0, J.joint, dep));
     const m = new THREE.Mesh(g, caulk);
