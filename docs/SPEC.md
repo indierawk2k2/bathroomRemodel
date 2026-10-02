@@ -306,6 +306,24 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   (br-dli). Horizontal positions unchanged; at the mirror's widest point the
   glass is 4.1" (west) / 3.1" (east) clear of the frame edge (x 42.5" /
   65.5"), the 2.6" backplate 4.9" / 3.9".
+- `anders-pendants` (br-166): pair of West Elm Anders Porcelain Pendants,
+  5" size (assets/source/lights/anders-pendant/SOURCES.md): 5" x 4.5" ivory
+  porcelain cylinder, open at the bottom, a 1.4" x 3" Champagne Bronze socket
+  cup, a 5/16" rigid stem and a 5" x 0.5" canopy; real drop 12.6–54.6" (the
+  hang is clamped to the 12.6" minimum, so it never reaches the ceiling).
+  Ceiling-hung, a pendant either side of the mirror at the sconce positions,
+  **x = 36.25" and 70.75"**: the shade is 3.75" (west) / 2.75" (east) clear of
+  the frame at its widest point, 3.75" from the tub-column tile (x 30") and
+  2.75" from the window casing (x 76"). Default **7"** off the finished wall
+  (shade back 4.5" clear; the canopy sits wholly on the ceiling). Default
+  shade centre on the **mirror's widest point** (`defaultHangBottomIn` =
+  mirror bottom + 28" − 2.25" = **67.75"** at the default mirror, drop 52.25"),
+  a function of the mirror like the sconces', so it follows "Mirror bottom"
+  until the user moves "Light hang" for this light or gives `#hang=`.
+  Lights: per pendant one shadow-casting PointLight low in the shade (the
+  porcelain casts, so it throws a pool down through the open bottom and a
+  scallop on the tile) and one weak unshadowed PointLight for the light the
+  porcelain lets through. Damp rating: not stated by West Elm.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,

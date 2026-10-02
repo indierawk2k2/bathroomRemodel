@@ -26,6 +26,7 @@ export { default as wallpaperRebelWallsRippleBlue } from './wallpapers/wallpaper
 export { default as rattanLinear } from './lights/rattan-linear.js';
 export { default as monteauxPendant } from './lights/monteaux-pendant.js';
 export { default as harlanSconces } from './lights/harlan-sconces.js';
+export { default as andersPendants } from './lights/anders-pendants.js';
 
 // -------------------------------------------------------------------------
 export * from './registry.js';

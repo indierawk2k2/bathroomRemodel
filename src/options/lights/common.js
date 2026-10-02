@@ -1,5 +1,5 @@
 // Shared pieces for light options: chains, bulbs, point lights, on/off.
-import { inch, mm, warmWhite } from '../../remodel/cfg.js';
+import { inch, mm, warmWhite, remodelDims, cfg } from '../../remodel/cfg.js';
 
 /**
  * Point light at a bulb.  `candela` is THREE's physical intensity (r155+);
@@ -89,6 +89,85 @@ export function finishFixture(group, lights, glowMats) {
     });
   };
   return group;
+}
+
+// ---- paired ceiling pendants flanking the mirror (Anders, Claxy) ---------
+
+/** The oval mirror's widest point (its vertical centre), inches AFF. */
+export const mirrorCentreIn = ({ mirrorBottomIn = 42, mirrorHeightIn = 56 } = {}) => mirrorBottomIn + mirrorHeightIn / 2;
+
+/** A `defaultHangBottomIn` (shade bottom) that centres a shade `shadeHIn`
+ *  tall on the mirror's widest point, so it follows the "Mirror bottom"
+ *  slider (a function default, see docs/ADDING_OPTIONS.md). */
+export const hangAtMirrorCentre = (shadeHIn) => (env) => mirrorCentreIn(env) - shadeHIn / 2;
+
+/** [west, east] x offsets from the sink centre that keep a shade of radius
+ *  `shadeRIn` `clearIn` clear of the mirror frame at its widest point. */
+export function offsetsClearOfMirror(ctx, shadeRIn, clearIn = 2) {
+  const half = cfg(ctx, ['REMODEL.ovalMirror.width'], inch(23)) / inch(1) / 2;
+  const d = half + clearIn + shadeRIn;
+  return [-d, d];
+}
+
+/**
+ * Pair of ceiling-hung pendants, one each side of the mirror.
+ * spec: { name, defaultHangIn (shade bottom AFF when opts.hangBottomIn is
+ *   missing), minDropIn (ceiling to shade bottom on the shortest real stem:
+ *   the hang is clamped to it, so nothing ever enters the ceiling),
+ *   offsetsIn ([west, east] x offsets from opts.centreXIn), defaultFromWallIn,
+ *   makePendant(dropM, k) -> Group with its origin at the shade's bottom
+ *   centre, y up, reaching the ceiling at y = dropM, with
+ *   userData.lights = [PointLight, ...] and userData.glowMaterials }.
+ * opts (from the app): hangBottomIn, centreXIn, centreZIn (pendant centre,
+ * world z, i.e. "Light distance from wall" + the accent face), ceilingIn,
+ * offsetsIn (overrides spec.offsetsIn; the app only passes it to wall
+ * mounts), shadows.
+ */
+export function flankingPendantPair(ctx, opts, spec) {
+  const { THREE } = ctx;
+  const D = remodelDims(ctx);
+  const ceiling = opts.ceilingIn != null ? inch(opts.ceilingIn) : D.ceiling;
+  const want = inch(opts.hangBottomIn != null ? opts.hangBottomIn : spec.defaultHangIn);
+  const bottom = Math.min(want, ceiling - inch(spec.minDropIn));
+  const drop = ceiling - bottom;
+  const cx = opts.centreXIn != null ? inch(opts.centreXIn) : D.lightCentreX;
+  const cz = opts.centreZIn != null ? inch(opts.centreZIn) : inch(spec.defaultFromWallIn);
+  const offsets = (Array.isArray(opts.offsetsIn) && opts.offsetsIn.length === 2 ? opts.offsetsIn : spec.offsetsIn).map(inch);
+  const group = new THREE.Group();
+  group.name = spec.name;
+  const lights = [], glows = new Set();
+  offsets.forEach((dx, k) => {
+    const p = spec.makePendant(drop, k);
+    p.name = k === 0 ? 'pendantWest' : 'pendantEast';
+    p.position.set(cx + dx, bottom, cz);
+    group.add(p);
+    lights.push(...p.userData.lights);
+    for (const m of p.userData.glowMaterials || []) glows.add(m);
+  });
+  group.userData.placement = { bottom, drop, xs: offsets.map((d) => cx + d), z: cz };
+  return finishFixture(group, lights, [...glows]);
+}
+
+/** Emissive-map ramp over a shade's height: `f(v)` (v = 0 at the bottom,
+ *  1 at the top) gives the brightness 0..1.  Use with heightUV(). */
+export function glowRamp(THREE, f, n = 64) {
+  const c = document.createElement('canvas'); c.width = 4; c.height = n;
+  const g = c.getContext('2d');
+  for (let y = 0; y < n; y++) {
+    const L = Math.round(255 * Math.max(0, Math.min(1, f(1 - y / (n - 1)))));  // canvas y = 0 is the top
+    g.fillStyle = `rgb(${L},${L},${L})`; g.fillRect(0, y, 4, 1);
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
+/** Set every vertex's uv.v to its height fraction (y - y0) / h. */
+export function heightUV(geo, y0, h) {
+  const p = geo.attributes.position, uv = geo.attributes.uv;
+  for (let i = 0; i < p.count; i++) uv.setY(i, (p.getY(i) - y0) / h);
+  uv.needsUpdate = true;
+  return geo;
 }
 
 export { inch, mm };
