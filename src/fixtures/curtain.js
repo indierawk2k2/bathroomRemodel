@@ -81,7 +81,7 @@ export function buildCurtain(ctx) {
   geo.setIndex(idx);
   geo.computeVertexNormals();
   // photo 37: the curtain reads darker than the swatch texture -> slight tint
-  const fabric = ctx.textures.material('curtain', { roughness: 0.95, side: THREE.DoubleSide, color: ctx.textures.has('curtain') ? 0x9a9aa4 : undefined });
+  const fabric = ctx.textures.material('curtain', { roughness: 0.95, side: THREE.DoubleSide, color: undefined }); // albedo carries the colour: no second tint
   g.add(mesh(geo, fabric, { name: 'curtain_fabric' }));
   return g;
 }

@@ -112,7 +112,7 @@ export function buildRoom(ctx) {
     door: textures.material('door_slab', { color: textures.has('door_slab') ? undefined : DOORS.slabColor, roughness: 0.55 }),
     groove: new THREE.MeshStandardMaterial({ color: 0x3f403e, roughness: 0.7 }),
     glass: new THREE.MeshStandardMaterial({
-      color: 0xe8eef1,
+      color: textures.frosted_glass ? 0xffffff : 0xe8eef1, // map carries the tint
       emissive: 0xd7e3ea,
       emissiveIntensity: 1.25,
       roughness: 0.35,

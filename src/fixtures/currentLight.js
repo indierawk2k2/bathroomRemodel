@@ -21,8 +21,24 @@ export function buildCurrentLight(ctx) {
   g.add(box(cx - L.width / 2 + inch(1), cy - inch(0.25), zc - inch(0.6), cx + L.width / 2 - inch(1), cy + inch(0.25), zc + inch(0.6), std.chrome));
   g.add(box(cx - inch(3), cy - inch(1.6), zc + shadeD / 2 - inch(0.2), cx + inch(3), cy - inch(1.1), zc + shadeD / 2 + inch(0.4), std.chrome));
 
+  // Frosted shade: a hot core where the bulb sits, falling off toward the
+  // ends, so it blooms a little instead of clipping to a flat white slab.
+  const glowCanvas = document.createElement('canvas');
+  glowCanvas.width = 128;
+  glowCanvas.height = 64;
+  {
+    const gc = glowCanvas.getContext('2d');
+    const grd = gc.createRadialGradient(64, 32, 2, 64, 32, 70);
+    grd.addColorStop(0, '#ffffff');
+    grd.addColorStop(0.45, '#b9b9b9');
+    grd.addColorStop(1, '#5a5a5a');
+    gc.fillStyle = grd;
+    gc.fillRect(0, 0, 128, 64);
+  }
+  const glowMap = new THREE.CanvasTexture(glowCanvas);
+  glowMap.colorSpace = THREE.SRGBColorSpace;
   const shadeMat = new THREE.MeshStandardMaterial({
-    color: 0xfff6ea, emissive: 0xffd7a6, emissiveIntensity: 1.6, roughness: 0.6, transparent: true, opacity: 0.97,
+    color: 0xfff6ea, emissive: 0xffd7a6, emissiveIntensity: 1.5, emissiveMap: glowMap, roughness: 0.6,
   });
   const lights = [];
   for (const s of [-1, 1]) {
@@ -47,5 +63,6 @@ export function buildCurrentLight(ctx) {
     lights.push(pl);
   }
   g.userData.lights = lights;
+  g.userData.glowMaterials = [shadeMat];
   return g;
 }

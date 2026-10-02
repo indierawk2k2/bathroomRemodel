@@ -3,6 +3,7 @@
 // SpotLight), and the shampoo / tissue-box clutter in the column niches.
 import * as THREE from 'three';
 import { inch } from '../units.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { box, mesh, stdMaterials } from './util.js';
 
 export function buildMisc(ctx) {
@@ -58,14 +59,40 @@ export function buildMisc(ctx) {
   {
     const o = new THREE.Group();
     o.name = 'outlet_vanity';
+    // Decora GFCI (photos 52, 53): bevelled wall plate, rectangular face with
+    // two receptacles (two slots + a round-top ground each), TEST / RESET
+    // buttons between them and a green LED; two plate screws.
     o.add(plate(inch(3.1), inch(4.9)));
-    const face = new THREE.Mesh(new THREE.BoxGeometry(inch(1.35), inch(2.6), inch(0.2)), std.whitePlastic);
-    face.position.z = inch(0.15);
+    const faceMat = new THREE.MeshStandardMaterial({ color: 0xf4f3ee, roughness: 0.35 });
+    const face = new THREE.Mesh(new THREE.BoxGeometry(inch(1.32), inch(2.62), inch(0.2)), faceMat);
+    face.position.z = inch(0.17);
     o.add(face);
-    for (const dy of [-0.7, 0.7]) {
-      const slot = new THREE.Mesh(new THREE.BoxGeometry(inch(0.5), inch(0.12), inch(0.05)), std.darkGap);
-      slot.position.set(0, inch(dy), inch(0.26));
-      o.add(slot);
+    const zf = inch(0.275);
+    const hole = (w, h, x, y) => {
+      const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, inch(0.02)), std.darkGap);
+      m.position.set(x, y, zf);
+      o.add(m);
+    };
+    for (const cy of [0.82, -0.82]) {
+      hole(inch(0.07), inch(0.3), -inch(0.25), inch(cy + 0.08)); // neutral (taller)
+      hole(inch(0.07), inch(0.24), inch(0.25), inch(cy + 0.08)); // hot
+      const gnd = new THREE.Mesh(new THREE.CircleGeometry(inch(0.09), 12), std.darkGap);
+      gnd.position.set(0, inch(cy - 0.24), zf + inch(0.011));
+      o.add(gnd);
+    }
+    for (const [y, w] of [[0.16, 0.62], [-0.16, 0.62]]) {
+      const b = new THREE.Mesh(new THREE.BoxGeometry(inch(w), inch(0.22), inch(0.08)), faceMat);
+      b.position.set(0, inch(y), zf + inch(0.02));
+      o.add(b);
+    }
+    const led = new THREE.Mesh(new THREE.CircleGeometry(inch(0.035), 8), new THREE.MeshStandardMaterial({ color: 0x1d5a2a, emissive: 0x2bd14b, emissiveIntensity: 0.6 }));
+    led.position.set(inch(0.5), -inch(1.12), zf + inch(0.011));
+    o.add(led);
+    for (const y of [2.15, -2.15]) {
+      const sc = new THREE.Mesh(new THREE.CylinderGeometry(inch(0.09), inch(0.09), inch(0.04), 12), std.satinNickel);
+      sc.rotation.x = Math.PI / 2;
+      sc.position.set(0, inch(y), inch(0.14));
+      o.add(sc);
     }
     g.add(onNorth(o, MISC.outlet.x, MISC.outlet.y));
   }
@@ -182,9 +209,32 @@ export function buildMisc(ctx) {
       g.add(b);
       x += inch(2.7);
     });
-    const tissue = box(inch(16), COLUMN.niche2[0], COLUMN.nicheBackZ + inch(0.3), inch(26.5), COLUMN.niche2[0] + inch(4.8), COLUMN.nicheBackZ + inch(5.3),
-      new THREE.MeshStandardMaterial({ color: 0x4f74b8, roughness: 0.6 }), { name: 'tissueBox' });
-    g.add(tissue);
+    // Tissue box (photo 37): blue printed carton with rounded edges, an oval
+    // opening on top and a tissue puff standing out of it.
+    const tb = new THREE.Group();
+    tb.name = 'tissueBox';
+    const tw = inch(9.4), th = inch(4.6), td = inch(4.6);
+    const carton = new RoundedBoxGeometry(tw, th, td, 2, inch(0.12));
+    tb.add(mesh(carton, new THREE.MeshStandardMaterial({ color: 0x5577b8, roughness: 0.55 })));
+    const slot = new THREE.Mesh(new THREE.CircleGeometry(1, 24), std.darkGap);
+    slot.scale.set(inch(2.6), inch(0.7), 1);
+    slot.rotation.x = -Math.PI / 2;
+    slot.position.y = th / 2 + inch(0.005);
+    tb.add(slot);
+    const puffGeo = new THREE.SphereGeometry(1, 16, 10);
+    const pp = puffGeo.attributes.position;
+    for (let i = 0; i < pp.count; i++) {
+      const x = pp.getX(i), y = pp.getY(i), z = pp.getZ(i);
+      pp.setXYZ(i, x * inch(1.9) + Math.sin(y * 6) * inch(0.15), Math.max(0, y) * inch(2.1), z * inch(0.35) * (1 - Math.max(0, y) * 0.6));
+    }
+    puffGeo.computeVertexNormals();
+    const puff = mesh(puffGeo, new THREE.MeshStandardMaterial({ color: 0xf6f6f2, roughness: 0.95, side: THREE.DoubleSide }));
+    puff.position.y = th / 2 - inch(0.1);
+    puff.rotation.z = 0.12;
+    tb.add(puff);
+    tb.position.set(inch(21.3), COLUMN.niche2[0] + th / 2, COLUMN.nicheBackZ + inch(0.3) + td / 2);
+    tb.traverse((o) => { if (o.isMesh) o.castShadow = o.receiveShadow = true; });
+    g.add(tb);
   }
   return g;
 }
