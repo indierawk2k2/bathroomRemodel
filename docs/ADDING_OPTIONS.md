@@ -321,7 +321,8 @@ export default {
 ### A wallpaper from a product web page
 
 This is how `wallpaper-cole-son-feather-fan-soft-olive` and
-`wallpaper-rebel-walls-ripple-blue` were added (br-ukz):
+`wallpaper-rebel-walls-ripple-blue` were added (br-ukz), and
+`wallpaper-debona-crystal-trellis-blue-silver` (br-oc9):
 
 1. **Open the page in a real browser** (Claude in Chrome). Retail sites
    often block `curl` for the HTML. Read the product name, collection,
@@ -351,6 +352,62 @@ This is how `wallpaper-cole-son-feather-fan-soft-olive` and
    change in `src/remodel/accentWall.js`.
 5. Check the scale in the shots. At preset 3 the 23"-wide mirror and the
    12x24 wainscot tiles are the rulers.
+6. **Shop around for the largest flat.** The linked retailer's image is
+   not always the best one. World of Wallpaper (Magento) serves its
+   originals without the `/cache/<hash>/` part of the URL, but only at
+   1200 px. B&Q (`media.diy.com`, Adobe Scene7) gives the native size with
+   `?req=imageprops` and the original with `?scl=1&qlt=100`. Plain
+   `wid=`/`hei=` pads it with white. Align the images with a mask
+   correlation to prove they are the same artwork, and record each one's
+   colour grade. (Debona 8894: World of Wallpaper's 1200 px flat is B&Q's
+   1502 x 1814 at 0.8x, and lighter. B&Q's silver matches the room scene.)
+7. **A flat often is one roll width.** If its aspect ratio equals
+   `roll width : n x repeat`, the whole image is a whole number of repeats.
+   Use it unchanged. Check the wrap with the seam step: the step between the
+   last and first row (and column) should sit inside the spread of interior
+   steps.
+8. **"Offset" / "half-drop" on the label vs the artwork.** Work out from
+   the measured lattice whether the strips really need a drop. If the roll
+   width is a lattice vector, the pattern runs on across the seam when the
+   installer matches it, and the texture is simply that lattice. Debona's
+   trellis has 4 lanterns per 53 cm with alternate columns dropped, and
+   retailers call it "offset". Only bake two strips (the second rolled by
+   half the repeat) when the roll width is *not* a lattice vector but
+   `(roll width, repeat / 2)` is.
+
+### Metallic and glitter papers
+
+The texture loader (`src/textures.js`) reads `map`, `normalMap`,
+`roughnessMap` and `alphaMap` from the manifest; it ignores
+`metalnessMap`. Three.js reads roughness from the **G** channel and
+metalness from the **B** channel, so pack both into one RGB "rough" PNG.
+Pass `rough=None` to `entry()` and save the PNG yourself (see
+`tex_wallpaper_debona_crystal_trellis_blue_silver`). In `makeMaterial`, use
+the same texture for both maps:
+
+```js
+const r = texCompanion(ctx, NAME, 'roughness');
+if (r) {
+  m.roughnessMap = repeatClone(THREE, r, false);   // G = roughness
+  m.metalnessMap = m.roughnessMap;                 // B = metalness
+  m.metalness = 1;                                 // the map scales it
+  m.userData.noProbe = true;                       // see below
+}
+```
+
+- **Set `userData.noProbe`.** `src/envProbe.js` gives every material with
+  `metalness >= 0.5` the captured room cube map. On a wall that is mostly
+  dielectric paper, that cube also becomes the ground's diffuse ambient,
+  and a dark navy ground turned brown. With `noProbe`, the wall keeps the
+  generic environment, as the other wall finishes do.
+- **Keep metal inks partial.** With metalness 1, a dark-grey printed
+  "silver" (sRGB ~116) loses its diffuse and reads gold or bronze under the
+  2700 K lights. Metalness about 0.45 with roughness about 0.38 reads as
+  satin silver by day and at night.
+- **Glitter:** sparse, 1-texel flecks (well under 1% of texels) with lower
+  roughness and some metalness. Put them in the roughness / metal map, not
+  the normal map, so mip-mapping averages them into a faint sheen at
+  distance and nothing shimmers when the camera moves.
 
 ## 4. A light fixture
 

@@ -81,7 +81,11 @@ when a pad is connected.
   - *Rebel Walls Ripple, Blue (wallpaper)*: R19317, hand-painted blue wave
     arches (about 5" wide) on a worn off-white ground. It is printed to the
     wall's size, but the design repeats every 1.00 x 1.20 m. Matte non-woven.
-  Both are built from the makers' own images
+  - *Debona Crystal Trellis, Blue / Silver (wallpaper)*: 8894, a metallic
+    silver ogee trellis (lanterns 5.2" wide, 16 cm / 6.3" repeat) on a
+    crinkled midnight-blue ground with glitter, 21" x 33' roll. Washable,
+    but B&Q lists it as not for bathrooms or kitchens.
+  All three are built from the makers' own artwork
   (`assets/source/wallpapers/SOURCES.md`) at true scale.
 - **Light**:
   - *Rattan oval linear, 4-light (Adara)*: 32" x 12" x 10" woven rattan
