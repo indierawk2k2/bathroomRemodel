@@ -1,0 +1,191 @@
+// The owner's oval mirror (photos 08-10): 56" tall x 23" wide overall,
+// 1.5"-wide x 3/4"-deep cherry/mahogany frame with an eased outer edge and a
+// small inner bead, real planar reflection (Reflector) clipped to the oval,
+// backing board, and black steel pivot brackets on each side.
+//
+//   buildOvalMirror(ctx, { bottomIn = 42, centreXIn = 55, surfaceOffsetM = 0,
+//                          heightIn = 56, widthIn = 23,
+//                          reflector: { textureWidth, textureHeight, clipBias,
+//                                       multisample, color } | false })
+//     -> THREE.Group   (userData.reflector = the Reflector mesh, or null)
+//
+// The group is placed in world coordinates: its origin is the oval centre on
+// the wall face (z = surfaceOffsetM); local +z points into the room.
+import { Reflector } from 'three/addons/objects/Reflector.js';
+import { inch, mm, remodelDims, tex, physicalSize } from './cfg.js';
+import { cached, fbm, makeCanvas } from '../options/procedural.js';
+
+function ellipsePath(THREE, a, b, segs = 256, cw = false) {
+  const pts = [];
+  for (let i = 0; i < segs; i++) {
+    const t = (cw ? -1 : 1) * (i / segs) * Math.PI * 2;
+    pts.push(new THREE.Vector2(a * Math.cos(t), b * Math.sin(t)));
+  }
+  return pts;
+}
+
+/** Cherry/mahogany grain that follows the oval (UVs are bbox-normalised). */
+function woodGrainTexture(THREE, aspect) {
+  return cached(THREE, 'oval-wood-grain', () => {
+    const W = 512, H = Math.round(512 * aspect);
+    const c = makeCanvas(W, H), g = c.getContext('2d');
+    const img = g.createImageData(W, H), d = img.data;
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const u = x / W * 2 - 1, v = y / H * 2 - 1;
+      const rr = Math.hypot(u, v);                   // elliptical "radius"
+      const ang = Math.atan2(v, u);
+      const n = fbm(x, y, W, H, 8, 3, 21);
+      const ring = 0.5 + 0.5 * Math.sin((rr * 260 + n * 9 + Math.sin(ang * 23) * 0.6) );
+      const fleck = fbm(x, y, W, H, 64, 2, 5);
+      const t = 0.55 * ring + 0.45 * fleck;
+      const i = (y * W + x) * 4;
+      d[i] = 92 + 38 * t; d[i + 1] = 33 + 14 * t; d[i + 2] = 22 + 9 * t; d[i + 3] = 255;
+    }
+    g.putImageData(img, 0, 0);
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.anisotropy = 8;
+    return t;
+  });
+}
+
+export function buildOvalMirror(ctx, opts = {}) {
+  const { THREE } = ctx;
+  const D = remodelDims(ctx);
+  const H = inch(opts.heightIn ?? 56), W = inch(opts.widthIn ?? 23);
+  const bottom = opts.bottomIn != null ? inch(opts.bottomIn) : D.mirrorBottom;
+  const cx = opts.centreXIn != null ? inch(opts.centreXIn) : D.mirrorCentreX;
+  const surface = opts.surfaceOffsetM ?? 0;
+  const FW = inch(1.5), FD = inch(0.75), BEV = mm(3.5);
+  const STANDOFF = inch(0.375);        // bracket gap between backing and wall
+  const a = W / 2, b = H / 2;          // outer semi-axes
+  const ai = a - FW, bi = b - FW;      // inner (sight) semi-axes
+
+  const group = new THREE.Group();
+  group.name = 'ovalMirror';
+  group.position.set(cx, bottom + b, surface);
+  const disposables = [];
+  const keep = (o) => { disposables.push(o); return o; };
+
+  // ---- frame: elliptical ring, extruded with a bevel -----------------------
+  const outer = new THREE.Shape(ellipsePath(THREE, a - BEV, b - BEV));
+  outer.holes.push(new THREE.Path(ellipsePath(THREE, ai + BEV, bi + BEV, 256, true)));
+  const frameGeo = keep(new THREE.ExtrudeGeometry(outer, {
+    depth: FD - 2 * BEV, bevelEnabled: true, bevelThickness: BEV, bevelSize: BEV,
+    bevelSegments: 4, curveSegments: 1, steps: 1,
+  }));
+  frameGeo.translate(0, 0, BEV + STANDOFF);  // back of frame at z = STANDOFF
+  const woodTex = tex(ctx, 'wood_frame');
+  {
+    // UVs: texture pack -> metres / physicalSize; procedural -> bbox-normalised
+    const uv = frameGeo.attributes.uv, p = frameGeo.attributes.position;
+    const ps = physicalSize(ctx, 'wood_frame', [0.3, 0.3]);
+    for (let i = 0; i < p.count; i++) {
+      if (woodTex) uv.setXY(i, (p.getX(i) + a) / ps[0], (p.getY(i) + b) / ps[1]);
+      else uv.setXY(i, p.getX(i) / W + 0.5, p.getY(i) / H + 0.5);
+    }
+  }
+  const woodMat = keep(new THREE.MeshPhysicalMaterial({
+    color: 0xffffff, roughness: 0.42, metalness: 0,
+    clearcoat: 0.55, clearcoatRoughness: 0.28,
+    map: woodTex || woodGrainTexture(THREE, H / W),
+  }));
+  if (woodTex) woodMat.color.set(0xb06a50);   // tint a neutral wood map toward cherry
+  const frame = new THREE.Mesh(frameGeo, woodMat);
+  frame.name = 'mirrorFrame';
+  frame.castShadow = frame.receiveShadow = true;
+  group.add(frame);
+
+  // Inner bead: a thin raised lip just inside the frame (photo 09 shows a
+  // second facet line along the sight edge).
+  {
+    const s = new THREE.Shape(ellipsePath(THREE, ai + mm(1), bi + mm(1)));
+    s.holes.push(new THREE.Path(ellipsePath(THREE, ai - mm(5), bi - mm(5), 256, true)));
+    const g = keep(new THREE.ExtrudeGeometry(s, { depth: mm(4), bevelEnabled: true, bevelThickness: mm(1.5), bevelSize: mm(1.5), bevelSegments: 2, curveSegments: 1 }));
+    g.translate(0, 0, STANDOFF + mm(6));
+    const uv = g.attributes.uv, p = g.attributes.position;
+    for (let i = 0; i < p.count; i++) uv.setXY(i, p.getX(i) / W + 0.5, p.getY(i) / H + 0.5);
+    const bead = new THREE.Mesh(g, woodMat);
+    bead.name = 'mirrorBead';
+    bead.castShadow = true;
+    group.add(bead);
+  }
+
+  // ---- glass: Reflector clipped to the oval ------------------------------
+  const glassZ = STANDOFF + mm(7);
+  const glassGeo = keep(new THREE.ShapeGeometry(new THREE.Shape(ellipsePath(THREE, ai + mm(3), bi + mm(3), 128)), 1));
+  let reflector = null;
+  if (opts.reflector !== false) {
+    const r = opts.reflector || {};
+    reflector = new Reflector(glassGeo, {
+      textureWidth: r.textureWidth || 1536,
+      textureHeight: r.textureHeight || 1536,
+      clipBias: r.clipBias ?? 0.003,
+      multisample: r.multisample ?? 4,
+      color: r.color ?? 0x7a7a7a,     // ~0.5 = neutral; slightly below = silvered loss
+    });
+    reflector.name = 'mirrorGlass';
+  } else {
+    reflector = new THREE.Mesh(glassGeo, keep(new THREE.MeshPhysicalMaterial({ color: 0xffffff, metalness: 1, roughness: 0.02 })));
+    reflector.name = 'mirrorGlass (env only)';
+  }
+  reflector.position.z = glassZ;
+  group.add(reflector);
+
+  // ---- backing board -----------------------------------------------------
+  {
+    const s = new THREE.Shape(ellipsePath(THREE, a - mm(8), b - mm(8), 128));
+    const g = keep(new THREE.ExtrudeGeometry(s, { depth: inch(0.25), bevelEnabled: false, curveSegments: 1 }));
+    g.translate(0, 0, STANDOFF - inch(0.25) + mm(2));
+    const m = new THREE.Mesh(g, keep(new THREE.MeshStandardMaterial({ color: 0x3b2a20, roughness: 0.9 })));
+    m.name = 'mirrorBacking';
+    m.castShadow = true;
+    group.add(m);
+  }
+
+  // ---- pivot brackets (black steel) at mid-height, each side --------------
+  {
+    const steel = keep(new THREE.MeshPhysicalMaterial({ color: 0x141414, metalness: 0.6, roughness: 0.45, clearcoat: 0.3 }));
+    const plateH = inch(5), plateW = inch(1.1), plateT = inch(0.16);
+    const armDepth = STANDOFF + FD * 0.5;     // wall -> pivot at mid-depth of frame
+    // Wall plate: tapered (wider at the screw ends) like photo 08.
+    const ps = new THREE.Shape();
+    ps.moveTo(-plateW / 2, -plateH / 2); ps.lineTo(plateW / 2, -plateH / 2);
+    ps.lineTo(plateW * 0.32, 0); ps.lineTo(plateW / 2, plateH / 2);
+    ps.lineTo(-plateW / 2, plateH / 2); ps.lineTo(-plateW * 0.32, 0); ps.closePath();
+    const plateGeo = keep(new THREE.ExtrudeGeometry(ps, { depth: plateT, bevelEnabled: true, bevelThickness: mm(0.6), bevelSize: mm(0.6), bevelSegments: 1 }));
+    const armGeo = keep(new THREE.BoxGeometry(plateT, inch(1.6), armDepth));
+    const knobGeo = keep(new THREE.CylinderGeometry(inch(0.32), inch(0.32), inch(0.3), 24));
+    knobGeo.rotateZ(Math.PI / 2);
+    const screwGeo = keep(new THREE.CylinderGeometry(inch(0.12), inch(0.12), mm(1.5), 12));
+    screwGeo.rotateX(Math.PI / 2);
+    const screwMat = keep(new THREE.MeshStandardMaterial({ color: 0x2a2a2a, metalness: 0.8, roughness: 0.35 }));
+    for (const side of [-1, 1]) {
+      const bx = side * (a + inch(0.45));
+      const br = new THREE.Group();
+      br.name = side < 0 ? 'bracketWest' : 'bracketEast';
+      const plate = new THREE.Mesh(plateGeo, steel);
+      plate.position.set(bx, 0, 0);
+      const arm = new THREE.Mesh(armGeo, steel);
+      arm.position.set(bx - side * plateW * 0.1, 0, armDepth / 2);
+      const knob = new THREE.Mesh(knobGeo, steel);
+      knob.position.set(side * (a + inch(0.15)), 0, armDepth);
+      br.add(plate, arm, knob);
+      for (const sy of [-1, 1]) {
+        const sc = new THREE.Mesh(screwGeo, screwMat);
+        sc.position.set(bx, sy * plateH * 0.38, plateT + mm(1));
+        br.add(sc);
+      }
+      br.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+      group.add(br);
+    }
+  }
+
+  group.userData.reflector = reflector;
+  group.userData.dims = { H, W, frameWidth: FW, frameDepth: FD, standoff: STANDOFF, bottom, centreX: cx };
+  group.userData.dispose = () => {
+    for (const d of disposables) d.dispose && d.dispose();
+    if (reflector && reflector.dispose) reflector.dispose();
+  };
+  return group;
+}
