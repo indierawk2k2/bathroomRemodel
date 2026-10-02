@@ -84,7 +84,7 @@ export function buildUI({ state, controls, presets, applyPreset, quality }) {
   // when the light changes).
   const lightMount = () => lists().light.find((o) => o.id === state.light)?.mount || 'ceiling';
   const HANG = { key: 'lightHangBottomIn', label: 'Light hang (bottom)', min: 60, max: 110, step: 0.5 };
-  const WALL = { key: 'sconceCentreIn', label: 'Sconce height (centre)', min: 56, max: 80, step: 0.5 };
+  const WALL = { key: 'sconceCentreIn', label: 'Sconce height (centre)', min: 56, max: 84, step: 0.5 };
   const sliders = [
     { id: 'rng-accentTop', key: 'accentTopIn', fmt: (v) => `${v}"` },
     { id: 'rng-mirrorBottom', key: 'mirrorBottomIn', fmt: (v) => `${v}"` },

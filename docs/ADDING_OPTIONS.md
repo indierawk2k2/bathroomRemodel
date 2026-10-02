@@ -405,7 +405,12 @@ offsets from the centre, -17.75" / +16.75", each sconce centred between the
 mirror frame and the accent edge), `centreXIn` (54", the sink centre),
 `ceilingIn` (120"), `surfaceOffsetM` (the accent wall's finished face, so
 wall-mounted parts sit on the tile) and `shadows`. Options without the
-`default*` fields fall back to 80" / 14" / 64".
+`default*` fields fall back to 80" / 14" / 64". Any `default*` may instead be
+a function `({ mirrorBottomIn, mirrorHeightIn }) => inches` (the Harlan
+sconces use `mirrorBottomIn + mirrorHeightIn / 2`, the mirror's widest
+point): it is evaluated with the current mirror, clamped to the slider's
+range, and re-applied whenever the "Mirror bottom" slider moves, unless the
+user has moved that slider for this light (or set it in the URL hash).
 
 ### Light conventions
 

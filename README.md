@@ -111,7 +111,9 @@ when a pad is connected.
   (60"–110"; defaults: rattan 80", Monteaux 76", both below the mirror top so
   the fixture hangs in front of the mirror as you walk in; each fixture stops
   itself before it reaches the ceiling) or the *centre* of the sconces
-  (default 64", 56"–80"); light distance from wall, the hanging fixture's
+  (56"–84"; by default on the mirror's widest point, i.e. its vertical
+  centre: 70" with the mirror at 42", and they follow the "Mirror bottom"
+  slider until you move the sconce height yourself); light distance from wall, the hanging fixture's
   centre off the wall (6"–36"; defaults: rattan 14", Monteaux 16"; hidden for
   sconces); tile thickness override (0 = use the product's thickness). Each
   light has its own defaults: picking a light moves these sliders to them,

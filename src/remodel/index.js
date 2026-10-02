@@ -15,7 +15,10 @@
 // defaultFromWallIn, defaultMountCentreIn).  When the light changes, its
 // placement sliders jump to that option's defaults, except for any slider
 // the user already moved for that option this session (remembered per
-// option).  Values given in the URL hash count as the user's.
+// option).  Values given in the URL hash count as the user's.  A default may
+// be a function of the mirror ({ mirrorBottomIn, mirrorHeightIn } -> inches;
+// the Harlan sconces sit on the mirror's widest point): it is re-applied
+// when the mirror moves, unless the user set that slider for that light.
 //
 // Nothing here knows option ids except the two defaults: every list comes
 // from the registry, so adding an option is still one file + one line in
@@ -36,13 +39,21 @@ const PLACEMENT = {
   lightFromWallIn: { field: 'defaultFromWallIn', fallback: 14 },
   sconceCentreIn: { field: 'defaultMountCentreIn', fallback: 64 },
 };
+// Slider ranges the defaults are clamped into (index.html / src/ui.js).
+const PLACEMENT_RANGE = { lightHangBottomIn: [60, 110], lightFromWallIn: [6, 36], sconceCentreIn: [56, 84] };
 const PLACEMENT_KEYS = Object.keys(PLACEMENT);
 
-/** The option's own default for a placement key. */
-export function placementDefault(opt, key) {
-  const v = opt && opt[PLACEMENT[key].field];
-  return Number.isFinite(v) ? v : PLACEMENT[key].fallback;
+/** The option's own default for a placement key.  `env` = { mirrorBottomIn,
+ *  mirrorHeightIn } for defaults given as a function of the mirror. */
+export function placementDefault(opt, key, env = {}) {
+  let v = opt && opt[PLACEMENT[key].field];
+  if (typeof v === 'function') v = v(env);
+  if (!Number.isFinite(v)) return PLACEMENT[key].fallback;
+  const [lo, hi] = PLACEMENT_RANGE[key];
+  return Math.min(hi, Math.max(lo, v));
 }
+/** Does this option's default for `key` depend on the mirror? */
+const derived = (opt, key) => !!opt && typeof opt[PLACEMENT[key].field] === 'function';
 const DEBOUNCE_MS = 80;
 
 /** Option lists for the UI: [{id, name, description}] */
@@ -78,6 +89,8 @@ export function setupRemodel(app) {
   const frameRef = app.frameRef || (app.frameRef = { frame: 0, inOverride: false });
 
   // ---- options + defaults (hash values set before this call win)
+  // Mirror numbers the derived placement defaults read.
+  const mirrorEnv = () => ({ mirrorBottomIn: state.mirrorBottomIn ?? R.ovalMirror.bottomIn, mirrorHeightIn: R.ovalMirror.height / 0.0254 });
   const lists = optionLists();
   const has = (list, id) => list.some((o) => o.id === id);
   const patch = { options: lists };
@@ -101,7 +114,7 @@ export function setupRemodel(app) {
     const opt = getLight(id), mine = userPlacement.get(id) || {}, out = {};
     for (const k of PLACEMENT_KEYS) {
       if (keep.includes(k)) continue;
-      out[k] = mine[k] ?? placementDefault(opt, k);
+      out[k] = mine[k] ?? placementDefault(opt, k, mirrorEnv());
     }
     return out;
   }
@@ -163,7 +176,7 @@ export function setupRemodel(app) {
     const opt = getLight(state.light);
     if (!opt) return;
     const wall = opt.mount === 'wall';
-    const val = (k) => state[k] ?? placementDefault(opt, k);
+    const val = (k) => state[k] ?? placementDefault(opt, k, mirrorEnv());
     g.light = opt.build(ctx, {
       hangBottomIn: wall ? undefined : val('lightHangBottomIn'),
       mountCentreIn: wall ? val('sconceCentreIn') : undefined,
@@ -230,6 +243,16 @@ export function setupRemodel(app) {
         // (Re-entrant set: this listener sees those keys as slider moves.)
         applyingPlacement = true;
         state.set(placementFor(s.light, changed));
+        applyingPlacement = false;
+      } else if (changed.includes('mirrorBottomIn')) {
+        // Mirror moved: defaults derived from it follow (sconces stay on the
+        // mirror's widest point) unless the user set them for this light.
+        const opt = getLight(s.light), mine = userPlacement.get(s.light) || {}, patch = {};
+        for (const k of PLACEMENT_KEYS) {
+          if (derived(opt, k) && mine[k] == null && !changed.includes(k)) patch[k] = placementDefault(opt, k, mirrorEnv());
+        }
+        applyingPlacement = true;
+        state.set(patch);
         applyingPlacement = false;
       }
     }

@@ -284,7 +284,7 @@ reflection, with the bottom kept above ~74" so a person at the sink still
 sees their face. "Light hang (bottom)" slider 60–110" and "Light distance from
 wall" slider 6–36" (fixture centre off the finished face); each fixture clamps
 itself so it never enters the ceiling. Wall fixtures (`mount: 'wall'`): the
-height slider sets the glass centre (56–80"); the distance slider is hidden.
+height slider sets the glass centre (56–84"); the distance slider is hidden.
 - `rattan-linear`: Adara-style 4-light oval rattan linear chandelier,
   ~32" x 12" x 10", black frame, natural rattan weave (texture pack + alpha
   map, so the weave throws dappled shadows), on chains. Default bottom
@@ -297,7 +297,15 @@ height slider sets the glass centre (56–80"); the distance slider is hidden.
   cylinders, 4.25" x 14", each centred in its strip of accent wall between
   the mirror frame and the vanity-strip edge: **x = 36.25" and 70.75"** (54 − 17.75
   / 54 + 16.75; glass 4.1" / 3.1" clear of the frame and inside x 30–76).
-  Default glass centre **64"** (glass 57–71").
+  Default glass centre on the **mirror's widest point**, its vertical centre
+  = mirror bottom + 28" (**70"** at the default 42" mirror, glass 63–77"),
+  derived from the mirror (`defaultMountCentreIn` is a function of
+  `{ mirrorBottomIn, mirrorHeightIn }`) so it follows the "Mirror bottom"
+  slider (36–56" -> 64–84", all inside the 56–84" range, clamped to it)
+  until the user moves the sconce slider for this light or gives `#sconce=`
+  (br-dli). Horizontal positions unchanged; at the mirror's widest point the
+  glass is 4.1" (west) / 3.1" (east) clear of the frame edge (x 42.5" /
+  65.5"), the 2.6" backplate 4.9" / 3.9".
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,

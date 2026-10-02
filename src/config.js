@@ -226,7 +226,10 @@ export const REMODEL = {
   // outer edge (x 42.5" / 65.5") and the accent edge (x 30" / 76"):
   // x = 36.25" and 70.75", i.e. 54 - 17.75 and 54 + 16.75.  The 4.25" glass
   // is then 4.1" / 3.1" clear of the frame and 4.1" / 3.1" inside the accent.
-  sconceRangeIn: [56, 80],
+  // Height: the glass centre defaults to the mirror's widest point (its
+  // vertical centre, 70" at the default mirror) and follows the mirror; the
+  // range covers that for every "Mirror bottom" position (36-56" -> 64-84").
+  sconceRangeIn: [56, 84],
   thinsetMm: 3,
   // Junction inspector anchor: the clear gap between the glass soap
   // dispenser (x 45.5") and the faucet (x 54"), on the wainscot top.
