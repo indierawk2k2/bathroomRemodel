@@ -260,5 +260,25 @@
     "source": "assets/source/wallpapers/R19317_product.jpg",
     "match": "straight (printed to wall size)",
     "color": "#C4C3C5"
+  },
+  {
+    "name": "wallpaper_debona_crystal_trellis_blue_silver",
+    "map": "wallpaper_debona_crystal_trellis_blue_silver_albedo.jpg",
+    "normalMap": "wallpaper_debona_crystal_trellis_blue_silver_normal.png",
+    "physicalSizeM": [
+      0.53,
+      0.64
+    ],
+    "repeat": [
+      1.8868,
+      1.5625
+    ],
+    "roughnessMap": "wallpaper_debona_crystal_trellis_blue_silver_rough.png",
+    "source": "assets/source/wallpapers/debona-crystal-trellis-navy-wallpaper-8894~5060119353966_01c_MP.jpg",
+    "rollWidthM": 0.53,
+    "patternRepeatM": 0.16,
+    "match": "offset (lattice continuous across strips)",
+    "metalnessInRoughnessB": true,
+    "color": "#3A3C47"
   }
 ]
