@@ -308,7 +308,9 @@ Tile / wallpaper options (registry):
   Automatic step-down: rolling fps < 30 for 3 s drops one level (shown as
   "(auto)"), never while the tab is hidden or within 3 s of a change.
   `window.__app.measure(n)` renders n frames synchronously (GPU-synced) and
-  returns ms/frame. Measured on the M1 Max at High, 2632 x 1592: 11–15 ms.
+  returns ms/frame. Measured on the M1 Max at High, 2632 x 1592: 11–15 ms
+  (65–90 fps) with the browser otherwise idle, 14–29 ms (34–69 fps) while it
+  was busy with other work (br-uio).
 
 ## 6. File layout and interfaces
 

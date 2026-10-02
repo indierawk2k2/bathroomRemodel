@@ -20,8 +20,8 @@ open http://localhost:8787/
 
 The page title changes to `Bathroom Viewer — ready` once the first frame has
 rendered. Any error shows up in a red overlay at the bottom of the page.
-Chrome or Edge on a Mac with Apple silicon is the target (it runs at about
-70 fps on an M1 Max at High quality, 2632 x 1592 pixels).
+Chrome or Edge on a Mac with Apple silicon is the target (it measured 34–90 fps at High quality, 2632 x 1592 pixels,
+on an M1 Max).
 
 ## Controls
 
