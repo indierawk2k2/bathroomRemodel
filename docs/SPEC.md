@@ -276,6 +276,13 @@ Tile / wallpaper options (registry):
   grey grout (procedural; br-uio, added by following docs/ADDING_OPTIONS.md).
 - `wallpaper-sample`: one placeholder wallpaper (muted botanical print),
   0 mm thick — exists so the wallpaper path is proven and extensible.
+- `wallpaper-cole-son-feather-fan-soft-olive`: Cole & Son Icons Feather Fan
+  112/10037 Soft Olive (Perigold QWH8178 "Old Olive"), paper, roll
+  0.53 x 10.05 m, 10.6 cm repeat, straight match; texture = one repeat
+  (17.67 x 10.6 cm), white dots satin over a matte ground (br-ukz).
+- `wallpaper-rebel-walls-ripple-blue`: Rebel Walls Ripple Blue R19317,
+  printed to wall size, but a repeating design with a 1.00 x 1.20 m pattern
+  tile, matte non-woven (br-ukz).
 
 ## 5. Viewer
 
@@ -381,7 +388,8 @@ texture repeat so `textures.js` can compute `repeat` for any surface size.
 Required texture names (section 7): `floor_plank`, `wainscot`, `accent_band`,
 `vanity_wood`, `quartz`, `wall_paint`, `rattan`, `wood_frame`, `frosted_glass`,
 `curtain`, `tile_sage_fan`, `tile_white_subway_stacked`, `wallpaper_sample`,
-`door_slab`.
+`door_slab`; product wallpapers add `wallpaper_cole_son_feather_fan_soft_olive`
+and `wallpaper_rebel_walls_ripple_blue` (from `assets/source/wallpapers/`).
 
 ## 7. Textures
 

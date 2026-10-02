@@ -225,46 +225,90 @@ thread at first use; keep it around 1 MP.
 
 ## 3. A wallpaper from an image
 
-**a. Texture.** Same as recipe 1a, but name it `wallpaper_<x>`, rectify
-exactly one pattern repeat (the roll's "pattern repeat", e.g. 21" x 21"), and
-keep it matte:
+Wallpaper is printed artwork. Repeat it **exactly**: crop the image to whole
+pattern repeats. Do not cross-fade it with `make_tileable`, which ghosts the
+motifs at the seams, and do not re-colour it with `prep_photo_patch(target=...)`.
+The maker's file already has the right colours.
+
+**Find the repeat.** A roll gives a *vertical* pattern repeat (for example
+"10.6 cm") and a *match*:
+
+- the horizontal period is the roll width divided by a whole number (the
+  pattern lines up across the seam between drops);
+- **straight match**: one texture = `roll width / n` x vertical repeat;
+- **half-drop match**: the next drop is shifted down half a repeat, so the
+  texture must hold two drop widths side by side, with the second strip rolled
+  by half the repeat. That makes it `2 x drop width` x vertical repeat.
+
+If the product image shows several repeats, measure them with an FFT
+autocorrelation of the luminance. Digital artwork gives peaks of 0.99 or
+more at whole-pixel offsets. Check that the pixel ratio matches the spec
+ratio, then crop to one repeat. You can average all the repeats in the image
+to remove JPEG noise:
 
 ```python
-def tex_wallpaper_grasscloth():
-    """Grasscloth wallpaper from the maker's swatch photo; 27" x 27" repeat."""
-    src = ImageOps.exif_transpose(Image.open(os.path.join(ROOT, "photos", "jpg", "grasscloth.jpg"))).convert("RGB")
-    a, mask = warp(src, [(120, 140), (2900, 150), (2890, 2930), (110, 2920)], 1024, 1024)
-    lin = prep_photo_patch(a, flat_sigma=200, target="#C9BF9F")
-    lin = make_tileable(lin, band=0.15)
-    px_mm = 27 * 25.4 / 1024
-    return entry("wallpaper_grasscloth", lin, (27 * IN, 27 * IN),
-                 normal_map(hp_height(lin, 2, 0.08), px_mm), contrast_rough(lin, 0.85, 0.03))
+import numpy as np
+a = lum(s2l(src)); a = a - a.mean()
+F = np.fft.fft2(a); ac = np.real(np.fft.ifft2(F * np.conj(F))); ac /= ac[0, 0]
+# strongest peaks away from (0, 0) give the lattice, e.g. (dy 240, dx 0) and (dy 120, dx 200)
 ```
 
-Add it to `ORDER` / `BUILDERS` and run
-`python3 tools/make_textures.py --only wallpaper_grasscloth`.
+**a. Texture.** Put the downloaded image in `assets/source/wallpapers/`
+and record where it came from in `SOURCES.md` there. Then add a builder next
+to `tex_wallpaper_cole_son_feather_fan_soft_olive` in
+`tools/make_textures.py`:
 
-**b. Option file** `src/options/wallpapers/wallpaper-grasscloth.js`
-(`kind: 'wallpaper'`, `thicknessMm: 0`; the accent wall draws it 0.4 mm off
-the drywall, no thin-set, and `flush-fill` builds the wall out the full 13 mm):
+```python
+def tex_wallpaper_my_paper():
+    """My Paper, colourway X: 0.53 m roll, 64 cm repeat, straight match.
+    Source: maker's 1500 x 1800 flat = one roll width x one repeat."""
+    src = wallpaper_src("my_paper_flat.jpg")                 # sRGB float, from assets/source/wallpapers/
+    lin = s2l(src[0:1800, 0:1500])                          # exactly one repeat (whole repeats only)
+    W, H = 1707, 2048                                       # up to 2048 px on the long side
+    lin = resize_wrap(lin, W, H, 75)                        # wrap-padded resize keeps the edges seamless
+    size = (0.53, 0.64)                                     # physicalSizeM = the repeat you cropped
+    px_mm = size[1] * 1000 / H
+    h = paper_height((H, W), 901)                           # faint paper grain, ~0.01 mm
+    rough = np.full((H, W), 0.88)                           # matte; lower it on inks with a sheen
+    return entry("wallpaper_my_paper", lin, size, normal_map(h, px_mm), rough,
+                 source="assets/source/wallpapers/my_paper_flat.jpg", match="straight")
+```
+
+`wallpaper_src`, `resize_wrap` and `paper_height` sit in the "product
+wallpapers" block of the script. Add the name to `ORDER` / `BUILDERS` and
+run `python3 tools/make_textures.py --only wallpaper_my_paper`. Then check
+the seams in `assets/textures/_preview.jpg`. The script must regenerate the
+texture from `assets/source/` alone, so never write the texture from a
+one-off shell session.
+
+For a photo of a real sample (not a flat image), use recipe 1a's `warp` +
+`prep_photo_patch` instead, and only then `make_tileable`.
+
+**b. Option file** `src/options/wallpapers/wallpaper-my-paper.js`. Set
+`kind: 'wallpaper'` and `thicknessMm: 0`. The accent wall draws it 0.4 mm
+off the drywall with no thin-set, and `flush-fill` builds the wall out the
+remaining 12.6 mm. Use the roughness map too, or the material ignores it:
 
 ```js
 import { tex, texCompanion, physicalSize, repeatClone } from '../../remodel/cfg.js';
 
-const NAME = 'wallpaper_grasscloth';
-const REPEAT_M = [0.6858, 0.6858];
+const NAME = 'wallpaper_my_paper';
+const REPEAT_M = [0.53, 0.64];              // used only if the manifest lacks physicalSizeM
 
 export default {
-  id: 'wallpaper-grasscloth', name: 'Wallpaper: grasscloth', kind: 'wallpaper', order: 60,
+  id: 'wallpaper-my-brand-my-paper-colour', name: 'My Brand My Paper, Colour (wallpaper)',
+  kind: 'wallpaper', order: 60,
   thicknessMm: 0, textureName: NAME, repeatM: REPEAT_M, edgeColor: '#c9bf9f',
-  description: 'Natural grasscloth, 27" repeat',
+  description: 'My Brand My Paper, colour X: 0.53 x 10 m roll, 64 cm repeat, straight match. maker.com/my-paper',
   makeMaterial(ctx) {
     const { THREE } = ctx;
     const map = tex(ctx, NAME);
-    const m = new THREE.MeshPhysicalMaterial({ color: map ? 0xffffff : 0xc9bf9f, roughness: 0.9 });
+    const m = new THREE.MeshPhysicalMaterial({ color: map ? 0xffffff : 0xc9bf9f, roughness: 1 });
     if (map) m.map = repeatClone(THREE, map, true);
     const n = texCompanion(ctx, NAME, 'normal');
     if (n) m.normalMap = repeatClone(THREE, n, false);
+    const r = texCompanion(ctx, NAME, 'roughness');
+    if (r) m.roughnessMap = repeatClone(THREE, r, false); else m.roughness = 0.88;
     return m;
   },
   repeatFor(ctx) { return physicalSize(ctx, NAME, REPEAT_M); },
@@ -272,7 +316,41 @@ export default {
 ```
 
 **c. Line** in the wallpapers block:
-`export { default as wallpaperGrasscloth } from './wallpapers/wallpaper-grasscloth.js';`
+`export { default as wallpaperMyPaper } from './wallpapers/wallpaper-my-paper.js';`
+
+### A wallpaper from a product web page
+
+This is how `wallpaper-cole-son-feather-fan-soft-olive` and
+`wallpaper-rebel-walls-ripple-blue` were added (br-ukz):
+
+1. **Open the page in a real browser** (Claude in Chrome). Retail sites
+   often block `curl` for the HTML. Read the product name, collection,
+   colourway, roll width and length, **pattern repeat** and **match**.
+   Spec tables are often in collapsed tabs that are still in the DOM, so
+   search `document.body.textContent`.
+2. **Retailer SKUs are not the maker's reference.** Perigold QWH8178
+   "Old Olive" is Cole & Son 112/10037 "Soft Olive". Match the artwork and
+   colour against the maker's own site. Cole & Son runs on Shopify, so
+   `https://cole-and-son.com/products/<handle>.js` lists every variant with
+   its code and flat image. Take specs from the maker when the two
+   disagree: Perigold says "match: random", Cole & Son says "straight".
+3. **Get the largest flat image** (the swatch or design image, not a room
+   scene) from the gallery's `<img>` URLs. Download it with
+   `curl -L -A '<browser UA>' -e '<page URL>'`. CDNs often take a size in the
+   URL. Wayfair/Perigold `resize-h1200-w1200` is the largest size; bigger
+   sizes return a placeholder. Rebel Walls' Cloudinary
+   `.../image/upload/v1/articles/<SKU>_product`, with no transformation,
+   is the original.
+4. **Murals vs repeats.** Many "murals" printed to wall size are really
+   repeating designs. Rebel Walls' spec table says "Horizontal Repeat: Yes /
+   Vertical Repeat: Yes", and the page data has
+   `customWallMural_pattern_width` / `_height` in mm (Ripple: 1000 x 1200).
+   Treat those as ordinary repeating wallpaper with `physicalSizeM` = that
+   pattern tile. Only a one-off scene (no repeat) needs to be fitted once
+   across the wall. The accent wall has no mode for that yet: it needs a UV
+   change in `src/remodel/accentWall.js`.
+5. Check the scale in the shots. At preset 3 the 23"-wide mirror and the
+   12x24 wainscot tiles are the rulers.
 
 ## 4. A light fixture
 

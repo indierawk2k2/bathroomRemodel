@@ -72,6 +72,15 @@ when a pad is connected.
     running bond, 1/4" (6 mm) thick.
   - *Wallpaper: muted botanical (sample)*: a placeholder print, to show what
     wallpaper does at the junction (it is paper-thin).
+  - *Cole & Son Feather Fan, Soft Olive (wallpaper)*: Cole & Son Icons
+    112/10037, sold by Perigold as QWH8178 "Old Olive". White dotted fans
+    on a sage-olive paper, 7" fans, 10.6 cm (4.2") repeat, straight match,
+    21" x 33' roll.
+  - *Rebel Walls Ripple, Blue (wallpaper)*: R19317, hand-painted blue wave
+    arches (about 5" wide) on a worn off-white ground. It is printed to the
+    wall's size, but the design repeats every 1.00 x 1.20 m. Matte non-woven.
+  Both are built from the makers' own images
+  (`assets/source/wallpapers/SOURCES.md`) at true scale.
 - **Light**:
   - *Rattan oval linear, 4-light (Adara)*: 32" x 12" x 10" woven rattan
     chandelier over the sink, hung from the ceiling on chains.

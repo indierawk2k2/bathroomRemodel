@@ -8,7 +8,7 @@ python3 tools/make_textures.py --only quartz # just one (repeatable); merges int
 python3 tools/make_textures.py --no-preview  # skip the contact sheet
 ```
 
-It needs only Python 3, Pillow and numpy, runs in about 45 s, and gives the
+It needs only Python 3, Pillow and numpy, runs in about 50 s, and gives the
 same files every time (fixed seeds, no randomness from the clock).
 
 ## Manifest
@@ -38,6 +38,12 @@ same files every time (fixed seeds, no randomness from the clock).
 
 ## Sources
 
+Most textures come from the project photos. The `wallpaper_*` product
+textures come instead from the makers' images in `assets/source/wallpapers/`,
+whose URLs, specs and identification are in `SOURCES.md` there. They are
+cropped to whole pattern repeats, with no cross-fade and no colour change.
+See `docs/ADDING_OPTIONS.md`, recipe 3.
+
 Photo indices follow the sorted order of `photos/thumb/*.jpg` (00–54).
 Pixel coordinates refer to the full-size, EXIF-transposed `photos/jpg/` image.
 Photos 09, 10 and 51–54 are 4284x5712 or 5712x4284; all the others are
@@ -59,6 +65,8 @@ Photos 09, 10 and 51–54 are 4284x5712 or 5712x4284; all the others are
 | `tile_white_subway_stacked` | **Procedural.** 3x6 white glass tiles, long edge horizontal, stacked with no stagger, 1/16" bright white grout. Each tile varies a little in how much backing shows through, the eased edges have a faint green glass tint, roughness is 0.08 and the edges are bevelled. | 4 x 8 tiles = 24" square = [0.610, 0.610] | 2048 |
 | `wallpaper_sample` | **Procedural** placeholder: sage and eucalyptus leaves on brass stems over warm off-white, with paper grain. Matte (about 0.86). | 21" square = [0.53, 0.53] | 1024 |
 | `door_slab` | Photo 19, the door between its 2nd and 3rd grooves `(1000,1460)-(1400,1860)`. Only the paint texture is kept; the colour is **#6B6C6B** (`color`). | 16" square = [0.406, 0.406] | 512 |
+| `wallpaper_cole_son_feather_fan_soft_olive` | **Product image.** Cole & Son Icons Feather Fan 112/10037 Soft Olive (Perigold QWH8178 "Old Olive"): Perigold's 1200x1200 flat artwork in `assets/source/wallpapers/`, which shows 3 fans (one 53 cm roll width) x 5 repeats. Autocorrelation gives fans 400 px wide in rows 120 px apart, with alternate rows offset half a fan, so one repeat is 400 x 240 px. That matches the maker's 10.6 cm repeat. The 15 repeats are averaged into one, upscaled 3x with a wrap-padded Lanczos, and kept in the maker's colours. The white dots are slightly raised (0.025 mm) with satin roughness (about 0.62) over a matte paper ground (0.86). Straight match. | 17.67 x 10.6 cm = [0.1767, 0.106] | 1200x720 |
+| `wallpaper_rebel_walls_ripple_blue` | **Product image.** Rebel Walls Ripple Blue R19317: the 2000x2401 Cloudinary original in `assets/source/wallpapers/`, which is the maker's full 1000 x 1200 mm pattern tile at 0.5 mm/px. Its 2401st row is extra, so the period is 2400. Resampled to 2048 px tall with a wrap-padded Lanczos, and kept in the maker's colours. The normal map is faint non-woven grain only; roughness is 0.88 (Rebel Mattic). | 1.00 x 1.20 m = [1.0, 1.2] | 1707x2048 |
 
 ### Colour balance
 

@@ -19,6 +19,8 @@ export { default as whiteCeramicSubwayOffset } from './tiles/white-ceramic-subwa
 
 // ---- wallpapers (kind:'wallpaper', thicknessMm 0) ------------------------
 export { default as wallpaperSample } from './wallpapers/wallpaper-sample.js';
+export { default as wallpaperColeSonFeatherFanSoftOlive } from './wallpapers/wallpaper-cole-son-feather-fan-soft-olive.js';
+export { default as wallpaperRebelWallsRippleBlue } from './wallpapers/wallpaper-rebel-walls-ripple-blue.js';
 
 // ---- lights -------------------------------------------------------------
 export { default as rattanLinear } from './lights/rattan-linear.js';
