@@ -284,16 +284,21 @@ export default {
   id: 'globe-pendant', name: 'Opal globe pendant', order: 40,
   description: '10" opal globe on a brass rod',
   // mount: 'wall',   // for sconces: the height slider then sets mountCentreIn
+  // Placement defaults: the sliders jump to these when this light is picked
+  // (sconces: defaultMountCentreIn instead).  Keep the bottom above ~74" so
+  // a person at the sink can see their face.
+  defaultHangBottomIn: 80,
+  defaultFromWallIn: 14,
   build(ctx, opts = {}) {
     const { THREE } = ctx;
     const D = remodelDims(ctx);
     const ceiling = opts.ceilingIn != null ? inch(opts.ceilingIn) : D.ceiling;
     // hangBottomIn = lowest point of the fixture; clamp so it never enters the ceiling
-    const bottom = Math.min(opts.hangBottomIn != null ? inch(opts.hangBottomIn) : inch(100), ceiling - inch(13));
+    const bottom = Math.min(opts.hangBottomIn != null ? inch(opts.hangBottomIn) : inch(80), ceiling - inch(13));
     const group = new THREE.Group();
     group.name = 'light:globe-pendant';
     group.position.set(opts.centreXIn != null ? inch(opts.centreXIn) : D.lightCentreX, bottom,
-                       opts.centreZIn != null ? inch(opts.centreZIn) : D.lightCentreZ);
+                       opts.centreZIn != null ? inch(opts.centreZIn) : inch(14));
     // Glowing shade: it must not cast shadows or it hides its own light.
     const glow = glowMaterial(THREE, { intensity: 1.2, color: 0xf6f3ee });
     const globe = new THREE.Mesh(new THREE.SphereGeometry(inch(5), 48, 32), glow);
@@ -313,19 +318,26 @@ Line in the lights block:
 `export { default as globePendant } from './lights/globe-pendant.js';`
 
 What the app passes to `build(ctx, opts)`: `hangBottomIn` (ceiling fixtures,
-the "Light hang" slider, default 100"), `mountCentreIn` (fixtures with
-`mount: 'wall'`, the "Sconce height" slider, default 66"), `spacingIn` (wall
-pairs: 18" each side), `centreXIn` (54", the sink centre), `centreZIn` (11"
-off the wall), `ceilingIn` (120"), `surfaceOffsetM` (the accent wall's
-finished face, so wall-mounted parts sit on the tile) and `shadows`.
+the "Light hang" slider, 60–110", default the option's `defaultHangBottomIn`),
+`centreZIn` (world z of the fixture centre: the "Light distance from wall"
+slider, 6–36", default `defaultFromWallIn`, plus the accent face offset),
+`mountCentreIn` (fixtures with `mount: 'wall'`, the "Sconce height" slider,
+default `defaultMountCentreIn`), `offsetsIn` (wall pairs: `[west, east]` x
+offsets from the centre, -17.75" / +16.75", each sconce centred between the
+mirror frame and the accent edge), `centreXIn` (54", the sink centre),
+`ceilingIn` (120"), `surfaceOffsetM` (the accent wall's finished face, so
+wall-mounted parts sit on the tile) and `shadows`. Options without the
+`default*` fields fall back to 80" / 14" / 64".
 
 ### Light conventions
 
 - Coordinates: metres, X east, Y up, Z into the room; the north wall's
   finished face is at `z = surfaceOffsetM`. Wall-mounted fixtures must add it.
-- The oval mirror spans 42"–98" at x 42.5"–65.5", with pivot brackets out to
-  41.5" / 66.5" at 67.5"–72.5" high. Keep hanging fixtures above 98" and wall
-  fixtures at least 2" clear of the brackets.
+- The oval mirror spans 42"–98" at x 42.5"–65.5" and hangs flat like a
+  picture (no brackets; frame front ~1" off the wall). Hanging fixtures may
+  come down in front of it (keep their back edge a few inches off the wall
+  and their bottom above ~74"); keep wall fixtures at least 2.5" clear of the
+  frame and inside the accent span (x 30"–76").
 - Intensities are physical candela (Three r155+) at `toneMappingExposure = 1`;
   the shipped fixtures use 2–5 cd per bulb group, tuned to read as 2700 K
   next to the window daylight. Check Day and Night (key N).

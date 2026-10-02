@@ -78,14 +78,21 @@ when a pad is connected.
   - *Monteaux faceted glass pendant, 3-light*: 16" x 18" frosted-glass
     lantern in antique brass.
   - *Harlan brass sconces, ribbed glass (pair)*: one either side of the
-    mirror, 18" from the sink centre.
+    mirror, each centred in the strip of tile between the mirror frame and
+    the edge of the accent wall (x 36.25" and 70.75").
 - **Transition at wainscot**: how the new tile meets the top of the existing
   tile (see below).
 - **Sliders**: accent top height; mirror bottom height (default 42", so the
-  56"-tall mirror spans 42"–98"); light height, which is the *bottom* of a
-  hanging fixture (default 100", 78"–110"; each fixture stops itself before
-  it reaches the ceiling) or the *centre* of the sconces (default 66",
-  56"–80"); tile thickness override (0 = use the product's thickness).
+  56"-tall mirror spans 42"–98"; the mirror hangs flat like a picture, with
+  no brackets); light height, which is the *bottom* of a hanging fixture
+  (60"–110"; defaults: rattan 80", Monteaux 76", both below the mirror top so
+  the fixture hangs in front of the mirror as you walk in; each fixture stops
+  itself before it reaches the ceiling) or the *centre* of the sconces
+  (default 64", 56"–80"); light distance from wall, the hanging fixture's
+  centre off the wall (6"–36"; defaults: rattan 14", Monteaux 16"; hidden for
+  sconces); tile thickness override (0 = use the product's thickness). Each
+  light has its own defaults: picking a light moves these sliders to them,
+  unless you already moved that slider for that light.
 - **Quality**: High / Medium / Low (see "Quality" below).
 - **Camera presets** 1–6.
 
@@ -150,7 +157,7 @@ view and returns the time per frame.
 | `#scenario=remodel` | start in the remodel scenario |
 | `#tile=ID` `#light=ID` `#transition=ID` | pick options (ids as listed above, e.g. `tile=white-glass-subway-stacked`, `light=rattan-linear`, `transition=metal-edge`) |
 | `#night=1`, `#lights=0` | night; vanity light off |
-| `#top=` `#mirror=` `#hang=` `#sconce=` `#thick=` | slider values (inches; `thick` in mm) |
+| `#top=` `#mirror=` `#hang=` `#fromwall=` `#sconce=` `#thick=` | slider values (inches; `thick` in mm); `fromwall` = hanging light's distance from the wall |
 | `#q=high` (`medium`, `low`) | force a quality level, no automatic step-down |
 | `#auto=0` | keep the saved level, no automatic step-down |
 | `#ui=0` | start with the panel hidden |

@@ -8,8 +8,14 @@
 //   remodel.groups -> { root, accent, mirror, light }
 //
 // State keys read: scenario, tile, light, transition, accentTopIn,
-// mirrorBottomIn, lightHangBottomIn (ceiling fixtures), sconceCentreIn (wall
-// fixtures), tileThicknessMmOverride, lightsOn.
+// mirrorBottomIn, lightHangBottomIn + lightFromWallIn (ceiling fixtures),
+// sconceCentreIn (wall fixtures), tileThicknessMmOverride, lightsOn.
+//
+// Light placement defaults live on each light option (defaultHangBottomIn,
+// defaultFromWallIn, defaultMountCentreIn).  When the light changes, its
+// placement sliders jump to that option's defaults, except for any slider
+// the user already moved for that option this session (remembered per
+// option).  Values given in the URL hash count as the user's.
 //
 // Nothing here knows option ids except the two defaults: every list comes
 // from the registry, so adding an option is still one file + one line in
@@ -22,7 +28,21 @@ import { createJunctionInspector } from './junction.js';
 export const DEFAULT_TILE = 'sage-fan';
 export const DEFAULT_LIGHT = 'harlan-sconces';
 
-const SLIDER_KEYS = ['accentTopIn', 'mirrorBottomIn', 'lightHangBottomIn', 'sconceCentreIn', 'tileThicknessMmOverride'];
+const SLIDER_KEYS = ['accentTopIn', 'mirrorBottomIn', 'lightHangBottomIn', 'lightFromWallIn', 'sconceCentreIn', 'tileThicknessMmOverride'];
+// Light placement keys -> the option field holding that option's default,
+// and the fallback when an option has none.
+const PLACEMENT = {
+  lightHangBottomIn: { field: 'defaultHangBottomIn', fallback: 80 },
+  lightFromWallIn: { field: 'defaultFromWallIn', fallback: 14 },
+  sconceCentreIn: { field: 'defaultMountCentreIn', fallback: 64 },
+};
+const PLACEMENT_KEYS = Object.keys(PLACEMENT);
+
+/** The option's own default for a placement key. */
+export function placementDefault(opt, key) {
+  const v = opt && opt[PLACEMENT[key].field];
+  return Number.isFinite(v) ? v : PLACEMENT[key].fallback;
+}
 const DEBOUNCE_MS = 80;
 
 /** Option lists for the UI: [{id, name, description}] */
@@ -64,6 +84,33 @@ export function setupRemodel(app) {
   if (!has(lists.lights, state.light)) patch.light = has(lists.lights, DEFAULT_LIGHT) ? DEFAULT_LIGHT : lists.lights[0]?.id ?? null;
   if (!has(lists.transitions, state.transition)) patch.transition = lists.transitions[0].id;
   state.set(patch);
+
+  // ---- per-option light placement: { [lightId]: { key: value } } for the
+  // sliders the user moved for that light this session.
+  const userPlacement = new Map();
+  const remember = (id, key, v) => {
+    if (!id) return;
+    if (!userPlacement.has(id)) userPlacement.set(id, {});
+    userPlacement.get(id)[key] = v;
+  };
+  let applyingPlacement = false;
+  /** Placement values for `id`: user's (this session) or the option's defaults. */
+  function placementFor(id, keep = []) {
+    const opt = getLight(id), mine = userPlacement.get(id) || {}, out = {};
+    for (const k of PLACEMENT_KEYS) {
+      if (keep.includes(k)) continue;
+      out[k] = mine[k] ?? placementDefault(opt, k);
+    }
+    return out;
+  }
+  {
+    // Hash / initial values (non-null) are the user's for the starting light.
+    const given = PLACEMENT_KEYS.filter((k) => state[k] != null);
+    for (const k of given) remember(state.light, k, state[k]);
+    applyingPlacement = true;
+    state.set(placementFor(state.light, given));
+    applyingPlacement = false;
+  }
 
   const root = new THREE.Group();
   root.name = 'remodel';
@@ -113,12 +160,14 @@ export function setupRemodel(app) {
     const opt = getLight(state.light);
     if (!opt) return;
     const wall = opt.mount === 'wall';
+    const val = (k) => state[k] ?? placementDefault(opt, k);
     g.light = opt.build(ctx, {
-      hangBottomIn: wall ? undefined : state.lightHangBottomIn,
-      mountCentreIn: wall ? state.sconceCentreIn : undefined,
-      spacingIn: wall ? R.sconceSpacingIn : undefined,   // pairs: each side of centre
+      hangBottomIn: wall ? undefined : val('lightHangBottomIn'),
+      mountCentreIn: wall ? val('sconceCentreIn') : undefined,
+      offsetsIn: wall ? R.sconceOffsetsIn : undefined,     // pairs: [west, east] of centre
       centreXIn: R.lightCentreX / 0.0254,
-      centreZIn: R.lightCentreZ / 0.0254,
+      // "distance from wall" is measured from the finished (accent) face
+      centreZIn: val('lightFromWallIn') + surface() / 0.0254,
       ceilingIn: config.ROOM.ceiling / 0.0254,
       surfaceOffsetM: surface(),
       shadows: true,
@@ -166,11 +215,22 @@ export function setupRemodel(app) {
     if (p.accent || p.mirror || p.light) rebuild(p);
   };
   state.subscribe((s, changed) => {
+    if (!applyingPlacement) {
+      // Slider moves (or hash values) are the user's choice for this light.
+      for (const k of changed) if (PLACEMENT[k] && s[k] != null) remember(s.light, k, s[k]);
+      if (changed.includes('light')) {
+        // Switching light: jump to its defaults / this session's values.
+        // (Re-entrant set: this listener sees those keys as slider moves.)
+        applyingPlacement = true;
+        state.set(placementFor(s.light, changed));
+        applyingPlacement = false;
+      }
+    }
     const want = { accent: false, mirror: false, light: false };
     for (const k of changed) {
       if (k === 'tile' || k === 'transition' || k === 'accentTopIn' || k === 'tileThicknessMmOverride') want.accent = true;
       if (k === 'mirrorBottomIn') want.mirror = true;
-      if (k === 'light' || k === 'lightHangBottomIn' || k === 'sconceCentreIn') want.light = true;
+      if (k === 'light' || PLACEMENT[k]) want.light = true;
     }
     if (changed.includes('lightsOn') && g.light) {
       g.light.userData.onOff(s.lightsOn !== false);

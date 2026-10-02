@@ -4,8 +4,10 @@
 // kite/triangle facets closing to a small bottom octagon.  Frosted white
 // panels, antique-brass edge frame, 3 chains to a hub, rod + canopy.
 //
-// build(ctx, { hangBottomIn = 100 (clamped to ceiling - 20"), centreXIn = 55, centreZIn = 11,
-//              ceilingIn = 120, shadows = true })
+// build(ctx, { hangBottomIn = 76 (clamped to ceiling - 20"), centreXIn = 54,
+//              centreZIn = 16 (fixture centre, world z), ceilingIn = 120, shadows = true })
+// Default 76": the 18" lantern spans 76-94" (plus a 1" collar), below the
+// mirror top (98") and in front of its upper third.
 // Lights: 1 shadow-casting PointLight at the cluster centre (the 3 bulbs);
 // the glass does not cast shadows (it would black out the light), only the
 // brass frame does.
@@ -13,19 +15,32 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { remodelDims, warmWhite } from '../../remodel/cfg.js';
 import { bulbLight, glowMaterial, chain, finishFixture, inch, mm } from './common.js';
 
+// Defaults: fixture bottom AFF and fixture centre off the finished wall face
+// (inches), chosen from door / vanity shots at 72-88" (br-0ka, shots/low-*):
+// 76" keeps the tall lantern's top (94") a clear 4" below the mirror top
+// (98"), so the whole lantern reads against the mirror from the door, while
+// its bottom stays 8" above a standing user's eyes (60-68"); 16" from the
+// wall (8" behind its back) floats it visibly in front of the mirror.
+const DEFAULT_HANG_IN = 76;
+const DEFAULT_FROM_WALL_IN = 16;
+
 export default {
   id: 'monteaux-pendant',
   name: 'Monteaux faceted glass pendant, 3-light',
   order: 20,
   description: '16" x 18" octagonal frosted-glass lantern, antique brass',
+  // Per-option defaults (the app's sliders jump to these when this light is
+  // picked, unless the user already moved them for it this session).
+  defaultHangBottomIn: DEFAULT_HANG_IN,
+  defaultFromWallIn: DEFAULT_FROM_WALL_IN,
   build(ctx, opts = {}) {
     const { THREE } = ctx;
     const D = remodelDims(ctx);
     const ceil0 = opts.ceilingIn != null ? inch(opts.ceilingIn) : D.ceiling;
     // 18" lantern + >= 2" of chain/rod/canopy: clamp so it never enters the ceiling.
-    const bottom = Math.min(opts.hangBottomIn != null ? inch(opts.hangBottomIn) : inch(100), ceil0 - inch(20));
+    const bottom = Math.min(opts.hangBottomIn != null ? inch(opts.hangBottomIn) : inch(DEFAULT_HANG_IN), ceil0 - inch(20));
     const cx = opts.centreXIn != null ? inch(opts.centreXIn) : D.lightCentreX;
-    const cz = opts.centreZIn != null ? inch(opts.centreZIn) : D.lightCentreZ;
+    const cz = opts.centreZIn != null ? inch(opts.centreZIn) : inch(DEFAULT_FROM_WALL_IN);
     const ceiling = ceil0;
     const shadows = opts.shadows !== false;
 
@@ -71,9 +86,31 @@ export default {
       }
       glassGeo.computeVertexNormals();
     }
+    // Glow falls off away from the bulbs (they sit at 0.55 HT): an emissive
+    // gradient over the height keeps the panels from clipping to one flat
+    // white now that the lantern hangs at eye level from the door (br-0ka).
+    {
+      const uv = new Float32Array(glassGeo.attributes.position.count * 2);
+      const p = glassGeo.attributes.position;
+      for (let i = 0; i < p.count; i++) { uv[2 * i] = 0.5; uv[2 * i + 1] = p.getY(i) / HT; }
+      glassGeo.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+    }
+    const glowRamp = (() => {
+      const c = document.createElement('canvas'); c.width = 4; c.height = 64;
+      const g = c.getContext('2d');
+      for (let y = 0; y < 64; y++) {
+        const v = 1 - y / 63, d = Math.abs(v - 0.55);           // canvas y=0 is the top (v = 1)
+        const k = 0.42 + 0.58 * Math.exp(-(d * d) / (2 * 0.2 * 0.2));
+        const L = Math.round(255 * k);
+        g.fillStyle = `rgb(${L},${L},${L})`; g.fillRect(0, y, 4, 1);
+      }
+      const t = new THREE.CanvasTexture(c);
+      t.colorSpace = THREE.SRGBColorSpace;
+      return t;
+    })();
     const glass = new THREE.MeshPhysicalMaterial({
-      color: 0xf3f1ec, roughness: 0.55, metalness: 0,
-      emissive: warmWhite(THREE), emissiveIntensity: 0.9,
+      color: 0xebe6dc, roughness: 0.55, metalness: 0,
+      emissive: warmWhite(THREE), emissiveIntensity: 0.7, emissiveMap: glowRamp,
       sheen: 0.3, sheenColor: 0xffffff, sheenRoughness: 0.6,
       side: THREE.DoubleSide,
     });
@@ -163,6 +200,9 @@ export default {
     group.add(l);
 
     group.userData.size = { diameter: 2 * R, height: HT };
-    return finishFixture(group, [l], [glow, glass]);
+    finishFixture(group, [l], [glow, glass]);
+    const disposeParts = group.userData.dispose;
+    group.userData.dispose = () => { disposeParts(); glowRamp.dispose(); };
+    return group;
   },
 };

@@ -195,19 +195,25 @@ export const REMODEL = {
   accentTopIn: 120,
   // Oval mirror centred on the sink (x = 54"), bottom 42" -> top 98".
   ovalMirror: { width: inch(23), height: inch(56), centerX: inch(54), bottomIn: 42 },
-  // Ceiling fixtures: bottom of the fixture AFF.  100" clears the mirror top
-  // (98") by 2"; the slider runs 78-110" and each fixture clamps itself so
-  // it never reaches into the ceiling.
-  lightHangBottomIn: 100,
-  lightHangRangeIn: [78, 110],
+  // Ceiling fixtures (pendant / chandelier): each light option carries its
+  // own default hang (fixture bottom AFF, `defaultHangBottomIn`) and distance
+  // of the fixture centre off the finished wall face (`defaultFromWallIn`);
+  // the "Light hang" slider jumps to them when that light is picked.  The
+  // defaults hang the fixture BELOW the mirror top (98") so it reads as a
+  // layer in front of the mirror from the door and shows in its reflection,
+  // while its bottom stays above ~74" so a person at the sink still sees
+  // their face.  Each fixture clamps itself so it never reaches the ceiling.
+  lightHangRangeIn: [60, 110],
+  lightFromWallRangeIn: [6, 36],
   lightCentreX: inch(54),
-  lightCentreZ: inch(11), // fixture centre ~11" off the wall
-  // Wall sconces: the slider sets the glass centre height.  +/-18" from the
-  // sink centre puts the glass 3.4" clear of the mirror's pivot brackets and
-  // inside the accent span (x 33.9-74.1").
-  sconceCentreIn: 66,
+  // Wall sconces: the slider sets the glass centre height (default on the
+  // option, `defaultMountCentreIn`).  The mirror hangs flat (no brackets), so
+  // each sconce is centred in its strip of accent wall between the frame's
+  // outer edge (x 42.5" / 65.5") and the accent edge (x 30" / 76"):
+  // x = 36.25" and 70.75", i.e. 54 - 17.75 and 54 + 16.75.  The 4.25" glass
+  // is then 4.1" / 3.1" clear of the frame and 4.1" / 3.1" inside the accent.
   sconceRangeIn: [56, 80],
-  sconceSpacingIn: 18,
+  thinsetMm: 3,
   thinsetMm: 3,
   // Junction inspector anchor: the clear gap between the glass soap
   // dispenser (x 45.5") and the faucet (x 54"), on the wainscot top.
@@ -215,6 +221,14 @@ export const REMODEL = {
 };
 REMODEL.mirrorBottom = inch(REMODEL.ovalMirror.bottomIn);
 REMODEL.mirrorCentreX = REMODEL.ovalMirror.centerX;
+{
+  // Sconce offsets from the sink centre (see the comment above), in inches.
+  const toIn = (m) => m / inch(1);
+  const half = toIn(REMODEL.ovalMirror.width) / 2, cx = toIn(REMODEL.lightCentreX);
+  const west = (toIn(REMODEL.accentX0) + toIn(REMODEL.mirrorCentreX) - half) / 2;
+  const east = (toIn(REMODEL.accentX1) + toIn(REMODEL.mirrorCentreX) + half) / 2;
+  REMODEL.sconceOffsetsIn = [west - cx, east - cx];
+}
 
 // Flat colours used when a texture is missing from the manifest.
 export const FALLBACK_COLORS = {

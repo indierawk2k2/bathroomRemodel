@@ -3,8 +3,10 @@
 // rattan weave (upper tier full size, lower tier inset), black metal frame,
 // 4 candle sockets, chains to a hub and a ceiling canopy.
 //
-// build(ctx, { hangBottomIn = 100 (clamped to ceiling - 14"), centreXIn = 55, centreZIn = 11,
-//              ceilingIn = 120, shadows = true })
+// build(ctx, { hangBottomIn = 80 (clamped to ceiling - 14"), centreXIn = 54,
+//              centreZIn = 14 (fixture centre, world z), ceilingIn = 120, shadows = true })
+// Default 80": the 10" body spans 80-90", over the upper mirror (top 98")
+// and in its reflection from the door, 12"+ above a standing user's eyes.
 // Lights: 2 shadow-casting PointLights (each stands for 2 candle bulbs) to
 // keep the cube-shadow cost at 2 x 6 passes.
 import { remodelDims, tex, texCompanion, physicalSize, repeatClone } from '../../remodel/cfg.js';
@@ -102,19 +104,31 @@ function makeWeave(THREE) {
   return buildMaps(THREE, { w, h, albedo, height, alpha, rough }, { normalStrength: 8 });
 }
 
+// Defaults: fixture bottom AFF and fixture centre off the finished wall face
+// (inches), chosen from door / vanity shots at 72-88" (br-0ka, shots/low-*):
+// 80" puts the 32"-wide oval across the top of the mirror from the door
+// without hiding more than its top quarter; 14" leaves 8" between its back
+// and the wall, so it reads as a layer in front of the mirror.
+const DEFAULT_HANG_IN = 80;
+const DEFAULT_FROM_WALL_IN = 14;
+
 export default {
   id: 'rattan-linear',
   name: 'Rattan oval linear, 4-light (Adara)',
   order: 10,
   description: '32" x 12" x 10" two-tier rattan oval, black frame',
+  // Per-option defaults (the app's sliders jump to these when this light is
+  // picked, unless the user already moved them for it this session).
+  defaultHangBottomIn: DEFAULT_HANG_IN,
+  defaultFromWallIn: DEFAULT_FROM_WALL_IN,
   build(ctx, opts = {}) {
     const { THREE } = ctx;
     const D = remodelDims(ctx);
     const ceiling0 = opts.ceilingIn != null ? inch(opts.ceilingIn) : D.ceiling;
     // Body is 10" tall; keep >= 4" of chain + canopy above it.
-    const bottom = Math.min(opts.hangBottomIn != null ? inch(opts.hangBottomIn) : inch(100), ceiling0 - inch(14));
+    const bottom = Math.min(opts.hangBottomIn != null ? inch(opts.hangBottomIn) : inch(DEFAULT_HANG_IN), ceiling0 - inch(14));
     const cx = opts.centreXIn != null ? inch(opts.centreXIn) : D.lightCentreX;
-    const cz = opts.centreZIn != null ? inch(opts.centreZIn) : D.lightCentreZ;
+    const cz = opts.centreZIn != null ? inch(opts.centreZIn) : inch(DEFAULT_FROM_WALL_IN);
     const ceiling = ceiling0;
     const shadows = opts.shadows !== false;
 

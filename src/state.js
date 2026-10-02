@@ -11,8 +11,13 @@ export const DEFAULT_STATE = {
   transition: null, // id from state.options.transitions ('butt-joint' | 'metal-edge' | 'flush-fill')
   accentTopIn: 120,
   mirrorBottomIn: 42,
-  lightHangBottomIn: 100, // ceiling fixtures: bottom of the fixture AFF (78-110)
-  sconceCentreIn: 66, // wall fixtures: glass centre AFF (56-80)
+  // Light placement.  null = the selected light option's own default
+  // (defaultHangBottomIn / defaultFromWallIn / defaultMountCentreIn); the
+  // remodel wiring fills them in and re-applies a light's default when the
+  // user switches to it, unless they moved that slider for it this session.
+  lightHangBottomIn: null, // ceiling fixtures: bottom of the fixture AFF (60-110)
+  lightFromWallIn: null, // ceiling fixtures: fixture centre off the finished wall (6-36)
+  sconceCentreIn: null, // wall fixtures: glass centre AFF (56-80)
   tileThicknessMmOverride: null, // null = use the option's own thickness
   night: false, // Night: window daylight ~off, fixtures judged on their own
   lightsOn: true, // vanity fixture (current bar or the remodel light)

@@ -1,7 +1,7 @@
 // Room reflection probe (br-uio): renders the actual bathroom into a cube
 // map from the middle of the vanity area, prefilters it with PMREM, and
 // hands it to the metals (chrome, brushed nickel, brass, the Schluter
-// strip, the mirror brackets) as their envMap.  The generic
+// strip, the light fixtures) as their envMap.  The generic
 // RoomEnvironment stays on scene.environment for the soft ambient fill.
 //
 // The scene is static, so the probe is only re-captured when something that
