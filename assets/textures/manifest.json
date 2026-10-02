@@ -224,5 +224,41 @@
       2.4606
     ],
     "color": "#6B6C6B"
+  },
+  {
+    "name": "wallpaper_cole_son_feather_fan_soft_olive",
+    "map": "wallpaper_cole_son_feather_fan_soft_olive_albedo.jpg",
+    "normalMap": "wallpaper_cole_son_feather_fan_soft_olive_normal.png",
+    "roughnessMap": "wallpaper_cole_son_feather_fan_soft_olive_rough.png",
+    "physicalSizeM": [
+      0.1767,
+      0.106
+    ],
+    "repeat": [
+      5.6604,
+      9.434
+    ],
+    "source": "assets/source/wallpapers/Icons+Feather+Fan+Geometric+Wallpaper+Roll-29098963.jpg",
+    "rollWidthM": 0.53,
+    "patternRepeatM": 0.106,
+    "match": "straight",
+    "color": "#D9DBCE"
+  },
+  {
+    "name": "wallpaper_rebel_walls_ripple_blue",
+    "map": "wallpaper_rebel_walls_ripple_blue_albedo.jpg",
+    "normalMap": "wallpaper_rebel_walls_ripple_blue_normal.png",
+    "roughnessMap": "wallpaper_rebel_walls_ripple_blue_rough.png",
+    "physicalSizeM": [
+      1.0,
+      1.2
+    ],
+    "repeat": [
+      1.0,
+      0.8333
+    ],
+    "source": "assets/source/wallpapers/R19317_product.jpg",
+    "match": "straight (printed to wall size)",
+    "color": "#C4C3C5"
   }
 ]
