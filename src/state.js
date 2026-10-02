@@ -8,11 +8,15 @@ export const DEFAULT_STATE = {
   scenario: 'current', // 'current' | 'remodel'
   tile: null, // option id from state.options.tiles
   light: null, // option id from state.options.lights
-  transition: 'keep-cap', // 'keep-cap' | 'remove-cap' | 'flush-fill'
+  transition: null, // id from state.options.transitions ('butt-joint' | 'metal-edge' | 'flush-fill')
   accentTopIn: 120,
   mirrorBottomIn: 42,
-  lightHangBottomIn: 90,
+  lightHangBottomIn: 100, // ceiling fixtures: bottom of the fixture AFF (78-110)
+  sconceCentreIn: 66, // wall fixtures: glass centre AFF (56-80)
   tileThicknessMmOverride: null, // null = use the option's own thickness
+  night: false, // Night: window daylight ~off, fixtures judged on their own
+  lightsOn: true, // vanity fixture (current bar or the remodel light)
+  quality: 'high', // 'high' | 'medium' | 'low' (src/quality.js)
   uiVisible: true,
   // Filled by the option registry (integration pass):
   // { tiles:[{id,name}], lights:[{id,name}], transitions:[{id,name}] }

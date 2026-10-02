@@ -173,7 +173,9 @@ function rotated(src) {
 export async function loadTextures(THREE, renderer) {
   const manifest = fetchManifest();
   const loader = new THREE.TextureLoader();
-  const aniso = Math.min(8, renderer?.capabilities?.getMaxAnisotropy?.() ?? 4);
+  // Max anisotropy (16 on Apple GPUs): the floor and walls are seen at grazing
+  // angles, where anything less smears the grout lines.
+  const aniso = renderer?.capabilities?.getMaxAnisotropy?.() ?? 4;
   const sets = {};
 
   const prep = (tex, color) => {
@@ -188,15 +190,16 @@ export async function loadTextures(THREE, renderer) {
   await Promise.all(
     manifest.map(async (e) => {
       if (!e || !e.name) return;
-      const [map, normalMap, roughnessMap] = await Promise.all([
+      const [map, normalMap, roughnessMap, alphaMap] = await Promise.all([
         tryLoad(e.map, true),
         tryLoad(e.normalMap, false),
         tryLoad(e.roughnessMap, false),
+        tryLoad(e.alphaMap, false),
       ]);
       let sizeM = e.physicalSizeM;
       if (!sizeM && Array.isArray(e.repeat)) sizeM = [1 / e.repeat[0], 1 / e.repeat[1]];
       if (!sizeM) sizeM = DEFAULT_TEXTURE_SIZE[e.name] || [inch(24), inch(24)];
-      sets[e.name] = { map, normalMap, roughnessMap, sizeM, source: map ? 'manifest' : 'missing' };
+      sets[e.name] = { map, normalMap, roughnessMap, alphaMap, sizeM, source: map ? 'manifest' : 'missing' };
     }),
   );
 
@@ -217,7 +220,7 @@ export async function loadTextures(THREE, renderer) {
 
   // Metre UVs: repeat = 1 / physical size.
   for (const s of Object.values(sets)) {
-    for (const t of [s.map, s.normalMap, s.roughnessMap]) if (t) t.repeat.set(1 / s.sizeM[0], 1 / s.sizeM[1]);
+    for (const t of [s.map, s.normalMap, s.roughnessMap, s.alphaMap]) if (t) t.repeat.set(1 / s.sizeM[0], 1 / s.sizeM[1]);
   }
 
   const lib = {};
@@ -226,7 +229,7 @@ export async function loadTextures(THREE, renderer) {
     physicalSize[name] = s.sizeM;
     if (!s.map) continue;
     lib[name] = s.map;
-    Object.assign(s.map.userData, { normalMap: s.normalMap, roughnessMap: s.roughnessMap, physicalSizeM: s.sizeM });
+    Object.assign(s.map.userData, { normalMap: s.normalMap, roughnessMap: s.roughnessMap, alphaMap: s.alphaMap || null, physicalSizeM: s.sizeM });
   }
 
   const hidden = (k, v) => Object.defineProperty(lib, k, { value: v, enumerable: false });

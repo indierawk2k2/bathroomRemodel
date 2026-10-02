@@ -54,6 +54,9 @@
   #presets button { text-align: left; }
   #btn-hide { width: 100%; margin-top: 4px; }
   .help { color: var(--dim); font-size: 11px; margin-top: 8px; }
+  .desc { color: var(--dim); font-size: 11px; margin-top: 3px; }
+  .row.two { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  #pad-legend { color: var(--acc); }
   #fps-box { position: fixed; left: 12px; top: 12px; background: var(--bg); padding: 3px 8px; border-radius: 6px; font: 12px ui-monospace, Menlo, monospace; }
   #gamepad-badge { position: fixed; left: 12px; top: 40px; background: var(--bg); padding: 3px 8px; border-radius: 6px; font-size: 12px; }
   #ui-show-hint { position: fixed; right: 12px; top: 12px; color: var(--dim); font-size: 11px; background: var(--bg); padding: 3px 8px; border-radius: 6px; }
@@ -66,7 +69,7 @@
 <canvas id="view"></canvas>
 <div id="loading">Loading bathroom…</div>
 
-<div id="fps-box"><span id="fps">–</span> fps</div>
+<div id="fps-box"><span id="fps">–</span> fps · <span id="quality-label">High</span></div>
 <div id="gamepad-badge" class="hidden">🎮 connected</div>
 <div id="ui-show-hint" class="hidden">H: show UI</div>
 
@@ -76,9 +79,13 @@
     <label>Scenario</label>
     <div class="seg"><button id="scn-current">Current</button><button id="scn-remodel">Remodel</button></div>
   </div>
-  <div class="row"><label for="sel-tile">Tile / wallpaper</label><select id="sel-tile"></select></div>
+  <div class="row two">
+    <div><label>Daylight (N)</label><div class="seg"><button id="tod-day">Day</button><button id="tod-night">Night</button></div></div>
+    <div><label>Vanity light (L)</label><div class="seg"><button id="light-on">On</button><button id="light-off">Off</button></div></div>
+  </div>
+  <div class="row"><label for="sel-tile">Tile / wallpaper</label><select id="sel-tile"></select><div class="desc" id="desc-tile"></div></div>
   <div class="row"><label for="sel-light">Light</label><select id="sel-light"></select></div>
-  <div class="row"><label for="sel-transition">Transition at wainscot</label><select id="sel-transition"></select></div>
+  <div class="row"><label for="sel-transition">Transition at wainscot</label><select id="sel-transition"></select><div class="desc" id="desc-transition"></div></div>
   <div class="row">
     <label for="rng-accentTop">Accent top <output id="rng-accentTop-val"></output></label>
     <input id="rng-accentTop" type="range" min="60" max="120" step="1">
@@ -88,17 +95,18 @@
     <input id="rng-mirrorBottom" type="range" min="36" max="56" step="0.5">
   </div>
   <div class="row">
-    <label for="rng-lightHang">Light hang (bottom) <output id="rng-lightHang-val"></output></label>
-    <input id="rng-lightHang" type="range" min="72" max="108" step="0.5">
+    <label for="rng-lightHang" id="rng-lightHang-label">Light hang (bottom) <output id="rng-lightHang-val"></output></label>
+    <input id="rng-lightHang" type="range" min="78" max="110" step="0.5">
   </div>
   <div class="row">
     <label for="rng-tileThk">Tile thickness override <output id="rng-tileThk-val"></output></label>
     <input id="rng-tileThk" type="range" min="0" max="20" step="0.5">
   </div>
+  <div class="row"><label for="sel-quality">Quality</label><select id="sel-quality"></select></div>
   <div class="row"><label>Camera presets</label><div id="presets"></div></div>
   <button id="btn-hide">Hide UI (H)</button>
-  <div class="help">WASD move · arrows / drag look · Q/E down/up · Shift fast · 1–6 presets<br>
-    Gamepad: sticks move/look · LT/RT down/up · A light · B tile · Y scenario · Start UI</div>
+  <div class="help">WASD move · arrows / drag look · Q/E down/up · Shift fast · 1–6 presets · N night · L light</div>
+  <div class="help hidden" id="pad-legend">🎮 sticks move/look · LT/RT down/up · A light · B tile · X transition · Y scenario · ◀▶ preset · Start UI</div>
 </div>
 
 <pre id="error-overlay"></pre>
