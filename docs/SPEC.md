@@ -281,7 +281,10 @@ light in this session.
 Hanging fixtures: centre x = 54, hung **below the mirror top** so that from
 the door they read as a layer in front of the mirror and show in its
 reflection, with the bottom kept above ~74" so a person at the sink still
-sees their face. "Light hang (bottom)" slider 60–110" and "Light distance from
+sees their face. Pendant pairs (`anders-pendants`, `claxy-rod-pendants`)
+are the exception: they hang beside the mirror, not in front of it, so they
+take the sconces' height rule instead (shade centre on the mirror's widest
+point, derived from the mirror). "Light hang (bottom)" slider 60–110" and "Light distance from
 wall" slider 6–36" (fixture centre off the finished face); each fixture clamps
 itself so it never enters the ceiling. Wall fixtures (`mount: 'wall'`): the
 height slider sets the glass centre (56–84"); the distance slider is hidden.
@@ -306,6 +309,67 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   (br-dli). Horizontal positions unchanged; at the mirror's widest point the
   glass is 4.1" (west) / 3.1" (east) clear of the frame edge (x 42.5" /
   65.5"), the 2.6" backplate 4.9" / 3.9".
+- `anders-pendants` (br-166): pair of West Elm Anders Porcelain Pendants,
+  5" size (assets/source/lights/anders-pendant/SOURCES.md): 5" x 4.5" ivory
+  porcelain cylinder, open at the bottom, a 1.4" x 3" Champagne Bronze socket
+  cup, a 5/16" rigid stem and a 5" x 0.5" canopy; real drop 12.6–54.6" (the
+  hang is clamped to the 12.6" minimum, so it never reaches the ceiling).
+  Ceiling-hung, a pendant either side of the mirror at the sconce positions,
+  **x = 36.25" and 70.75"**: the shade is 3.75" (west) / 2.75" (east) clear of
+  the frame at its widest point, 3.75" from the tub-column tile (x 30") and
+  2.75" from the window casing (x 76"). Default **7"** off the finished wall
+  (shade back 4.5" clear; the canopy sits wholly on the ceiling). Default
+  shade centre on the **mirror's widest point** (`defaultHangBottomIn` =
+  mirror bottom + 28" − 2.25" = **67.75"** at the default mirror, drop 52.25"),
+  a function of the mirror like the sconces', so it follows "Mirror bottom"
+  until the user moves "Light hang" for this light or gives `#hang=`; the
+  default is clamped to the real 12.6–54.6" drop (`realDropRangeIn`), so a
+  mirror below 38.6" leaves it at the 54.6" maximum (bottom 65.4").
+  Centre heights of mirror centre −6 / −3 / 0 / +3 / +6" were compared from
+  presets 1 and 3, day and night (`shots/anders-height-candidates.jpg`): the
+  pendants flank the glass at every height, so a standing face (eyes 60–68")
+  is never blocked, and none was clearly more dramatic; −3" and −6" also need
+  55.25" / 58.25" drops, past the real 54.6" maximum. Mirror centre kept.
+  Lights: per pendant one shadow-casting PointLight low in the shade (the
+  porcelain casts, so it throws a pool down through the open bottom and a
+  scallop on the tile) and one weak unshadowed PointLight for the light the
+  porcelain lets through. Damp rating: not stated by West Elm.
+- `claxy-rod-pendants` (br-wbi): pair of Claxy "Modern Brass Pendant Light
+  with Frosted Glass Shade Hanging Rod" (CL-B5333DU-J-M;
+  assets/source/lights/claxy-brass-rod-pendant/SOURCES.md): open frosted
+  glass cylinder 5.8" x 6.3" ringed by a floating brushed-brass band 7" x
+  2.7", rigid 0.36" brass rod, swivel adaptor, 4.9" canopy. The rods come as
+  3 x 12" + 1 x 6", so the real drop (canopy top to shade bottom) is only
+  8.4" + {0, 6, …, 42}" = **8.4–50.4"**; the hang slider stays continuous
+  (clamped to the 8.4" minimum), joints are drawn where real sections meet.
+  Positions **x = 37" and 71"** (54 ∓ 17, `offsetsClearOfMirror`): the 7"
+  band is the minimum 2.0" clear of the frame at its widest point each side,
+  3.5" from the tub-column tile and 1.5" from the window casing edge (x 76";
+  the band's back is 3.5" off the wall, the casing only 0.6" proud, so they
+  never touch). The sconce positions (x 36.25 / 70.75) would leave the east
+  band only 1.75" from the frame. Default **7"** off the wall (band back 3.5"
+  clear, canopy wholly on the ceiling). Default height: the shade centre on
+  the **mirror's widest point**, snapped to the **longest real rod drop that
+  keeps it at or above that point** (`realDropRangeIn: [8.4, 50.4]`,
+  `realDropStepsIn` = every rod combination; ceiling from the room config).
+  The mirror-centre height at the default mirror would need a 53.15" drop,
+  2.75" more than the rods give, so the default is all four rods: drop
+  50.4", **shade bottom 69.6" / centre 72.75"** (the same at `#mirror=38`;
+  at `#mirror=50` three 12" rods, 44.4", bottom 75.6" / centre 78.75").
+  It follows "Mirror bottom" until the user moves "Light hang". The slider
+  stays continuous; lower values render but need more rod than exists,
+  and the option's description gives the lowest real shade bottom for the
+  ceiling (69.6" at 120"). Heights of mirror centre
+  −6…+6" were compared from presets 1 and 3, day and night
+  (`shots/claxy-height-candidates.jpg`, shot before the snap): the pair
+  flanks the glass at every height (a standing face is never blocked) and
+  none was clearly more dramatic; +3" is the candidate the real default
+  (+2.75") matches. Lights, per pendant, both
+  at the bulb: a shadow-casting PointLight (the glass does not cast, the
+  brass band does: a shadow ring on the tile between lit bands above and
+  below) and a weaker unshadowed one for the glow off the glass, which keeps
+  that ring soft as in the maker's bathroom photo. Damp rating: not stated;
+  Claxy lists bathrooms but advises a dry location.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,

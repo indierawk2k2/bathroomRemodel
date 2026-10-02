@@ -27,6 +27,8 @@ export { default as wallpaperDebonaCrystalTrellisBlueSilver } from './wallpapers
 export { default as rattanLinear } from './lights/rattan-linear.js';
 export { default as monteauxPendant } from './lights/monteaux-pendant.js';
 export { default as harlanSconces } from './lights/harlan-sconces.js';
+export { default as andersPendants } from './lights/anders-pendants.js';
+export { default as claxyRodPendants } from './lights/claxy-rod-pendants.js';
 
 // -------------------------------------------------------------------------
 export * from './registry.js';
