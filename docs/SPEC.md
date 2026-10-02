@@ -192,37 +192,60 @@ be placed from the photos and is not modelled.*
 
 Accent region on the north wall: **x 30–76, y 40–120** (column tile edge to
 window trim edge after the br-736 corrections) (from the top of the
-wainscot cap to the ceiling; height configurable in the UI). The tile /
+existing wainscot to the ceiling; height configurable in the UI). The tile /
 wallpaper sits on the drywall plane; its finished face is proud of drywall
-by `thickness + 3 mm` thinset (wallpaper: 0).
+by `thickness + 3 mm` thinset (wallpaper: 0.4 mm, no thinset).
 
-Transition detail at y = 40 (`transition` option, default `keep-cap`):
-- `keep-cap`: new material starts at the top of the existing bullnose cap.
-- `remove-cap`: cap removed; new tile runs down to meet the top of the
-  existing 12 x 24 tile, finished with a 1/8" brushed-nickel Schluter
-  edge trim strip.
-- `flush-fill`: like `keep-cap` but the drywall is built out so the new
-  tile's face is flush with the wainscot face.
+*Correction (br-uio): the existing wainscot has **no bullnose cap** (section
+3): the top course is the field tile with a ~6 mm light-sand eased edge, face
+13 mm proud. That edge belongs to the room and stays in every transition; the
+accent wall only adds what goes on top of it. The old ids `keep-cap`,
+`remove-cap` described a cap that does not exist and were replaced.*
 
-When the camera is within 30" of the accent/wainscot junction, show a
-**junction inspector**: a 2D cross-section inset (canvas, bottom-left) with
-the wainscot thickness, cap profile, new material thickness, and the step
-in mm and fractional inches, plus thin dimension lines drawn in 3D.
+Transition detail at y = 40 (`transition` option, default `butt-joint`):
+- `butt-joint` ("Butt joint + caulk"): new tile sits on the existing edge,
+  colour-matched caulk joint (1.5 mm).
+- `metal-edge` ("Metal edge strip"): 1/8" brushed-nickel Schluter strip on
+  the existing edge between old and new; its front is flush with the prouder
+  face, its anchoring leg is buried in the thinset behind the new tile.
+- `flush-fill` ("Flush (build wall out)"): wall built out so faces are
+  flush (build-out = 13 mm − thinset − tile), caulked.
+
+Resulting steps (new face − wainscot face): Sage Fan 10 + 3 = 13 mm → flush;
+glass subway 8 + 3 = 11 mm → 2 mm recessed; ceramic subway 6 + 3 = 9 mm →
+4 mm recessed; wallpaper 0.4 mm → 13 mm recessed; `flush-fill` → 0 for all.
+
+When the camera is within 30" of the accent/wainscot junction (anchor
+x = 49.5", in the clear gap between the glass soap dispenser and the faucet;
+preset 5 looks at it from 13"), show a **junction inspector**: a 2D
+cross-section inset (canvas, bottom-left) with the wainscot thickness, eased
+edge, new material thickness, and the step in mm and fractional inches, plus
+thin dimension lines and labels drawn in 3D.
+
+The towel ring and the vanity GFCI (both inside the accent span) move out to
+the new finished face in the remodel and back to the drywall in current.
 
 Oval mirror: 56" tall x 23" wide, 1.5" cherry/mahogany wood frame, 3/4" deep,
 black steel pivot brackets on each side (photos 9, 10), hung with its centre
-at x = 55 and its bottom at 42" (configurable). The glass is a real planar
-reflection (`three/addons/objects/Reflector.js`) clipped to the oval.
+on the sink at **x = 54** (was 55) and its bottom at 42" (configurable), so
+it spans 42"–98". It is mounted on the accent's finished face. The glass is a
+real planar reflection (`three/addons/objects/Reflector.js`) clipped to the
+oval; its render target is sized to the view aspect and rendered once per
+frame (also with the post-processing passes).
 
-Lights (each option replaces the current light bar; the recessed can stays):
+Lights (each option replaces the current light bar; the recessed can stays).
+Hanging fixtures: centre x = 54, z = 11 (≈ 11" off the wall), default
+bottom **100"** (slider 78–110"; 2" above the mirror top), each clamped so it
+never enters the ceiling. Wall fixtures (`mount: 'wall'`): the slider sets the
+glass centre (default **66"**, 56–80").
 - `rattan-linear`: Adara-style 4-light oval rattan linear chandelier,
-  ~32" x 12" x 10", black frame, natural rattan weave, hung from the ceiling
-  above the vanity (centre x = 55, z = 11), bottom at 90" (configurable).
+  ~32" x 12" x 10", black frame, natural rattan weave (texture pack + alpha
+  map, so the weave throws dappled shadows), on chains.
 - `monteaux-pendant`: Monteaux 3-light faceted frosted-glass polyhedron
-  pendant, ~16" dia x 18" tall, antique brass frame, same hang point,
-  bottom at 88".
+  pendant, ~16" dia x 18" tall, antique brass frame.
 - `harlan-sconces`: pair of brass 2-light sconces with ribbed clear-glass
-  cylinders, 5" x 14", mounted at x = 55 ± 16, centre 66".
+  cylinders, 4.25" x 14", at **x = 54 ± 18"** (glass at x 33.9–38.1 and
+  69.9–74.1: 3.4" clear of the mirror's pivot brackets, inside x 30–76).
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,
@@ -231,6 +254,9 @@ Tile / wallpaper options (registry):
 - `white-glass-subway-stacked`: 3" x 6" white glass subway, **stacked grid
   (no stagger), long edge horizontal**, 5/16" (8 mm) thick, bright white
   grout 1/16".
+- `white-ceramic-subway-offset`: 3" x 6" glossy white ceramic subway,
+  running bond (half offset), long edge horizontal, 1/4" (6 mm) thick, light
+  grey grout (procedural; br-uio, added by following docs/ADDING_OPTIONS.md).
 - `wallpaper-sample`: one placeholder wallpaper (muted botanical print),
   0 mm thick — exists so the wallpaper path is proven and extensible.
 
@@ -239,24 +265,52 @@ Tile / wallpaper options (registry):
 - First-person: **W/A/S/D** move, **arrow keys** yaw/pitch, Q/E (or
   Space/C) up/down, Shift = faster. Mouse drag also looks. Eye height 66",
   clamped inside the room polygon (L-shape) with a 10" margin.
+- **N** toggles Day / Night: Night drops the window daylight (sun, window
+  area light, glass glow) to near zero and the ambient environment to 0.05,
+  so the fixtures can be judged on their own. **L** switches the vanity
+  fixture (current bar or the remodel light) on / off. Both are also in the
+  panel.
 - **Gamepad (Xbox controller) via the Gamepad API**: left stick move,
   right stick look, LT/RT (or bumpers) down/up, A = next light option,
-  B = next tile option, Y = toggle current/remodel, Start = toggle UI.
-  Dead-zone 0.15, poll in the render loop, show a small "🎮 connected"
-  badge when `gamepadconnected` fires.
+  B = next tile option, X = next transition, Y = toggle current/remodel,
+  D-pad left/right = previous/next preset, Start = toggle UI. Dead-zone 0.15,
+  poll in the render loop (a pad that is already awake is adopted on the
+  first poll), show a small "🎮 connected" badge and a one-line controller
+  legend in the panel.
 - Camera presets (buttons + number keys): 1 Door, 2 Centre, 3 Vanity,
-  4 Mirror close-up, 5 **Junction close-up** (looking at the wainscot cap
-  under the accent wall from 18" away), 6 Tub.
+  4 Mirror close-up, 5 **Junction close-up** (13" from the wainscot top under
+  the accent wall, x = 49.5"), 6 Tub.
 - UI panel (top-right, plain HTML/CSS, no framework): Scenario
-  (Current / Remodel), Tile/Wallpaper select, Light select, Transition
-  select, sliders: accent top height, mirror bottom height, light hang
-  height, tile thickness override; FPS counter; "Hide UI" (H).
+  (Current / Remodel), Day / Night, Light on / off, Tile/Wallpaper select,
+  Light select, Transition select (with a one-line description), sliders:
+  accent top height, mirror bottom height, light height (hang bottom for
+  ceiling fixtures, centre for sconces), tile thickness override; Quality
+  select; FPS counter with the quality level; "Hide UI" (H).
+- URL hash: `preset`, `scenario`, `tile`, `light`, `transition`, `night`,
+  `lights`, `top`, `mirror`, `hang`, `sconce`, `thick`, `q`, `auto`, `ui`,
+  `cam`, `off` (README).
 - Renderer: `WebGLRenderer({antialias:true})`, `outputColorSpace = SRGB`,
-  `ACESFilmicToneMapping`, `PCFSoftShadowMap`, pixel ratio capped at 2,
-  PMREM environment from `RoomEnvironment`. Lighting: window daylight
-  (DirectionalLight through the window + soft RectAreaLight), each fixture
-  contributes real `PointLight`s with shadows + emissive glass, recessed
-  can SpotLight.
+  `ACESFilmicToneMapping`, exposure 1, `PCFSoftShadowMap` (on-demand shadow
+  updates), PMREM environment from `RoomEnvironment` (intensity 0.28 by day)
+  plus a **cube-map probe of the real room** (re-captured when the scene
+  changes) as the envMap of every metal. Max anisotropic filtering on all
+  pack textures. Lighting: window daylight (DirectionalLight through the
+  window + soft RectAreaLight + emissive frosted glass that blooms slightly),
+  each fixture contributes real `PointLight`s with shadows + emissive glass,
+  recessed can SpotLight. Fixture colour is 2700 K as the eye reads it after
+  adapting (sRGB 1, .78, .55).
+- **Quality** (`src/quality.js`), saved in localStorage:
+  High = pixel ratio 2, HalfFloat composer with 4x MSAA, GTAO (half
+  resolution), UnrealBloom (strength 0.14, threshold 1.1), OutputPass,
+  reflector 1200 px tall, sun shadow 2048, point / spot 1024;
+  Medium = pixel ratio 1.5, no AO, bloom, reflector 900, point 512;
+  Low = pixel ratio 1, direct render, reflector 600, point 256.
+  Automatic step-down: rolling fps < 30 for 3 s drops one level (shown as
+  "(auto)"), never while the tab is hidden or within 3 s of a change.
+  `window.__app.measure(n)` renders n frames synchronously (GPU-synced) and
+  returns ms/frame. Measured on the M1 Max at High, 2632 x 1592: 11–15 ms
+  (65–90 fps) with the browser otherwise idle, 14–29 ms (34–69 fps) while it
+  was busy with other work (br-uio).
 
 ## 6. File layout and interfaces
 
@@ -278,6 +332,10 @@ src/state.js               observable {scenario, tile, light, transition, ...}
 src/remodel/accentWall.js  buildAccentWall(ctx, tileOption, transition) -> Group
 src/remodel/ovalMirror.js  buildOvalMirror(ctx) -> Group (Reflector)
 src/remodel/junction.js    inspector inset + 3D dimension lines
+src/remodel/index.js       setupRemodel(app): options -> state, rebuilds, re-mounts, inspector
+src/quality.js             composer, GTAO, bloom, quality levels, auto step-down, measure()
+src/envProbe.js            cube-map reflection probe of the room for metals
+run.sh                     local server + browser launcher
 src/options/registry.js    registerTile/registerLight/registerWallpaper, lists
 src/options/tiles/*.js     one file per tile; each `export default {id, name,
                            kind:'tile'|'wallpaper', thicknessMm, makeMaterial(ctx)}`

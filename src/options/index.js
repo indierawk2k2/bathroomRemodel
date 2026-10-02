@@ -15,6 +15,7 @@ import { registerTile, registerLight } from './registry.js';
 // ---- tiles --------------------------------------------------------------
 export { default as sageFan } from './tiles/sage-fan.js';
 export { default as whiteGlassSubwayStacked } from './tiles/white-glass-subway-stacked.js';
+export { default as whiteCeramicSubwayOffset } from './tiles/white-ceramic-subway-offset.js';
 
 // ---- wallpapers (kind:'wallpaper', thicknessMm 0) ------------------------
 export { default as wallpaperSample } from './wallpapers/wallpaper-sample.js';

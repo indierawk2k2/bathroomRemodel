@@ -120,8 +120,24 @@ export class FirstPersonControls {
   }
 
   _gamepad() {
-    if (this.gamepadIndex === null || !navigator.getGamepads) return null;
-    return navigator.getGamepads()[this.gamepadIndex] || null;
+    if (!navigator.getGamepads) return null;
+    const pads = navigator.getGamepads() || [];
+    if (this.gamepadIndex !== null && pads[this.gamepadIndex]) return pads[this.gamepadIndex];
+    // No 'gamepadconnected' seen (page loaded with the pad already awake, or
+    // the event was missed): adopt the first standard-mapping pad we find.
+    for (const p of pads) {
+      if (p && p.connected !== false) {
+        this.gamepadIndex = p.index;
+        this.onGamepadChange?.(true, p.id);
+        return p;
+      }
+    }
+    return null;
+  }
+
+  /** Poll the gamepad once (buttons + sticks) without moving time; for tests. */
+  pollGamepad() {
+    this.update(0);
   }
 
   update(dt) {

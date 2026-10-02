@@ -12,7 +12,7 @@
 // The group is placed in world coordinates: its origin is the oval centre on
 // the wall face (z = surfaceOffsetM); local +z points into the room.
 import { Reflector } from 'three/addons/objects/Reflector.js';
-import { inch, mm, remodelDims, tex, physicalSize } from './cfg.js';
+import { inch, mm, remodelDims, tex, texCompanion, physicalSize, repeatClone } from './cfg.js';
 import { cached, fbm, makeCanvas } from '../options/procedural.js';
 
 function ellipsePath(THREE, a, b, segs = 256, cw = false) {
@@ -76,22 +76,62 @@ export function buildOvalMirror(ctx, opts = {}) {
   }));
   frameGeo.translate(0, 0, BEV + STANDOFF);  // back of frame at z = STANDOFF
   const woodTex = tex(ctx, 'wood_frame');
-  {
-    // UVs: texture pack -> metres / physicalSize; procedural -> bbox-normalised
-    const uv = frameGeo.attributes.uv, p = frameGeo.attributes.position;
-    const ps = physicalSize(ctx, 'wood_frame', [0.3, 0.3]);
-    for (let i = 0; i < p.count; i++) {
-      if (woodTex) uv.setXY(i, (p.getX(i) + a) / ps[0], (p.getY(i) + b) / ps[1]);
-      else uv.setXY(i, p.getX(i) / W + 0.5, p.getY(i) / H + 0.5);
-    }
+  // UVs: texture pack -> grain (the map's V axis) follows the oval, in
+  // repeats of the pack's physical size; procedural -> bbox-normalised.
+  const ps = physicalSize(ctx, 'wood_frame', [0.1016, 0.1016]);
+  // Arc length round the frame's centre-line ellipse, so the grain keeps its
+  // true scale everywhere (the angle parameter alone squashes it 0.6x at the
+  // top and bottom of a 23x56 oval and stretches it 1.4x at the sides).
+  const am = a - FW / 2, bm = b - FW / 2, NS = 1024;
+  const arc = new Float32Array(NS + 1);
+  for (let k = 1; k <= NS; k++) {
+    const t = -Math.PI + (2 * Math.PI * (k - 0.5)) / NS;
+    arc[k] = arc[k - 1] + Math.hypot(am * Math.sin(t), bm * Math.cos(t)) * (2 * Math.PI / NS);
   }
+  const perim = arc[NS];
+  const vRepeats = Math.max(1, Math.round(perim / ps[1]));   // whole repeats round the oval
+  const arcAt = (t) => {
+    const f = ((t + Math.PI) / (2 * Math.PI)) * NS, k = Math.min(NS - 1, Math.max(0, Math.floor(f)));
+    return arc[k] + (arc[k + 1] - arc[k]) * (f - k);
+  };
+  const meanR = (am + bm) / 2;
+  const ovalUV = (g) => {
+    const uv = g.attributes.uv, p = g.attributes.position;
+    for (let i = 0; i < p.count; i++) {
+      const x = p.getX(i), y = p.getY(i);
+      if (!woodTex) { uv.setXY(i, x / W + 0.5, y / H + 0.5); continue; }
+      const t = Math.atan2(y / b, x / a);                      // seam at the west bracket
+      // across the grain: distance out from the centre line, plus depth, so
+      // the side walls and bevels unroll at true scale too
+      const r = (Math.hypot(x / a, y / b) - 1) * meanR - p.getZ(i);
+      uv.setXY(i, r / ps[0], (arcAt(t) / perim) * vRepeats);
+    }
+    if (!woodTex || g.index) return;
+    // non-indexed: unwrap triangles that straddle the seam
+    for (let i = 0; i < p.count; i += 3) {
+      const v = [uv.getY(i), uv.getY(i + 1), uv.getY(i + 2)];
+      if (Math.max(...v) - Math.min(...v) > vRepeats / 2) {
+        for (let k = 0; k < 3; k++) if (v[k] < vRepeats / 2) uv.setY(i + k, v[k] + vRepeats);
+      }
+    }
+  };
+  ovalUV(frameGeo);
   const woodMat = keep(new THREE.MeshPhysicalMaterial({
     color: 0xffffff, roughness: 0.42, metalness: 0,
     clearcoat: 0.55, clearcoatRoughness: 0.28,
-    map: woodTex || woodGrainTexture(THREE, H / W),
+    map: woodTex ? repeatClone(THREE, woodTex, true) : woodGrainTexture(THREE, H / W),
   }));
-  if (woodTex) woodMat.color.set(0xb06a50);   // tint a neutral wood map toward cherry
-  const frame = new THREE.Mesh(frameGeo, woodMat);
+  if (woodTex) {
+    const n = texCompanion(ctx, 'wood_frame', 'normal');
+    if (n) woodMat.normalMap = repeatClone(THREE, n, false);
+  }
+  // The pack's wood_frame albedo is already the cherry colour (photo 09):
+  // keep the material colour white so it is not multiplied in twice.
+  // Side walls + bevels (ExtrudeGeometry group 1) are only ~1 cm wide and seen
+  // at grazing angles, where the long-grain map aliases into stripes: they get
+  // the wood's mean colour (photo 09) under the same clearcoat instead.
+  const sideMat = keep(new THREE.MeshPhysicalMaterial({ color: woodTex ? 0x7a4238 : 0x6a3424, roughness: 0.45, clearcoat: 0.55, clearcoatRoughness: 0.28 }));
+  const frame = new THREE.Mesh(frameGeo, [woodMat, sideMat]);
   frame.name = 'mirrorFrame';
   frame.castShadow = frame.receiveShadow = true;
   group.add(frame);
@@ -103,9 +143,8 @@ export function buildOvalMirror(ctx, opts = {}) {
     s.holes.push(new THREE.Path(ellipsePath(THREE, ai - mm(5), bi - mm(5), 256, true)));
     const g = keep(new THREE.ExtrudeGeometry(s, { depth: mm(4), bevelEnabled: true, bevelThickness: mm(1.5), bevelSize: mm(1.5), bevelSegments: 2, curveSegments: 1 }));
     g.translate(0, 0, STANDOFF + mm(6));
-    const uv = g.attributes.uv, p = g.attributes.position;
-    for (let i = 0; i < p.count; i++) uv.setXY(i, p.getX(i) / W + 0.5, p.getY(i) / H + 0.5);
-    const bead = new THREE.Mesh(g, woodMat);
+    ovalUV(g);
+    const bead = new THREE.Mesh(g, [woodMat, sideMat]);
     bead.name = 'mirrorBead';
     bead.castShadow = true;
     group.add(bead);

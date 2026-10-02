@@ -3,8 +3,9 @@
 // holding one up-facing and one down-facing filament bulb, all inside a
 // single fluted (ribbed) clear-glass cylinder ~4.25" x 14".
 //
-// build(ctx, { hangBottomIn = 59 (glass bottom; SPEC centre 66"),
-//              centreXIn = 55, spacingIn = 16 (each side of centre),
+// build(ctx, { mountCentreIn = 66 (glass centre AFF; wins over hangBottomIn),
+//              hangBottomIn (glass bottom, legacy),
+//              centreXIn = 54, spacingIn = 18 (each side of centre),
 //              surfaceOffsetM = 0 (accent finish face), shadows = true })
 // Lights: one shadow-casting PointLight per sconce at the collar.
 import { remodelDims, warmWhite } from '../../remodel/cfg.js';
@@ -124,14 +125,16 @@ export default {
   id: 'harlan-sconces',
   name: 'Harlan brass sconces, ribbed glass (pair)',
   order: 30,
-  description: 'Two 2-light brass sconces with fluted clear glass, x = 55 +/- 16"',
+  mount: 'wall',          // integration: the height slider sets the glass centre
+  description: 'Two 2-light brass sconces with fluted clear glass, x = 54 +/- 18"',
   build(ctx, opts = {}) {
     const { THREE } = ctx;
     const D = remodelDims(ctx);
     const GH = inch(14);
-    const bottom = opts.hangBottomIn != null ? inch(opts.hangBottomIn) : inch(66) - GH / 2;
+    const bottom = opts.mountCentreIn != null ? inch(opts.mountCentreIn) - GH / 2
+      : opts.hangBottomIn != null ? inch(opts.hangBottomIn) : inch(66) - GH / 2;
     const cx = opts.centreXIn != null ? inch(opts.centreXIn) : D.lightCentreX;
-    const spacing = inch(opts.spacingIn ?? 16);
+    const spacing = inch(opts.spacingIn ?? 18);
     const surface = opts.surfaceOffsetM ?? 0;
     const shadows = opts.shadows !== false;
 
@@ -151,10 +154,10 @@ export default {
       }),
     };
     mats.bulbGlass.userData.onIntensity = 0.25;
-    const glow = glowMaterial(THREE, { intensity: 14, color: 0xffe2b0 });
+    const glow = glowMaterial(THREE, { intensity: 5, color: 0xffe2b0 });
     const lights = [];
     for (const side of [-1, 1]) {
-      const s = sconce(THREE, mats, glow, shadows, opts.candela ?? 3);
+      const s = sconce(THREE, mats, glow, shadows, opts.candela ?? 2.2);
       s.name = side < 0 ? 'sconceWest' : 'sconceEast';
       s.position.set(cx + side * spacing, bottom + GH / 2, surface);
       group.add(s);

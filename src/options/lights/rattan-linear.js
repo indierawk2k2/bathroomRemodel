@@ -3,7 +3,7 @@
 // rattan weave (upper tier full size, lower tier inset), black metal frame,
 // 4 candle sockets, chains to a hub and a ceiling canopy.
 //
-// build(ctx, { hangBottomIn = 90, centreXIn = 55, centreZIn = 11,
+// build(ctx, { hangBottomIn = 100 (clamped to ceiling - 14"), centreXIn = 55, centreZIn = 11,
 //              ceilingIn = 120, shadows = true })
 // Lights: 2 shadow-casting PointLights (each stands for 2 candle bulbs) to
 // keep the cube-shadow cost at 2 x 6 passes.
@@ -110,10 +110,12 @@ export default {
   build(ctx, opts = {}) {
     const { THREE } = ctx;
     const D = remodelDims(ctx);
-    const bottom = opts.hangBottomIn != null ? inch(opts.hangBottomIn) : inch(90);
+    const ceiling0 = opts.ceilingIn != null ? inch(opts.ceilingIn) : D.ceiling;
+    // Body is 10" tall; keep >= 4" of chain + canopy above it.
+    const bottom = Math.min(opts.hangBottomIn != null ? inch(opts.hangBottomIn) : inch(100), ceiling0 - inch(14));
     const cx = opts.centreXIn != null ? inch(opts.centreXIn) : D.lightCentreX;
     const cz = opts.centreZIn != null ? inch(opts.centreZIn) : D.lightCentreZ;
-    const ceiling = opts.ceilingIn != null ? inch(opts.ceilingIn) : D.ceiling;
+    const ceiling = ceiling0;
     const shadows = opts.shadows !== false;
 
     const group = new THREE.Group();
@@ -124,11 +126,15 @@ export default {
     const named = tex(ctx, 'rattan');
     const rep = named ? physicalSize(ctx, 'rattan', WEAVE_REPEAT) : WEAVE_REPEAT;
     const maps = named
-      ? { map: repeatClone(THREE, named, true), normalMap: repeatClone(THREE, texCompanion(ctx, 'rattan', 'normal'), false) }
+      ? { map: repeatClone(THREE, named, true), normalMap: repeatClone(THREE, texCompanion(ctx, 'rattan', 'normal'), false),
+          alphaMap: repeatClone(THREE, texCompanion(ctx, 'rattan', 'alpha'), false) }
       : cached(THREE, 'rattan-weave', () => makeWeave(THREE));
+    // Weave gaps: the pack ships a separate alphaMap; the procedural weave
+    // carries alpha in its albedo.  alphaTest keeps it opaque-sorted and
+    // lets the shadow map see the holes (dappled light on wall + ceiling).
     const rattan = new THREE.MeshStandardMaterial({
-      map: maps.map, normalMap: maps.normalMap || null, roughness: 0.85, metalness: 0,
-      side: THREE.DoubleSide, alphaTest: named ? 0 : 0.5,
+      map: maps.map, normalMap: maps.normalMap || null, alphaMap: maps.alphaMap || null,
+      roughness: 0.85, metalness: 0, side: THREE.DoubleSide, alphaTest: 0.5,
     });
     rattan.normalScale.set(1.2, 1.2);
     const rimMat = new THREE.MeshStandardMaterial({ map: maps.map, normalMap: maps.normalMap || null, roughness: 0.9, color: 0xd8c8b0 });
@@ -195,10 +201,16 @@ export default {
       group.add(l);
       lights.push(l);
     }
+    // Light that scatters through and off the weave (no shadow): keeps the
+    // wall and ceiling around the shade from going black between the specks.
+    const fill = bulbLight(THREE, { candela: (opts.candela ?? 3.5) * 0.35, shadow: false });
+    fill.position.set(0, barY + inch(4.2), 0);
+    group.add(fill);
+    lights.push(fill);
 
     // Chains: 4 drops from the top ring to a hub, one chain to the canopy.
-    const hubY = HT + inch(7);
-    const topY = Math.max(hubY + inch(2), ceiling - bottom - inch(0.75));
+    const topY = ceiling - bottom - inch(0.75);
+    const hubY = Math.min(HT + inch(7), topY - inch(1.5));
     const chainMat = black;
     for (const [sx, sz] of [[-1, 1], [1, 1], [-1, -1], [1, -1]]) {
       const a = new THREE.Vector3(sx * inch(9), HT - mm(8), sz * (Wd / 2 - inch(0.4)));

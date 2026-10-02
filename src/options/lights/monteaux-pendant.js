@@ -4,7 +4,7 @@
 // kite/triangle facets closing to a small bottom octagon.  Frosted white
 // panels, antique-brass edge frame, 3 chains to a hub, rod + canopy.
 //
-// build(ctx, { hangBottomIn = 88, centreXIn = 55, centreZIn = 11,
+// build(ctx, { hangBottomIn = 100 (clamped to ceiling - 20"), centreXIn = 55, centreZIn = 11,
 //              ceilingIn = 120, shadows = true })
 // Lights: 1 shadow-casting PointLight at the cluster centre (the 3 bulbs);
 // the glass does not cast shadows (it would black out the light), only the
@@ -21,10 +21,12 @@ export default {
   build(ctx, opts = {}) {
     const { THREE } = ctx;
     const D = remodelDims(ctx);
-    const bottom = opts.hangBottomIn != null ? inch(opts.hangBottomIn) : inch(88);
+    const ceil0 = opts.ceilingIn != null ? inch(opts.ceilingIn) : D.ceiling;
+    // 18" lantern + >= 2" of chain/rod/canopy: clamp so it never enters the ceiling.
+    const bottom = Math.min(opts.hangBottomIn != null ? inch(opts.hangBottomIn) : inch(100), ceil0 - inch(20));
     const cx = opts.centreXIn != null ? inch(opts.centreXIn) : D.lightCentreX;
     const cz = opts.centreZIn != null ? inch(opts.centreZIn) : D.lightCentreZ;
-    const ceiling = opts.ceilingIn != null ? inch(opts.ceilingIn) : D.ceiling;
+    const ceiling = ceil0;
     const shadows = opts.shadows !== false;
 
     const group = new THREE.Group();
@@ -125,11 +127,13 @@ export default {
     const frame = new THREE.Mesh(mergeGeometries(parts.map((g) => g.toNonIndexed())), brass);
     parts.forEach((g) => g.dispose());
     frame.name = 'brassFrame';
-    frame.castShadow = true;
+    // Light leaves through frosted glass: the thin frame only casts a faint,
+    // wide penumbra in reality, so it does not cast here (hard lines read wrong).
+    frame.castShadow = false;
     group.add(frame);
 
     // 3 chains from the top cap to a hub, then a rod to the canopy.
-    const hubY = HT + inch(4.5);
+    const hubY = Math.min(HT + inch(4.5), ceiling - bottom - inch(1.6));
     for (let i = 0; i < 3; i++) {
       const t = (i / 3) * Math.PI * 2;
       const a = new THREE.Vector3(R * 0.36 * Math.sin(t), HT + mm(4), R * 0.36 * Math.cos(t));
@@ -154,7 +158,7 @@ export default {
       b.castShadow = false; b.name = 'bulb';
       group.add(b);
     }
-    const l = bulbLight(THREE, { candela: opts.candela ?? 8, shadow: shadows, mapSize: 1024 });
+    const l = bulbLight(THREE, { candela: opts.candela ?? 5, shadow: shadows, mapSize: 1024 });
     l.position.set(0, HT * 0.55, 0);
     group.add(l);
 

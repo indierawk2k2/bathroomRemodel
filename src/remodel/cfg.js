@@ -29,19 +29,19 @@ export function remodelDims(ctx) {
   return {
     ceiling: cfg(ctx, ['ROOM.ceiling', 'ROOM.ceilingHeight', 'ROOM.height'], inch(120)),
     wainscotTop: cfg(ctx, ['ROOM.wainscotTop', 'ROOM.wainscot.top', 'ROOM.wainscotHeight'], inch(40)),
-    capHeight: cfg(ctx, ['ROOM.wainscotCapHeight', 'ROOM.wainscot.capHeight', 'ROOM.capHeight'], inch(1.25)),
+    capHeight: cfg(ctx, ['ROOM.wainscotCapHeight', 'ROOM.wainscot.capHeight', 'ROOM.capHeight'], mm(6)),
     wainscotProud: cfg(ctx, ['ROOM.wainscotProud', 'ROOM.wainscot.proud', 'ROOM.wainscotThickness'], mm(13)),
     wainscotThinset: cfg(ctx, ['ROOM.wainscotThinset', 'ROOM.wainscot.thinset'], mm(3)),
-    accentX0: cfg(ctx, ['REMODEL.accentX0', 'REMODEL.accent.x0'], inch(36)),
-    accentX1: cfg(ctx, ['REMODEL.accentX1', 'REMODEL.accent.x1'], inch(74)),
+    accentX0: cfg(ctx, ['REMODEL.accentX0', 'REMODEL.accent.x0'], inch(30)),
+    accentX1: cfg(ctx, ['REMODEL.accentX1', 'REMODEL.accent.x1'], inch(76)),
     accentBottom: cfg(ctx, ['REMODEL.accentBottom', 'REMODEL.accent.y0'], inch(40)),
     accentTop: cfg(ctx, ['REMODEL.accentTop', 'REMODEL.accent.y1'], inch(120)),
     thinset: cfg(ctx, ['REMODEL.thinset', 'REMODEL.thinsetM'], mm(3)),
-    mirrorCentreX: cfg(ctx, ['REMODEL.mirrorCentreX', 'REMODEL.mirror.centreX', 'REMODEL.mirror.x'], inch(55)),
+    mirrorCentreX: cfg(ctx, ['REMODEL.mirrorCentreX', 'REMODEL.mirror.centreX', 'REMODEL.mirror.x'], inch(54)),
     mirrorBottom: cfg(ctx, ['REMODEL.mirrorBottom', 'REMODEL.mirror.bottom'], inch(42)),
-    lightCentreX: cfg(ctx, ['REMODEL.lightCentreX', 'REMODEL.light.x'], inch(55)),
+    lightCentreX: cfg(ctx, ['REMODEL.lightCentreX', 'REMODEL.light.x'], inch(54)),
     lightCentreZ: cfg(ctx, ['REMODEL.lightCentreZ', 'REMODEL.light.z'], inch(11)),
-    junctionX: cfg(ctx, ['REMODEL.junction.x'], inch(55)),
+    junctionX: cfg(ctx, ['REMODEL.junction.x'], inch(49.5)),
     junctionY: cfg(ctx, ['REMODEL.junction.y'], inch(40)),
     junctionZ: cfg(ctx, ['REMODEL.junction.z'], 0),
     junctionRadius: cfg(ctx, ['REMODEL.junction.radius'], inch(30)),
@@ -103,5 +103,7 @@ export function readState(state, key, fallback) {
 
 /** 2700 K-ish warm white (linear working colour). */
 export function warmWhite(THREE) {
-  return new THREE.Color().setRGB(1.0, 0.70, 0.42, THREE.SRGBColorSpace);
+  // 2700 K as the eye reads it after adapting (a camera white-balanced to
+  // daylight records ~(1, .66, .34); fully that orange looks like sodium light).
+  return new THREE.Color().setRGB(1.0, 0.78, 0.55, THREE.SRGBColorSpace);
 }

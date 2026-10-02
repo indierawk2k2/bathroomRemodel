@@ -19,7 +19,7 @@ const state = {
   scenario: 'remodel',
   tile: Q.get('tile') || 'sage-fan',
   light: Q.get('light') || 'rattan-linear',
-  transition: Q.get('transition') || 'keep-cap',
+  transition: Q.get('transition') || TRANSITIONS[0].id,
   thicknessMmOverride: Q.has('thick') ? Number(Q.get('thick')) : undefined,
   lightsOn: Q.get('on') !== '0',
   view: Q.get('view') || 'front',
@@ -124,9 +124,10 @@ const P = config.ROOM.wainscotProud;
   wainscot.position.set(W / 2, capBottom / 2, P / 2);
   wainscot.receiveShadow = true; wainscot.castShadow = true;
   room.add(wainscot);
-  // Room's own cap outside the accent span (the accent group carries its copy).
-  const capMat = new THREE.MeshStandardMaterial({ color: 0x8e8b87, roughness: 0.5 });
-  for (const [x0, x1] of [[0, config.REMODEL.accentX0], [config.REMODEL.accentX1, W]]) {
+  // The wainscot's eased top edge (light-sand lip) along the whole wall: the
+  // accent wall sits on top of it in every transition.
+  const capMat = new THREE.MeshStandardMaterial({ color: 0xc4b9a8, roughness: 0.6 });
+  for (const [x0, x1] of [[0, W]]) {
     const m = new THREE.Mesh(new THREE.BoxGeometry(x1 - x0, capTop - capBottom, P), capMat);
     m.position.set((x0 + x1) / 2, (capTop + capBottom) / 2, P / 2);
     m.castShadow = m.receiveShadow = true;
