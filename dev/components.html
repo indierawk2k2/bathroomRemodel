@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Components — loading</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #1b1d1f; font: 13px system-ui, sans-serif; color: #eee; }
+  canvas#view { display: block; width: 100vw; height: 100vh; }
+  #panel { position: fixed; top: 10px; right: 10px; background: rgba(20,22,24,0.85); padding: 10px 12px; border-radius: 8px; display: grid; gap: 6px; min-width: 250px; }
+  #panel label { display: grid; grid-template-columns: 82px 1fr; align-items: center; gap: 6px; }
+  #panel select, #panel input { font: inherit; }
+  #panel .row { display: flex; gap: 6px; flex-wrap: wrap; }
+  #panel button { font: inherit; padding: 2px 8px; }
+  #stats { opacity: 0.75; font-size: 11px; white-space: pre; }
+  #error-overlay { display: none; position: fixed; inset: 0; background: rgba(160,0,0,0.88); color: #fff; padding: 20px; font: 13px monospace; white-space: pre-wrap; z-index: 100; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<script>
+  function showErr(msg) { const o = document.getElementById('error-overlay'); if (o) { o.style.display = 'block'; o.textContent += msg + '\n'; } document.title = 'Components — ERROR'; }
+  window.onerror = (m, s, l, c, e) => showErr((e && e.stack) || m);
+  window.addEventListener('unhandledrejection', (e) => showErr('Unhandled: ' + ((e.reason && e.reason.stack) || e.reason)));
+</script>
+</head>
+<body>
+<canvas id="view"></canvas>
+<div id="panel">
+  <label>Tile <select id="tile"></select></label>
+  <label>Transition <select id="transition"></select></label>
+  <label>Light <select id="light"></select></label>
+  <label>Thickness <input id="thick" type="number" min="0" max="30" step="1" placeholder="option mm"></label>
+  <label>Lights on <input id="on" type="checkbox" checked></label>
+  <div class="row">View:
+    <button data-view="front">front</button><button data-view="junction">junction</button>
+    <button data-view="side">side</button><button data-view="mirror">mirror</button><button data-view="light">light</button>
+  </div>
+  <div id="stats"></div>
+</div>
+<div id="error-overlay"></div>
+<script type="module" src="./components.js"></script>
+</body>
+</html>
