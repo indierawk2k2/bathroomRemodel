@@ -69,23 +69,33 @@ top 30", 28" long), vanity counter 35" AFF, ceiling 120".
 
 ```
                  N (vanity wall, z = 0)
-   x=0 ─────────────────────────────────────── x=102
-   │ TUB ALCOVE │col│   VANITY    │ TOILET BAY  │
-   │ 30" wide   │6" │   36"       │   30"       │
-   │ tub z=10..70   │             │  window above│
-   │ ledge z=0..10  │             │             │
-   │                                            │
-   z=70 ──────────────────────┐    ┌────────────┤  back wall, z = 70
-          (tub end wall)      │    │ DOOR RECESS│  x = 66..102
-                              │    │ 36"w, 40"d │  z = 70..110
-                              │    │ ceiling 96"│
-                              └────┴────────────┘  door at z = 110
+   x=0 ─────────────────────────────────────────── x=102
+   │COLUMN x0-30│6"│   VANITY x36-72   │ TOILET BAY  │
+   │ TUB 30" wide  │                   │ window above│
+   │ tub z=10..70  │                   │             E door
+   │               │                   │             │ z=37..67
+   z=70 ───────────┐                   ┌─────────────┤  south wall, z = 70
+     (tub end wall)│    DOOR RECESS    │ thermostat  │
+                   │  x = 36..72       │             │
+                   │  z = 70..110      │
+                   │  ceiling 96"      │
+                   └───────────────────┘  recess door at z = 110
 ```
 
-Main room: 102" (x) by 70" (z), ceiling **120"**. Door recess: x 66–102,
-z 70–110, ceiling **96"** (soffit face at z = 70 from 96" to 120"). Tub alcove
-(x 0–36, z 0–70) has a dropped soffit at **97"**; the soffit's south face is
-flush with the alcove's back wall line (z = 70) — see photo 38 top-left.
+Main room: 102" (x) by 70" (z), ceiling **120"** everywhere in the main room
+(including over the tub). Door recess: **x 36–72**, z 70–110, ceiling **96"**
+(soffit face at z = 70 from 96" to 120").
+
+*Corrections from the photos (br-736):*
+- *There is **no 97" soffit** over the tub alcove: photos 39 and 40 show one flat
+  ceiling over tub and room. What photo 38 shows top-left is the drywall chase
+  above the tiled column, running to the ceiling.*
+- *The recess is at **x 36–72**, not 66–102: photo 49 shows a narrow (~3–5")
+  strip of wall between the tub tile panel and the recess's west jamb, photo 39
+  shows the z = 70 wall continuing east of the opening, and the doorway
+  reflected in the mirror in photo 37 is centred on the vanity.*
+- *There is a **second door on the east wall** (x = 102, z ≈ 37–67, hinges at
+  the north jamb) beside the toilet: photos 19, 20, 43.*
 
 Walls: drywall, upper paint colour **gray-sage** (~ #B8BFBB; sample from
 photos 37/20, not from shadowed areas). Door recess walls slightly lighter.
@@ -95,56 +105,93 @@ Floor: 12" x 24" dark grey-brown wood-look porcelain plank, running bond with
 1/3 offset, planks running N–S, grout ~1/8" dark grey.
 
 Wainscot (every wall except inside the tub alcove): 12" x 24" grey
-stone-look porcelain, running bond, **top of cap at 40" AFF**, tile face
-**proud of the drywall by 1/2" (13 mm)**, finished with a ~1.25" chamfered
-bullnose cap (photos 51–53). Grout light grey ~1/8".
+stone-look porcelain, running bond, **top at 40" AFF**, tile face
+**proud of the drywall by 1/2" (13 mm)**. Grout light grey ~1/8".
+Courses are laid **down from the top**: grout lines at 40, 28, 16, 4" (photo
+53: the line just above the toilet tank lid is 28").
+*Correction (br-736): there is **no separate 1.25" bullnose cap**. Photos 51–53
+show the top course finished with a factory-eased edge, a thin light-sand strip
+(~1/4") along the top of the tile. It is modelled as a 6 mm-high lip with a
+4 mm 45° chamfer (`WAINSCOT.capHeight` / `capChamfer` in config.js).*
 
 Tub alcove (x 0–36, z 0–70): tub 60" x 30" x 16" rim, white enamel, apron
 on the east side; the alcove walls are tiled floor to **85"** with the same
-12 x 24 grey tile, running bond, plus a **dark charcoal 12"-tall accent band
-with its bottom at 60"**. White drywall from 85" to the 97" soffit. Curved
-chrome curtain rod at ~78" spanning from the column (z ≈ 10) to the back wall
-(z = 70); dark grey waffle fabric curtain, hanging on the east side of the
-tub, pushed toward the back wall. Chrome shower head, valve and spout are on
-the alcove's **back** wall (z = 70): head at 78", valve at 42", spout at 22".
+12 x 24 grey tile, running bond, plus a **dark charcoal accent band from 52"
+to 61" (9" tall)**. Alcove courses share the wainscot grid (the 40" line runs
+through, photo 13). White drywall from 85" to the 120" ceiling. On the end
+wall the tile panel runs from x = 0 to **x = 33** and ends with a light eased
+edge. Curved satin-nickel curtain rod at **~81"** (flange on the column's top
+box, just below the 85" tile top; photos 13, 26) spanning from the column
+(z ≈ 10) to the end wall (z = 70); dark grey waffle fabric curtain hanging on
+the east side of the tub, bunched toward the column as in photo 37. Chrome
+shower head, valve and spout are on the alcove's end wall (z = 70): head at
+78", **valve at ~30"**, spout at ~21" (photo 13).
+*Corrections (br-736): band 60–72" → 52–61" (photo 13: the band is ~220 px
+against a 325 px 12" course, and it sits one course above the 40" line); rod
+78" → 81"; valve 42" → 30"; no soffit above the tile.*
 
-Column + ledge (between tub and vanity): a full-height tiled wall
-**x 30–36, z 0–10**, tiled on its east and south faces like the alcove
-(accent band included). Inside the alcove, a tiled ledge box **x 0–30,
-z 0–10, top at 36"** (dark charcoal bullnose edge on its top front edge;
-shampoo bottles sit on it).
+Column + ledge (north end of the alcove, photos 12, 26, 37, 40): one
+full-height built-out box **x 0–30, z 0–10**, tiled to 85" on its south and
+east faces and drywall above to the ceiling. From the floor: solid ledge to
+**36"**; open niche 36–52" (shampoo bottles, back 6" deep); **band box
+52–61"** wrapped in the dark accent tile; open niche 61–73" (blue tissue box);
+top box 73–85" carrying the curtain-rod flange. Between the column's east face
+(x = 30) and the vanity (x = 36) is a 6" strip of wainscoted vanity wall
+(photo 34).
+*Correction (br-736): the spec's separate column x 30–36 does not exist; the
+ledge's top edge is the same grey tile, not charcoal.*
 
 Vanity: cabinet **x 36–72, z 0–21, 35" tall** incl. counter; grey horizontal
-wood-grain laminate doors (two doors, one drawer top band), 1.25" white
+wood-grain laminate fronts: top band split ~8.5" / 18.5" / 9" (two small
+drawers either side of a false front), two doors below (photo 37); 1.25" white
 speckled quartz top with a 1" overhang at front, undermount oval sink
-centred at x = 54, chrome single-handle faucet. Towel ring (chrome) on the
-column's east face at 50". Toilet-paper holder on the vanity's east side.
+centred at x = 54, chrome single-handle loop faucet (photo 52). Chrome towel
+bar on the vanity's west side (photo 34). Towel ring (chrome) on the **north
+drywall at x ≈ 38.5, post at ~53"** just east of the column (photos 34, 37).
+Toilet-paper holder on the vanity's east side.
 
-Current mirror: frameless **24" x 36"**, centred x = 54, bottom at **44"**.
-Current light: chrome 2-bulb bar **16" wide**, centred x = 54, bottom at
-**80"**, frosted cylindrical shades, warm white.
+Current mirror: frameless **24" x 36"**, centred x = 54, bottom at **43"**.
+Current light: chrome 2-bulb bar **24" wide** (as wide as the mirror), centred
+x = 54, bottom at **80.5"**, two squared frosted shades either side of a small
+chrome backplate, warm white.
+*Corrections (br-736), photo 37 measured against the 24" mirror width: mirror
+bottom 44" → 43" (2.7" above the wainscot top); bar width 16" → 24"; shades
+are rectangular, not cylindrical.*
 
-Window: on the north wall, trim outer edge **x 74–98**, sill top at **42"**,
-head at **84"**; white 2.5" flat trim, 1.5" sill nose; single-hung frosted
-(obscure) glass, white sash. A small black 5x7 frame leans on the sill.
+Window: on the north wall, trim outer edge **x 76–99** (23"), stool/sill top
+at **44"**, head trim top at **90"**; white 2.5" flat trim, 1.5" sill nose,
+apron below the stool; single-hung frosted (obscure) glass, white sash. A small
+black 5x7 frame leans on the sill.
+*Correction (br-736): photo 37 shows the trim ~2:1 tall (23" x 46"), its right
+edge ~3" from the east wall corner and its stool ~4" above the wainscot top
+(photo 53); was x 74–98, sill 42", head 84".*
 
-Toilet: elongated, white, tank against the north wall, centred **x = 87**.
+Toilet: elongated, white, tank against the north wall, centred **x = 87.5**
+(under the window centre, photo 37).
 
 Door recess: walls wainscoted; gray flat-panel door **30" x 80"** with four
-horizontal grooves, gray jamb, satin-nickel lever; door at z = 110, opening
+horizontal grooves, gray jamb, satin-nickel lever; door at z = 110, slab
+x 40–70 (its east casing touches the recess's east wall, photo 48), opening
 into the bathroom (hinges on the east side) — model it closed. Framed flower
-photo (black frame, ~16" x 16") on the recess's **west** wall at x = 66,
-centred z = 90, 60" AFF. Thermostat / timer and a 2-gang switch on the main
-room's **east** wall near the recess (x = 102, z ≈ 60), 48–60" AFF. One
-recessed ceiling can (4") at (x = 72, z = 40); exhaust vent grille 8" x 8" at
-(x = 50, z = 40).
+photo (black frame, ~16" x 16") on the recess's **west** wall at **x = 36**,
+centred z = 90, 60" AFF; a single switch on the same wall by the jamb
+(z ≈ 73.5, 47", photo 47). Thermostat (centre ~58") and a 2-gang switch
+(~47") on the **z = 70 wall just east of the recess opening** (x ≈ 77–80,
+facing north; photos 44, 49). East-wall door: same slab style, z 37–67,
+hinges at the north jamb. One recessed ceiling can (~5") over the tub at
+(x = 18, z = 40); exhaust vent grille ~10" x 10" at (x = 54, z = 34)
+(photos 38–40).
 
-Outlets: GFCI on the vanity wall at x = 72, 46" AFF (photo 52); another left
-of the window at x = 76, 46" (photo 54).
+Outlets: one GFCI on the vanity wall at **x ≈ 68.5, centre 43.5"** AFF, between
+the mirror and the window (photos 37, 52, 53 all show the same outlet).
+*Corrections (br-736): thermostat/switch wall, can position (was x 72), vent
+position, outlet height 46" → 43.5"; the second outlet of photo 54 could not
+be placed from the photos and is not modelled.*
 
 ## 4. Remodel scenario
 
-Accent region on the north wall: **x 36–74, y 40–120** (from the top of the
+Accent region on the north wall: **x 30–76, y 40–120** (column tile edge to
+window trim edge after the br-736 corrections) (from the top of the
 wainscot cap to the ceiling; height configurable in the UI). The tile /
 wallpaper sits on the drywall plane; its finished face is proud of drywall
 by `thickness + 3 mm` thinset (wallpaper: 0).

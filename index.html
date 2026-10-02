@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bathroom Viewer — loading</title>
+<script>
+  // Error overlay first, so even a failed CDN import shows up red.
+  (function () {
+    function show(msg) {
+      var el = document.getElementById('error-overlay');
+      if (!el) { document.addEventListener('DOMContentLoaded', function () { show(msg); }); return; }
+      el.style.display = 'block';
+      el.textContent += msg + '\n';
+      document.title = 'Bathroom Viewer — error';
+    }
+    window.__showError = show;
+    window.onerror = function (m, src, line, col, err) {
+      show('Error: ' + m + (src ? '  (' + src + ':' + line + ')' : '') + (err && err.stack ? '\n' + err.stack : ''));
+    };
+    window.addEventListener('unhandledrejection', function (e) {
+      var r = e.reason;
+      show('Unhandled rejection: ' + (r && (r.stack || r.message) || r));
+    });
+  })();
+</script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+  }
+}
+</script>
+<style>
+  :root { --bg: rgba(22, 24, 26, 0.82); --fg: #e8eae8; --dim: #9aa19c; --acc: #9fc2a8; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #111; font: 13px/1.35 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--fg); }
+  #view { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; touch-action: none; cursor: grab; }
+  #view:active { cursor: grabbing; }
+  #ui { position: fixed; top: 12px; right: 12px; width: 268px; max-height: calc(100vh - 24px); overflow: auto;
+        background: var(--bg); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px 12px; backdrop-filter: blur(6px); }
+  #ui.hidden, .hidden { display: none !important; }
+  #ui h1 { font-size: 13px; margin: 0 0 8px; font-weight: 600; letter-spacing: .02em; display: flex; justify-content: space-between; align-items: center; }
+  #ui h1 small { color: var(--dim); font-weight: 400; }
+  .row { margin: 7px 0; }
+  .row > label { display: block; color: var(--dim); font-size: 11px; margin-bottom: 3px; text-transform: uppercase; letter-spacing: .05em; }
+  .row > label output { float: right; color: var(--fg); text-transform: none; letter-spacing: 0; }
+  select, input[type=range] { width: 100%; box-sizing: border-box; }
+  select { background: #2a2d2f; color: var(--fg); border: 1px solid #444; border-radius: 6px; padding: 4px 6px; }
+  .seg { display: flex; gap: 4px; }
+  .seg button, #presets button, #btn-hide { flex: 1; background: #2a2d2f; color: var(--fg); border: 1px solid #444; border-radius: 6px; padding: 5px 6px; cursor: pointer; font: inherit; }
+  .seg button.on { background: var(--acc); color: #111; border-color: var(--acc); }
+  #presets { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+  #presets button { text-align: left; }
+  #btn-hide { width: 100%; margin-top: 4px; }
+  .help { color: var(--dim); font-size: 11px; margin-top: 8px; }
+  #fps-box { position: fixed; left: 12px; top: 12px; background: var(--bg); padding: 3px 8px; border-radius: 6px; font: 12px ui-monospace, Menlo, monospace; }
+  #gamepad-badge { position: fixed; left: 12px; top: 40px; background: var(--bg); padding: 3px 8px; border-radius: 6px; font-size: 12px; }
+  #ui-show-hint { position: fixed; right: 12px; top: 12px; color: var(--dim); font-size: 11px; background: var(--bg); padding: 3px 8px; border-radius: 6px; }
+  #error-overlay { display: none; position: fixed; left: 0; right: 0; bottom: 0; max-height: 50vh; overflow: auto; margin: 0;
+        background: rgba(170, 16, 16, 0.94); color: #fff; font: 12px/1.4 ui-monospace, Menlo, monospace; padding: 10px 14px; white-space: pre-wrap; z-index: 10; }
+  #loading { position: fixed; inset: 0; display: grid; place-items: center; color: var(--dim); pointer-events: none; }
+</style>
+</head>
+<body>
+<canvas id="view"></canvas>
+<div id="loading">Loading bathroom…</div>
+
+<div id="fps-box"><span id="fps">–</span> fps</div>
+<div id="gamepad-badge" class="hidden">🎮 connected</div>
+<div id="ui-show-hint" class="hidden">H: show UI</div>
+
+<div id="ui">
+  <h1>Bathroom Remodel <small>H hides</small></h1>
+  <div class="row">
+    <label>Scenario</label>
+    <div class="seg"><button id="scn-current">Current</button><button id="scn-remodel">Remodel</button></div>
+  </div>
+  <div class="row"><label for="sel-tile">Tile / wallpaper</label><select id="sel-tile"></select></div>
+  <div class="row"><label for="sel-light">Light</label><select id="sel-light"></select></div>
+  <div class="row"><label for="sel-transition">Transition at wainscot</label><select id="sel-transition"></select></div>
+  <div class="row">
+    <label for="rng-accentTop">Accent top <output id="rng-accentTop-val"></output></label>
+    <input id="rng-accentTop" type="range" min="60" max="120" step="1">
+  </div>
+  <div class="row">
+    <label for="rng-mirrorBottom">Mirror bottom <output id="rng-mirrorBottom-val"></output></label>
+    <input id="rng-mirrorBottom" type="range" min="36" max="56" step="0.5">
+  </div>
+  <div class="row">
+    <label for="rng-lightHang">Light hang (bottom) <output id="rng-lightHang-val"></output></label>
+    <input id="rng-lightHang" type="range" min="72" max="108" step="0.5">
+  </div>
+  <div class="row">
+    <label for="rng-tileThk">Tile thickness override <output id="rng-tileThk-val"></output></label>
+    <input id="rng-tileThk" type="range" min="0" max="20" step="0.5">
+  </div>
+  <div class="row"><label>Camera presets</label><div id="presets"></div></div>
+  <button id="btn-hide">Hide UI (H)</button>
+  <div class="help">WASD move · arrows / drag look · Q/E down/up · Shift fast · 1–6 presets<br>
+    Gamepad: sticks move/look · LT/RT down/up · A light · B tile · Y scenario · Start UI</div>
+</div>
+
+<pre id="error-overlay"></pre>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
