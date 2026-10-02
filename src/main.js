@@ -175,7 +175,12 @@ async function boot() {
     const L = state.night ? NIGHT : DAY;
     if (sun) sun.intensity = L.sun;
     if (area) area.intensity = L.area;
-    if (glassMat) { glassMat.emissiveIntensity = L.glass; glassMat.emissive.set(L.glassColor); }
+    if (glassMat) {
+      glassMat.emissiveIntensity = L.glass;
+      glassMat.emissive.set(L.glassColor);
+      // at night the obscure glass shows the dark outside, not a lit white pane
+      glassMat.color.setScalar(state.night ? 0.22 : 1);
+    }
     scene.environmentIntensity = L.env;
     const on = state.lightsOn !== false;
     for (const l of barLights) l.intensity = on ? l.userData.baseIntensity : 0;

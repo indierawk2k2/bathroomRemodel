@@ -98,7 +98,7 @@ function drawInset(canvas, J, title) {
   g.lineTo(X(P - sk), Y(J.capBottom)); g.closePath(); g.fill();
   if (J.hasStrip) {
     rect(0, J.strip.depth, J.capTop, J.capTop + J.strip.face, '#e2e2dc', '#77776f');
-    rect(J.buildOut, J.buildOut + J.strip.leg, J.capTop + J.strip.face, J.capTop + 0.019, '#e2e2dc');
+    if (J.thinset > 0) rect(J.buildOut, J.buildOut + Math.min(J.strip.leg, J.thinset - 0.0005), J.capTop + J.strip.face, J.capTop + J.strip.face + 0.019, '#e2e2dc');
   }
   if (J.joint > 0) rect(0, Math.max(Math.min(J.face, P) - 0.0003, 0.0006), J.capTop, J.capTop + J.joint, (J.option && J.option.groutColor) || '#dedcd6', '#8a8780');
   // New build-up

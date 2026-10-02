@@ -183,10 +183,16 @@ export function buildAccentWall(ctx, opts = {}) {
     const band = keep(new THREE.BoxGeometry(x1 - x0, J.strip.face, d));
     const bandM = new THREE.Mesh(band, nickel);
     bandM.position.set((x0 + x1) / 2, J.capTop + J.strip.face / 2, d / 2);
-    const leg = keep(new THREE.BoxGeometry(x1 - x0, inch(0.75), J.strip.leg));
-    const legM = new THREE.Mesh(leg, nickel);
-    legM.position.set((x0 + x1) / 2, J.capTop + inch(0.375), Math.max(J.buildOut, 0) + J.strip.leg / 2);
-    for (const m of [bandM, legM]) { m.castShadow = m.receiveShadow = true; m.name = 'schluterStrip'; group.add(m); }
+    const parts = [bandM];
+    if (J.thinset > 0) {
+      // perforated anchoring leg, buried in the thinset behind the new tile
+      const lt = Math.min(J.strip.leg, J.thinset - mm(0.5));
+      const leg = keep(new THREE.BoxGeometry(x1 - x0, inch(0.75), lt));
+      const legM = new THREE.Mesh(leg, nickel);
+      legM.position.set((x0 + x1) / 2, J.capTop + J.strip.face + inch(0.375), J.buildOut + lt / 2);
+      parts.push(legM);
+    }
+    for (const m of parts) { m.castShadow = m.receiveShadow = true; m.name = 'schluterStrip'; group.add(m); }
   }
   if (J.joint > 0) {
     // Colour-matched caulk bead in the joint between the old edge and the
