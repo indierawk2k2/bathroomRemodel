@@ -55,3 +55,40 @@ unmodified download.
   is 2400 rows. Inside it, the line drawing repeats every 500 x 300 px. The
   worn / patina overlay repeats only at the full 2000 x 2400 px.
   Arches are about 250 px = 12.5 cm (4.9") wide.
+
+## Debona Crystal Trellis, Blue / Silver (8894), via World of Wallpaper DEB052
+
+- Retail page (the owners' link):
+  https://www.worldofwallpaper.com/us/crystal-trellis-wallpaper-blue-silver-debona-8894.html
+  ("Crystal Trellis Wallpaper Blue / Silver Debona 8894", SKU DEB052). The
+  page was read in Chrome on 2026-10-01. It describes a metallic silver
+  fretwork trellis on a midnight-blue ground "infused with sparkling glitter
+  particles", with a textured lined finish like gathered silk. "High
+  quality textured wallpaper": **10.05 m x 53 cm roll, 16 cm pattern
+  repeat, offset pattern match**, paste the paper, **washable**.
+- Other stockists: B&Q (https://www.diy.com/departments/debona-crystal-trellis-navy-wallpaper-8894/5060119353966_BQ.prd,
+  EAN 5060119353966) gives the same specs: 160 mm repeat, offset match,
+  10.05 x 0.53 m, washable, 1020 g. B&Q also says "suitable for any room
+  except bathrooms and kitchens". wallpapersales.co.uk says 18 cm repeat;
+  the artwork measures 16 cm. Debona has no retail site of its own.
+- `debona-crystal-trellis-navy-wallpaper-8894~5060119353966_01c_MP.jpg`,
+  1502 x 1814, from
+  https://media.diy.com/is/image/KingfisherDigital/debona-crystal-trellis-navy-wallpaper-8894~5060119353966_01c_MP?scl=1&qlt=100
+  (Scene7 at native scale; `?req=imageprops` reports 1502 x 1814; Referer
+  = the B&Q page). This is B&Q's flat image. **This is the texture source.**
+  Its aspect ratio is 53 : 64, so it is one roll width x 4 repeats, at
+  0.353 mm/px. A mask autocorrelation gives the exact period
+  751 x 907 px (0.9997). Lanterns are 375.5 px = 13.25 cm wide in rows
+  453.5 px = 16 cm apart, with alternate columns dropped half a row, so
+  4 lanterns fill the roll width. The trellis therefore runs on across the
+  strips when they are matched; a literal 8 cm half-drop would break it.
+  The crinkle texture in the ground repeats with the trellis.
+- `deb052_crystal_trellis_wallpaper_navy_silver_ae1.jpg`, 1200 x 1200, from
+  https://www.worldofwallpaper.com/media/catalog/product/d/e/deb052_crystal_trellis_wallpaper_navy_silver_ae1.jpg
+  (World of Wallpaper's flat image, the original without the Magento
+  `/cache/<hash>/` path). It is the top of the same artwork scaled 0.8x
+  (mask correlation 0.99 at zero offset, ground high-pass 0.98). It is
+  graded lighter: silver sRGB 153 vs 116, ground 22,34,59 vs 18,27,51.
+  The retailer's room scene (`..._ae2.jpg`, not kept) shows silver
+  about 120, closer to B&Q, so the texture uses B&Q's colours. This file is
+  kept as the identity and colour reference.

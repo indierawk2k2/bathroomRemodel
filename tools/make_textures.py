@@ -44,7 +44,7 @@ ORDER = [
     "wall_paint", "rattan", "wood_frame", "frosted_glass", "curtain",
     "tile_sage_fan", "tile_white_subway_stacked", "wallpaper_sample",
     "door_slab", "wallpaper_cole_son_feather_fan_soft_olive",
-    "wallpaper_rebel_walls_ripple_blue",
+    "wallpaper_rebel_walls_ripple_blue", "wallpaper_debona_crystal_trellis_blue_silver",
 ]
 
 # --------------------------------------------------------------------------
@@ -977,6 +977,57 @@ def tex_wallpaper_rebel_walls_ripple_blue():
                  color=lin2hex(small.reshape(-1, 3).mean(0)))
 
 
+def tex_wallpaper_debona_crystal_trellis_blue_silver():
+    """Debona Crystal Trellis, Blue / Silver 8894 (World of Wallpaper DEB052,
+    B&Q 5060119353966).  Roll 0.53 m x 10.05 m, pattern repeat 16 cm,
+    "offset" match.  Source: B&Q's 1502 x 1814 flat (the Scene7 original,
+    scl=1) = one roll width (53 cm) x 4 repeats (64 cm), 0.353 mm/px.  World
+    of Wallpaper's 1200 px flat is the top of the same artwork scaled 0.8x.
+    Autocorrelation of the trellis mask: 0.9997 at (0, 751) and (907, 0)
+    px; lanterns are 375.5 px (13.25 cm) wide, rows 453.5 px (16 cm) apart,
+    alternate columns dropped half a row.  The crinkled "gathered silk"
+    ground repeats with the trellis (0.95 luminance correlation).  Four
+    lanterns fit the roll width exactly, so the strips butt with the lattice
+    continuous: the whole image is the texture, unchanged (2 x 2 of the
+    751 x 907 px tile, which is seamless when wrapped).
+    Finish: metallic silver trellis ink (slightly raised, satin metal) on a
+    matte midnight-blue textured ground with sparse glitter flecks.  The
+    roughness PNG carries roughness in R/G and metalness in B (Three.js reads
+    metalness from B), so the option uses it as both maps."""
+    fname = "debona-crystal-trellis-navy-wallpaper-8894~5060119353966_01c_MP.jpg"
+    src = wallpaper_src(fname)
+    assert src.shape[:2] == (1814, 1502), src.shape
+    lin = s2l(src)
+    H, W = lin.shape[:2]
+    size = (0.53, 0.64)                                  # 1 roll width x 4 x 16 cm repeats
+    px_mm = size[1] * 1000 / H                           # 0.353 mm / px
+    Ls = src.mean(2)                                     # sRGB: ground ~0.11, silver ~0.45
+    ink = smoothstep(0.24, 0.36, gblur(Ls, 0.6, wrap=True))   # 1 = silver trellis
+    ground = 1 - ink
+    # crinkle relief of the ground (its printed shading), trellis ink raised ~0.03 mm
+    L = np.log(lum(lin) + 1e-3)
+    hp = L - gblur(L, 8, wrap=True)
+    hp = gblur(hp * ground, 0.7, wrap=True)
+    hp /= hp[ground > 0.5].std() + 1e-9
+    h = 0.03 * hp + 0.03 * gblur(ink, 1.2, wrap=True) + paper_height((H, W), 831, 0.006)
+    # sparse glitter flecks in the ground: ~0.4 % of texels, about 1 px across;
+    # mip-mapping averages them into a faint lift of the ground sheen at distance
+    rng = np.random.default_rng(832)
+    fleck = gblur((rng.random((H, W)) > 0.996).astype(np.float64), 0.6, wrap=True)
+    fleck = np.clip(fleck / (fleck.max() + 1e-9), 0, 1) * ground
+    grain = gblur(rng.standard_normal((H, W)), 1, wrap=True)
+    rough = np.clip(0.66 * ground + 0.38 * ink - 0.30 * fleck + 0.02 * grain, 0, 1)
+    metal = np.clip(0.45 * ink + 0.35 * fleck, 0, 1)
+    name = "wallpaper_debona_crystal_trellis_blue_silver"
+    e = entry(name, lin, size, normal_map(h, px_mm))
+    rm = np.round(np.clip(np.stack([rough, rough, metal], -1), 0, 1) * 255).astype(np.uint8)
+    e["roughnessMap"] = _save(Image.fromarray(rm), f"{name}_rough.png", optimize=True)   # B = metalness
+    e.update(source="assets/source/wallpapers/" + fname, rollWidthM=0.53, patternRepeatM=0.16,
+             match="offset (lattice continuous across strips)", metalnessInRoughnessB=True,
+             color=lin2hex(lin.reshape(-1, 3).mean(0)))
+    return e
+
+
 BUILDERS = {
     "floor_plank": tex_floor_plank,
     "wainscot": tex_wainscot,
@@ -994,6 +1045,7 @@ BUILDERS = {
     "door_slab": tex_door_slab,
     "wallpaper_cole_son_feather_fan_soft_olive": tex_wallpaper_cole_son_feather_fan_soft_olive,
     "wallpaper_rebel_walls_ripple_blue": tex_wallpaper_rebel_walls_ripple_blue,
+    "wallpaper_debona_crystal_trellis_blue_silver": tex_wallpaper_debona_crystal_trellis_blue_silver,
 }
 
 

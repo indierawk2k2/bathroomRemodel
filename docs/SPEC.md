@@ -381,6 +381,12 @@ Tile / wallpaper options (registry):
 - `wallpaper-rebel-walls-ripple-blue`: Rebel Walls Ripple Blue R19317,
   printed to wall size, but a repeating design with a 1.00 x 1.20 m pattern
   tile, matte non-woven (br-ukz).
+- `wallpaper-debona-crystal-trellis-blue-silver`: Debona Crystal Trellis
+  8894 Blue / Silver (World of Wallpaper DEB052), roll 0.53 x 10.05 m, 16 cm
+  repeat, "offset" match (four lanterns per roll width, so the trellis runs
+  on across the strips); texture = one roll width x 4 repeats (0.53 x
+  0.64 m); satin metallic trellis (metalness in the roughness map's B
+  channel) on a matte textured ground with glitter flecks (br-oc9).
 
 ## 5. Viewer
 
@@ -488,8 +494,9 @@ texture repeat so `textures.js` can compute `repeat` for any surface size.
 Required texture names (section 7): `floor_plank`, `wainscot`, `accent_band`,
 `vanity_wood`, `quartz`, `wall_paint`, `rattan`, `wood_frame`, `frosted_glass`,
 `curtain`, `tile_sage_fan`, `tile_white_subway_stacked`, `wallpaper_sample`,
-`door_slab`; product wallpapers add `wallpaper_cole_son_feather_fan_soft_olive`
-and `wallpaper_rebel_walls_ripple_blue` (from `assets/source/wallpapers/`).
+`door_slab`; product wallpapers add `wallpaper_cole_son_feather_fan_soft_olive`,
+`wallpaper_rebel_walls_ripple_blue` and
+`wallpaper_debona_crystal_trellis_blue_silver` (from `assets/source/wallpapers/`).
 
 ## 7. Textures
 
