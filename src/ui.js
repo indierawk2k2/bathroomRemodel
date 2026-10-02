@@ -78,13 +78,17 @@ export function buildUI({ state, controls, presets, applyPreset, quality }) {
 
   // ---- sliders.  The light-height slider follows the selected light: a
   // ceiling fixture sets its hang (bottom) height, a wall fixture its centre.
+  // The distance-from-wall slider only applies to ceiling fixtures.  Each
+  // light's defaults come from its option (src/remodel/index.js applies them
+  // when the light changes).
   const lightMount = () => lists().light.find((o) => o.id === state.light)?.mount || 'ceiling';
-  const HANG = { key: 'lightHangBottomIn', label: 'Light hang (bottom)', min: 78, max: 110, step: 0.5 };
+  const HANG = { key: 'lightHangBottomIn', label: 'Light hang (bottom)', min: 60, max: 110, step: 0.5 };
   const WALL = { key: 'sconceCentreIn', label: 'Sconce height (centre)', min: 56, max: 80, step: 0.5 };
   const sliders = [
     { id: 'rng-accentTop', key: 'accentTopIn', fmt: (v) => `${v}"` },
     { id: 'rng-mirrorBottom', key: 'mirrorBottomIn', fmt: (v) => `${v}"` },
     { id: 'rng-lightHang', key: () => (lightMount() === 'wall' ? WALL : HANG).key, fmt: (v) => `${v}"`, light: true },
+    { id: 'rng-lightFromWall', key: 'lightFromWallIn', fmt: (v) => `${v}"` },
     { id: 'rng-tileThk', key: 'tileThicknessMmOverride', fmt: (v) => (v == null ? 'auto' : `${v} mm`), nullAtZero: true },
   ];
   const keyOf = (s) => (typeof s.key === 'function' ? s.key() : s.key);
@@ -140,6 +144,7 @@ export function buildUI({ state, controls, presets, applyPreset, quality }) {
     if (quality && selQ.value !== state.quality) selQ.value = state.quality;
     const L = lightMount() === 'wall' ? WALL : HANG;
     lightLabel.firstChild.textContent = L.label + ' ';
+    $('row-lightFromWall').classList.toggle('hidden', lightMount() === 'wall');
     Object.assign(sliders[2].el, { min: L.min, max: L.max, step: L.step });
     for (const s of sliders) {
       const v = state[keyOf(s)];

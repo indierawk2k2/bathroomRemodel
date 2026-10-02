@@ -1,7 +1,10 @@
 // The owner's oval mirror (photos 08-10): 56" tall x 23" wide overall,
 // 1.5"-wide x 3/4"-deep cherry/mahogany frame with an eased outer edge and a
 // small inner bead, real planar reflection (Reflector) clipped to the oval,
-// backing board, and black steel pivot brackets on each side.
+// backing board.  It hangs flat on the wall like a framed picture (hidden
+// wire / felt bumpers, frame back 3/16" off the finished face): the black
+// steel arms in photos 08-10 belong to the TV-stand mount it sits on today,
+// not to the mirror, so they are not modelled.
 //
 //   buildOvalMirror(ctx, { bottomIn = 42, centreXIn = 55, surfaceOffsetM = 0,
 //                          heightIn = 56, widthIn = 23,
@@ -57,7 +60,7 @@ export function buildOvalMirror(ctx, opts = {}) {
   const cx = opts.centreXIn != null ? inch(opts.centreXIn) : D.mirrorCentreX;
   const surface = opts.surfaceOffsetM ?? 0;
   const FW = inch(1.5), FD = inch(0.75), BEV = mm(3.5);
-  const STANDOFF = inch(0.375);        // bracket gap between backing and wall
+  const STANDOFF = inch(0.1875);       // felt bumpers: frame back 3/16" off the wall
   const a = W / 2, b = H / 2;          // outer semi-axes
   const ai = a - FW, bi = b - FW;      // inner (sight) semi-axes
 
@@ -100,7 +103,7 @@ export function buildOvalMirror(ctx, opts = {}) {
     for (let i = 0; i < p.count; i++) {
       const x = p.getX(i), y = p.getY(i);
       if (!woodTex) { uv.setXY(i, x / W + 0.5, y / H + 0.5); continue; }
-      const t = Math.atan2(y / b, x / a);                      // seam at the west bracket
+      const t = Math.atan2(y / b, x / a);                      // seam at the west side
       // across the grain: distance out from the centre line, plus depth, so
       // the side walls and bevels unroll at true scale too
       const r = (Math.hypot(x / a, y / b) - 1) * meanR - p.getZ(i);
@@ -182,42 +185,39 @@ export function buildOvalMirror(ctx, opts = {}) {
     group.add(m);
   }
 
-  // ---- pivot brackets (black steel) at mid-height, each side --------------
+  // ---- contact shadow on the wall --------------------------------------
+  // The mirror hangs flat like a framed picture: a hidden wire on the back,
+  // felt bumpers holding the frame STANDOFF off the finished face, and the
+  // backing board (above) closing that gap so no light shows behind it.
+  // Point-light shadow maps are far too coarse to resolve a 3/16" gap, so the
+  // frame's contact shadow is a soft dark ring drawn on the wall just outside
+  // the frame (vertex alpha, darkest where the frame meets the wall), offset
+  // a touch downwards because the light comes from above.
   {
-    const steel = keep(new THREE.MeshPhysicalMaterial({ color: 0x141414, metalness: 0.6, roughness: 0.45, clearcoat: 0.3 }));
-    const plateH = inch(5), plateW = inch(1.1), plateT = inch(0.16);
-    const armDepth = STANDOFF + FD * 0.5;     // wall -> pivot at mid-depth of frame
-    // Wall plate: tapered (wider at the screw ends) like photo 08.
-    const ps = new THREE.Shape();
-    ps.moveTo(-plateW / 2, -plateH / 2); ps.lineTo(plateW / 2, -plateH / 2);
-    ps.lineTo(plateW * 0.32, 0); ps.lineTo(plateW / 2, plateH / 2);
-    ps.lineTo(-plateW / 2, plateH / 2); ps.lineTo(-plateW * 0.32, 0); ps.closePath();
-    const plateGeo = keep(new THREE.ExtrudeGeometry(ps, { depth: plateT, bevelEnabled: true, bevelThickness: mm(0.6), bevelSize: mm(0.6), bevelSegments: 1 }));
-    const armGeo = keep(new THREE.BoxGeometry(plateT, inch(1.6), armDepth));
-    const knobGeo = keep(new THREE.CylinderGeometry(inch(0.32), inch(0.32), inch(0.3), 24));
-    knobGeo.rotateZ(Math.PI / 2);
-    const screwGeo = keep(new THREE.CylinderGeometry(inch(0.12), inch(0.12), mm(1.5), 12));
-    screwGeo.rotateX(Math.PI / 2);
-    const screwMat = keep(new THREE.MeshStandardMaterial({ color: 0x2a2a2a, metalness: 0.8, roughness: 0.35 }));
-    for (const side of [-1, 1]) {
-      const bx = side * (a + inch(0.45));
-      const br = new THREE.Group();
-      br.name = side < 0 ? 'bracketWest' : 'bracketEast';
-      const plate = new THREE.Mesh(plateGeo, steel);
-      plate.position.set(bx, 0, 0);
-      const arm = new THREE.Mesh(armGeo, steel);
-      arm.position.set(bx - side * plateW * 0.1, 0, armDepth / 2);
-      const knob = new THREE.Mesh(knobGeo, steel);
-      knob.position.set(side * (a + inch(0.15)), 0, armDepth);
-      br.add(plate, arm, knob);
-      for (const sy of [-1, 1]) {
-        const sc = new THREE.Mesh(screwGeo, screwMat);
-        sc.position.set(bx, sy * plateH * 0.38, plateT + mm(1));
-        br.add(sc);
+    const rings = [[-0.25, 0.8], [0.0, 0.7], [0.08, 0.5], [0.2, 0.26], [0.4, 0.09], [0.7, 0]];   // [inches out, alpha]
+    const SEG = 192, P = [], C = [], I = [];
+    rings.forEach(([d, al], r) => {
+      for (let i = 0; i < SEG; i++) {
+        const t = (i / SEG) * Math.PI * 2;
+        P.push((a + inch(d)) * Math.cos(t), (b + inch(d)) * Math.sin(t) - inch(0.12), mm(0.6));
+        C.push(0, 0, 0, al);
+        if (r > 0) {
+          const j = (i + 1) % SEG, o = (r - 1) * SEG, n = r * SEG;
+          I.push(o + i, n + i, n + j, o + i, n + j, o + j);
+        }
       }
-      br.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
-      group.add(br);
-    }
+    });
+    const g = keep(new THREE.BufferGeometry());
+    g.setAttribute('position', new THREE.Float32BufferAttribute(P, 3));
+    g.setAttribute('color', new THREE.Float32BufferAttribute(C, 4));
+    g.setIndex(I);
+    const m = new THREE.Mesh(g, keep(new THREE.MeshBasicMaterial({
+      vertexColors: true, transparent: true, depthWrite: false, toneMapped: false,
+      polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2,
+    })));
+    m.name = 'mirrorContactShadow';
+    m.renderOrder = 1;
+    group.add(m);
   }
 
   group.userData.reflector = reflector;

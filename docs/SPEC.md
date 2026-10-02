@@ -11,7 +11,7 @@ is today, plus a "remodel" scenario that:
 
 - removes the current frameless mirror and 2-bulb light bar;
 - hangs the owner's **oval wood-framed mirror (56" tall x 23" wide)** vertically
-  over the vanity;
+  over the vanity, flat on the wall like a framed picture;
 - tiles / wallpapers the vanity wall **only** between the tub-column tile edge
   (left) and the window trim edge (right), from the top of the existing
   wainscot to the ceiling;
@@ -58,7 +58,9 @@ Key reference photos:
 - 41, 42, 53, 54 the window, sill, outlet, trim.
 - 51, 52, 53 **close-ups of the wainscot cap / drywall / mirror junction**.
 - 43, 44, 47 switches, thermostat, door.
-- 08, 09, 10 the oval mirror (56" x 23", wood frame, black pivot brackets).
+- 08, 09, 10 the oval mirror (56" x 23", wood frame). The black steel arms in
+  these photos are the TV-stand mount it sits on in a corner today, not part
+  of the mirror; it will hang like a picture, so they are not modelled.
 - 00 rattan linear chandelier; 05, 06, 07 Monteaux faceted glass pendant;
   02, 03, 04 brass ribbed-glass sconces (Harlan) + exposed-bulb (Rexburg);
   01 tile display — the owner's pictured tile option is the **Daltile
@@ -226,26 +228,41 @@ The towel ring and the vanity GFCI (both inside the accent span) move out to
 the new finished face in the remodel and back to the drywall in current.
 
 Oval mirror: 56" tall x 23" wide, 1.5" cherry/mahogany wood frame, 3/4" deep,
-black steel pivot brackets on each side (photos 9, 10), hung with its centre
-on the sink at **x = 54** (was 55) and its bottom at 42" (configurable), so
-it spans 42"–98". It is mounted on the accent's finished face. The glass is a
+hung **flat like a framed picture** (hidden wire, felt bumpers: frame back
+3/16" off the finished face, backing board closing the gap; no visible
+hardware from the front or the side), with a thin soft contact shadow drawn on
+the wall round the frame. Its centre is on the sink at **x = 54** (was 55) and
+its bottom at 42" (configurable), so it spans 42"–98" (x 42.5"–65.5"). It is
+mounted on the accent's finished face. The glass is a
 real planar reflection (`three/addons/objects/Reflector.js`) clipped to the
 oval; its render target is sized to the view aspect and rendered once per
 frame (also with the post-processing passes).
 
 Lights (each option replaces the current light bar; the recessed can stays).
-Hanging fixtures: centre x = 54, z = 11 (≈ 11" off the wall), default
-bottom **100"** (slider 78–110"; 2" above the mirror top), each clamped so it
-never enters the ceiling. Wall fixtures (`mount: 'wall'`): the slider sets the
-glass centre (default **66"**, 56–80").
+Each light option carries its own placement defaults (`defaultHangBottomIn`,
+`defaultFromWallIn`, `defaultMountCentreIn`); picking a light moves its
+sliders to those defaults unless the user already moved that slider for that
+light in this session.
+Hanging fixtures: centre x = 54, hung **below the mirror top** so that from
+the door they read as a layer in front of the mirror and show in its
+reflection, with the bottom kept above ~74" so a person at the sink still
+sees their face. "Light hang (bottom)" slider 60–110" and "Light distance from
+wall" slider 6–36" (fixture centre off the finished face); each fixture clamps
+itself so it never enters the ceiling. Wall fixtures (`mount: 'wall'`): the
+height slider sets the glass centre (56–80"); the distance slider is hidden.
 - `rattan-linear`: Adara-style 4-light oval rattan linear chandelier,
   ~32" x 12" x 10", black frame, natural rattan weave (texture pack + alpha
-  map, so the weave throws dappled shadows), on chains.
+  map, so the weave throws dappled shadows), on chains. Default bottom
+  **80"** (body 80–90"), **14"** off the wall.
 - `monteaux-pendant`: Monteaux 3-light faceted frosted-glass polyhedron
-  pendant, ~16" dia x 18" tall, antique brass frame.
+  pendant, ~16" dia x 18" tall, antique brass frame; the frosted panels glow
+  brightest at bulb height and fall off towards the caps. Default bottom
+  **76"** (lantern 76–94", below the mirror top), **16"** off the wall.
 - `harlan-sconces`: pair of brass 2-light sconces with ribbed clear-glass
-  cylinders, 4.25" x 14", at **x = 54 ± 18"** (glass at x 33.9–38.1 and
-  69.9–74.1: 3.4" clear of the mirror's pivot brackets, inside x 30–76).
+  cylinders, 4.25" x 14", each centred in its strip of accent wall between
+  the mirror frame and the accent edge: **x = 36.25" and 70.75"** (54 − 17.75
+  / 54 + 16.75; glass 4.1" / 3.1" clear of the frame and inside x 30–76).
+  Default glass centre **64"** (glass 57–71").
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,
@@ -291,10 +308,11 @@ Tile / wallpaper options (registry):
   (Current / Remodel), Day / Night, Light on / off, Tile/Wallpaper select,
   Light select, Transition select (with a one-line description), sliders:
   accent top height, mirror bottom height, light height (hang bottom for
-  ceiling fixtures, centre for sconces), tile thickness override; Quality
+  ceiling fixtures, centre for sconces), light distance from wall (ceiling
+  fixtures only), tile thickness override; Quality
   select; FPS counter with the quality level; "Hide UI" (H).
 - URL hash: `preset`, `scenario`, `tile`, `light`, `transition`, `night`,
-  `lights`, `top`, `mirror`, `hang`, `sconce`, `thick`, `q`, `auto`, `ui`,
+  `lights`, `top`, `mirror`, `hang`, `fromwall`, `sconce`, `thick`, `q`, `auto`, `ui`,
   `cam`, `off` (README).
 - Renderer: `WebGLRenderer({antialias:true})`, `outputColorSpace = SRGB`,
   `ACESFilmicToneMapping`, exposure 1, `PCFSoftShadowMap` (on-demand shadow
@@ -347,7 +365,9 @@ src/options/registry.js    registerTile/registerLight/registerWallpaper, lists
 src/options/tiles/*.js     one file per tile; each `export default {id, name,
                            kind:'tile'|'wallpaper', thicknessMm, makeMaterial(ctx)}`
 src/options/lights/*.js    one file per light; each `export default {id, name,
-                           build(ctx, {hangBottom}) -> Group (meshes + lights)}`
+                           build(ctx, {hangBottomIn, centreZIn, ...}) -> Group,
+                           defaultHangBottomIn?, defaultFromWallIn?,
+                           defaultMountCentreIn?}`
 src/options/index.js       imports every option file (adding an option = add
                            a file + one import line here)
 assets/textures/           PNG/JPG maps + manifest.json

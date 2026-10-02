@@ -3,9 +3,12 @@
 // holding one up-facing and one down-facing filament bulb, all inside a
 // single fluted (ribbed) clear-glass cylinder ~4.25" x 14".
 //
-// build(ctx, { mountCentreIn = 66 (glass centre AFF; wins over hangBottomIn),
+// build(ctx, { mountCentreIn = DEFAULT_CENTRE_IN (glass centre AFF; wins over hangBottomIn),
 //              hangBottomIn (glass bottom, legacy),
-//              centreXIn = 54, spacingIn = 18 (each side of centre),
+//              centreXIn = 54,
+//              offsetsIn = [west, east] (signed x offsets of the two sconces
+//                          from centreXIn; wins over spacingIn),
+//              spacingIn (symmetric: each side of centre),
 //              surfaceOffsetM = 0 (accent finish face), shadows = true })
 // Lights: one shadow-casting PointLight per sconce at the collar.
 import { remodelDims, warmWhite } from '../../remodel/cfg.js';
@@ -121,20 +124,29 @@ function sconce(THREE, mats, glowMat, shadows, candela) {
   return s;
 }
 
+// Default glass-centre height AFF (inches); see the sconce note in config.js REMODEL.
+const DEFAULT_CENTRE_IN = 64;
+// Default offsets from the sink centre: each sconce centred in its strip of
+// accent wall between the mirror frame and the accent edge (config.js).
+const DEFAULT_OFFSETS_IN = [-17.75, 16.75];
+
 export default {
   id: 'harlan-sconces',
   name: 'Harlan brass sconces, ribbed glass (pair)',
   order: 30,
   mount: 'wall',          // integration: the height slider sets the glass centre
-  description: 'Two 2-light brass sconces with fluted clear glass, x = 54 +/- 18"',
+  description: 'Two 2-light brass sconces with fluted clear glass, flanking the mirror',
+  // Per-option default for the height slider (glass centre AFF).
+  defaultMountCentreIn: DEFAULT_CENTRE_IN,
   build(ctx, opts = {}) {
     const { THREE } = ctx;
     const D = remodelDims(ctx);
     const GH = inch(14);
     const bottom = opts.mountCentreIn != null ? inch(opts.mountCentreIn) - GH / 2
-      : opts.hangBottomIn != null ? inch(opts.hangBottomIn) : inch(66) - GH / 2;
+      : opts.hangBottomIn != null ? inch(opts.hangBottomIn) : inch(DEFAULT_CENTRE_IN) - GH / 2;
     const cx = opts.centreXIn != null ? inch(opts.centreXIn) : D.lightCentreX;
-    const spacing = inch(opts.spacingIn ?? 18);
+    const offsets = (Array.isArray(opts.offsetsIn) && opts.offsetsIn.length === 2 ? opts.offsetsIn
+      : opts.spacingIn != null ? [-opts.spacingIn, opts.spacingIn] : DEFAULT_OFFSETS_IN).map(inch);
     const surface = opts.surfaceOffsetM ?? 0;
     const shadows = opts.shadows !== false;
 
@@ -156,10 +168,10 @@ export default {
     mats.bulbGlass.userData.onIntensity = 0.25;
     const glow = glowMaterial(THREE, { intensity: 5, color: 0xffe2b0 });
     const lights = [];
-    for (const side of [-1, 1]) {
+    for (const [k, dx] of offsets.entries()) {
       const s = sconce(THREE, mats, glow, shadows, opts.candela ?? 2.2);
-      s.name = side < 0 ? 'sconceWest' : 'sconceEast';
-      s.position.set(cx + side * spacing, bottom + GH / 2, surface);
+      s.name = k === 0 ? 'sconceWest' : 'sconceEast';
+      s.position.set(cx + dx, bottom + GH / 2, surface);
       group.add(s);
       lights.push(s.userData.light);
     }
