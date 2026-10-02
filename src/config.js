@@ -193,9 +193,25 @@ export const REMODEL = {
   accentX1: inch(76), // window trim outer edge
   accentBottom: inch(40),
   accentTopIn: 120,
-  ovalMirror: { width: inch(23), height: inch(56), centerX: inch(55), bottomIn: 42 },
-  lightHangBottomIn: 90,
+  // Oval mirror centred on the sink (x = 54"), bottom 42" -> top 98".
+  ovalMirror: { width: inch(23), height: inch(56), centerX: inch(54), bottomIn: 42 },
+  // Ceiling fixtures: bottom of the fixture AFF.  100" clears the mirror top
+  // (98") by 2"; the slider runs 78-110" and each fixture clamps itself so
+  // it never reaches into the ceiling.
+  lightHangBottomIn: 100,
+  lightHangRangeIn: [78, 110],
+  lightCentreX: inch(54),
+  lightCentreZ: inch(11), // fixture centre ~11" off the wall
+  // Wall sconces: the slider sets the glass centre height.  +/-18" from the
+  // sink centre puts the glass 3.4" clear of the mirror's pivot brackets and
+  // inside the accent span (x 33.9-74.1").
+  sconceCentreIn: 66,
+  sconceRangeIn: [56, 80],
+  sconceSpacingIn: 18,
   thinsetMm: 3,
+  // Junction inspector anchor: the clear gap between the glass soap
+  // dispenser (x 45.5") and the faucet (x 54"), on the wainscot top.
+  junction: { x: inch(49.5), y: inch(40), z: 0, radius: inch(30) },
 };
 REMODEL.mirrorBottom = inch(REMODEL.ovalMirror.bottomIn);
 REMODEL.mirrorCentreX = REMODEL.ovalMirror.centerX;
@@ -239,8 +255,9 @@ export const PRESETS = [
   { id: 2, name: 'Centre', pos: V(78, 66, 56), target: V(30, 52, 8), fov: 62 },
   { id: 3, name: 'Vanity', pos: V(56, 64, 72), target: V(56, 56, 0), fov: 62 },
   { id: 4, name: 'Mirror', pos: V(56, 62, 34), target: V(55, 60, 0), fov: 55 },
-  // 18" from the wainscot top under the accent wall, between vanity and window
-  { id: 5, name: 'Junction', pos: V(58.5, 47.5, 16.5), target: V(58.5, 40, 0), fov: 55 },
+  // 13" from the wainscot top under the accent wall, in the clear gap
+  // between the glass soap dispenser (x 45.5") and the faucet (x 54")
+  { id: 5, name: 'Junction', pos: V(49.5, 45.5, 12.5), target: V(49.5, 40.3, 0), fov: 50 },
   { id: 6, name: 'Tub', pos: V(64, 62, 52), target: V(8, 38, 48), fov: 62 },
 ];
 

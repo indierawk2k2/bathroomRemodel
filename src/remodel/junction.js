@@ -12,7 +12,7 @@
 //   thicknessMmOverride | tileThicknessMm (number, optional),
 //   accentBottomIn (optional).
 import { inch, mm, remodelDims, readState } from './cfg.js';
-import { computeJunction } from './accentWall.js';
+import { computeJunction, TRANSITIONS } from './accentWall.js';
 
 /** "13 mm (1/2\")" style label; inches rounded to the nearest 1/16. */
 export function fmtMmIn(m, { signed = false } = {}) {
@@ -35,10 +35,11 @@ export function fracIn(inches) {
 }
 
 function stateOpts(state) {
-  const ovr = readState(state, 'thicknessMmOverride', readState(state, 'tileThicknessMm', null));
+  const ovr = readState(state, 'tileThicknessMmOverride',
+    readState(state, 'thicknessMmOverride', readState(state, 'tileThicknessMm', null)));
   return {
     tile: readState(state, 'tile', undefined),
-    transition: readState(state, 'transition', 'keep-cap'),
+    transition: readState(state, 'transition', TRANSITIONS[0].id),
     thicknessMmOverride: typeof ovr === 'number' && ovr > 0 ? ovr : undefined,
   };
 }
@@ -77,22 +78,29 @@ function drawInset(canvas, J, title) {
   rect(-0.0127, 0, yLo, yHi, '#d9d5cc');
   g.strokeStyle = 'rgba(0,0,0,0.18)';
   for (let k = -20; k < 40; k++) { g.beginPath(); g.moveTo(X(-0.0127), Y(yLo) - k * 10); g.lineTo(X(0), Y(yLo) - k * 10 - (X(0) - X(-0.0127))); g.stroke(); }
-  // Wainscot below the cap
-  const P = J.wainscotProud, wt = J.wainscotThinset;
-  rect(0, wt, yLo, J.capBottom, '#7d7a74');
-  rect(wt, P, yLo, J.capBottom, '#9a968f', '#55524d');
-  if (J.hasCap) {
-    g.fillStyle = '#a8a49c'; g.strokeStyle = '#55524d';
-    g.beginPath();
-    g.moveTo(X(0), Y(J.capBottom)); g.lineTo(X(P), Y(J.capBottom));
-    g.lineTo(X(P), Y(J.capTop - J.capChamfer)); g.lineTo(X(P - J.capChamfer), Y(J.capTop));
-    g.lineTo(X(0), Y(J.capTop)); g.closePath(); g.fill(); g.stroke();
-  }
+  // Existing wainscot: 12x24 field tile on 3 mm thinset, 13 mm proud, its
+  // top course finished with a factory eased edge (light-sand lip).
+  const P = J.wainscotProud, wt = J.wainscotThinset, ch = J.capChamfer;
+  rect(0, wt, yLo, J.capTop, '#7d7a74');
+  g.fillStyle = '#9a968f'; g.strokeStyle = '#55524d'; g.lineWidth = 1;
+  g.beginPath();
+  g.moveTo(X(wt), Y(yLo)); g.lineTo(X(P), Y(yLo));
+  g.lineTo(X(P), Y(J.capTop - ch)); g.lineTo(X(P - ch), Y(J.capTop));
+  g.lineTo(X(wt), Y(J.capTop)); g.closePath(); g.fill(); g.stroke();
+  // the eased lip reads as a light-sand band on the top ~6 mm
+  g.fillStyle = 'rgba(214,200,176,0.85)';
+  // (a thin skin over the chamfer and the top face of the tile)
+  const sk = mm(0.9);
+  g.beginPath();
+  g.moveTo(X(P), Y(J.capBottom)); g.lineTo(X(P), Y(J.capTop - ch)); g.lineTo(X(P - ch), Y(J.capTop));
+  g.lineTo(X(wt), Y(J.capTop)); g.lineTo(X(wt), Y(J.capTop - sk));
+  g.lineTo(X(P - ch - sk * 0.4), Y(J.capTop - sk)); g.lineTo(X(P - sk), Y(J.capTop - ch - sk * 0.4));
+  g.lineTo(X(P - sk), Y(J.capBottom)); g.closePath(); g.fill();
   if (J.hasStrip) {
-    g.fillStyle = '#d6d6d0';
-    rect(0, P + J.strip.leg, J.capBottom, J.capBottom + J.strip.leg, '#d6d6d0');
-    rect(P, P + J.strip.leg, J.capBottom + J.strip.leg - J.strip.face, J.capBottom + J.strip.leg, '#d6d6d0');
+    rect(0, J.strip.depth, J.capTop, J.capTop + J.strip.face, '#e2e2dc', '#77776f');
+    rect(J.buildOut, J.buildOut + J.strip.leg, J.capTop + J.strip.face, J.capTop + 0.019, '#e2e2dc');
   }
+  if (J.joint > 0) rect(0, Math.max(Math.min(J.face, P) - 0.0003, 0.0006), J.capTop, J.capTop + J.joint, (J.option && J.option.groutColor) || '#dedcd6', '#8a8780');
   // New build-up
   let z = 0;
   if (J.buildOut > 0) { rect(0, J.buildOut, J.bottom, yHi, '#c4c6c0', '#7c7e78'); z += J.buildOut; }
@@ -260,7 +268,8 @@ export function createJunctionInspector(ctx, opts = {}) {
         holder.add(dims);
         if (canvas) {
           const tname = J.option ? J.option.name.replace(/\s*\(.*\)$/, '') : '';
-          drawInset(canvas, J, `Junction @ ${(J.capTop / 0.0254).toFixed(0)}" — ${J.transition} — ${tname}`);
+          const tr = TRANSITIONS.find((t) => t.id === J.transition);
+          drawInset(canvas, J, `${tname} — ${tr ? tr.name : J.transition}`);
         }
       }
       if (!shown) setShown(true);
