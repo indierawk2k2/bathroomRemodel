@@ -36,13 +36,15 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PHOTO_DIR = os.path.join(ROOT, "photos", "jpg")
 OUT_DIR = os.path.join(ROOT, "assets", "textures")
 MANIFEST = os.path.join(OUT_DIR, "manifest.json")
+WALLPAPER_SRC = os.path.join(ROOT, "assets", "source", "wallpapers")   # see SOURCES.md there
 IN = 0.0254  # metres per inch
 
 ORDER = [
     "floor_plank", "wainscot", "accent_band", "vanity_wood", "quartz",
     "wall_paint", "rattan", "wood_frame", "frosted_glass", "curtain",
     "tile_sage_fan", "tile_white_subway_stacked", "wallpaper_sample",
-    "door_slab",
+    "door_slab", "wallpaper_cole_son_feather_fan_soft_olive",
+    "wallpaper_rebel_walls_ripple_blue",
 ]
 
 # --------------------------------------------------------------------------
@@ -895,6 +897,86 @@ def tex_wallpaper_sample():
     return entry("wallpaper_sample", lin, (0.53, 0.53), normal_map(h, px_mm), rough)
 
 
+# --------------------------------------------------------------------------
+# product wallpapers (manufacturer images in assets/source/wallpapers/)
+# --------------------------------------------------------------------------
+
+def wallpaper_src(fname):
+    """A downloaded product image (sRGB float array); see SOURCES.md."""
+    return np.asarray(Image.open(os.path.join(WALLPAPER_SRC, fname)).convert("RGB"), np.float64) / 255.0
+
+
+def resize_wrap(a, w, h, pad):
+    """Resize a tileable float image to w x h without edge seams: wrap-pad
+    `pad` source px on every side, resize, crop (pick pad so pad * scale is
+    close to whole; the residual is a sub-pixel stretch)."""
+    H0, W0 = a.shape[:2]
+    py, px = int(round(pad * h / H0)), int(round(pad * w / W0))
+    p = np.pad(a, ((pad, pad), (pad, pad)) + ((0, 0),) * (a.ndim - 2), mode="wrap")
+    r = resize_f(p, w + 2 * px, h + 2 * py)
+    return np.clip(r[py:py + h, px:px + w], 0, 1)
+
+
+def paper_height(shape, seed, amp_mm=0.012):
+    """Faint, tileable paper / non-woven grain (mm), for near-flat normals."""
+    H, W = shape
+    fine = gblur(np.random.default_rng(seed).standard_normal((H, W)), 0.8, wrap=True)
+    fine /= fine.std() + 1e-9
+    cloud = value_noise((H, W), max(2, W // 64), seed + 1, octaves=3)
+    return amp_mm * (fine + 0.6 * cloud)
+
+
+def tex_wallpaper_cole_son_feather_fan_soft_olive():
+    """Cole & Son Icons Feather Fan, Soft Olive 112/10037 (Perigold QWH8178,
+    "Old Olive").  Roll 0.53 m x 10.05 m, pattern repeat 10.6 cm, straight
+    match.  Source: Perigold's 1200 px flat artwork = 3 fans (one roll width,
+    53 cm) x 5 repeats (53 cm); fans 400 px wide, rows 120 px apart with
+    alternate rows offset half a fan, so one rectangular repeat is 400 x 240 px
+    = 17.67 cm x 10.6 cm.  The 15 repeats are averaged (removes JPEG noise;
+    the artwork is digital, autocorrelation 0.997) and that single repeat,
+    upscaled 3x, is the texture.  White dots are a slightly raised, satin ink
+    on a matte paper ground."""
+    src = wallpaper_src("Icons+Feather+Fan+Geometric+Wallpaper+Roll-29098963.jpg")
+    assert src.shape[:2] == (1200, 1200), src.shape
+    CW, CH, NX, NY = 400, 240, 3, 5
+    lin = s2l(src)
+    cell = np.mean([lin[j * CH:(j + 1) * CH, i * CW:(i + 1) * CW] for j in range(NY) for i in range(NX)], axis=0)
+    K = 3
+    W, H = CW * K, CH * K
+    big = resize_wrap(cell, W, H, 20)                # wrapped, so the edges stay seamless
+    size = (0.53 / NX, 0.106)
+    px_mm = size[1] * 1000 / H
+    L = lum(big)
+    lo, hi = np.percentile(L, 5), np.percentile(L, 95)
+    ink = smoothstep(0.25, 0.75, (L - lo) / max(hi - lo, 1e-6))      # 1 = white dot
+    h = paper_height((H, W), 811) + 0.025 * gblur(ink, 1.0, wrap=True)
+    rough = np.clip(0.86 - 0.24 * ink + 0.02 * gblur(np.random.default_rng(812).standard_normal((H, W)), 1, wrap=True), 0, 1)
+    return entry("wallpaper_cole_son_feather_fan_soft_olive", big, size, normal_map(h, px_mm), rough,
+                 source="assets/source/wallpapers/Icons+Feather+Fan+Geometric+Wallpaper+Roll-29098963.jpg",
+                 rollWidthM=0.53, patternRepeatM=0.106, match="straight", color=lin2hex(big.reshape(-1, 3).mean(0)))
+
+
+def tex_wallpaper_rebel_walls_ripple_blue():
+    """Rebel Walls Ripple Blue (R19317), printed to wall size but a repeating
+    design: the maker's pattern tile is 1000 x 1200 mm (horizontal + vertical
+    repeat).  Source: the 2000 x 2401 Cloudinary original, one full repeat at
+    0.5 mm/px (the 2401st row is an extra row: the period is 2400).  Reduced
+    to 2048 px tall.  Rebel Mattic non-woven, matte."""
+    src = wallpaper_src("R19317_product.jpg")
+    assert src.shape[:2] == (2401, 2000), src.shape
+    lin = s2l(src[:2400])
+    H = 2048
+    W = int(round(2000 * H / 2400))              # 1707
+    small = resize_wrap(lin, W, H, 75)               # 75 src px -> 64 px
+    size = (1.0, 1.2)
+    px_mm = size[1] * 1000 / H
+    h = paper_height((H, W), 821, 0.015)
+    rough = np.clip(0.88 + 0.02 * gblur(np.random.default_rng(822).standard_normal((H, W)), 1, wrap=True), 0, 1)
+    return entry("wallpaper_rebel_walls_ripple_blue", small, size, normal_map(h, px_mm), rough,
+                 source="assets/source/wallpapers/R19317_product.jpg", match="straight (printed to wall size)",
+                 color=lin2hex(small.reshape(-1, 3).mean(0)))
+
+
 BUILDERS = {
     "floor_plank": tex_floor_plank,
     "wainscot": tex_wainscot,
@@ -910,6 +992,8 @@ BUILDERS = {
     "tile_white_subway_stacked": tex_tile_white_subway_stacked,
     "wallpaper_sample": tex_wallpaper_sample,
     "door_slab": tex_door_slab,
+    "wallpaper_cole_son_feather_fan_soft_olive": tex_wallpaper_cole_son_feather_fan_soft_olive,
+    "wallpaper_rebel_walls_ripple_blue": tex_wallpaper_rebel_walls_ripple_blue,
 }
 
 
