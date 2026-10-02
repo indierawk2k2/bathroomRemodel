@@ -96,10 +96,42 @@ export function finishFixture(group, lights, glowMats) {
 /** The oval mirror's widest point (its vertical centre), inches AFF. */
 export const mirrorCentreIn = ({ mirrorBottomIn = 42, mirrorHeightIn = 56 } = {}) => mirrorBottomIn + mirrorHeightIn / 2;
 
+// Used only when the caller gives no ceiling (the app passes the room's).
+const FALLBACK_CEILING_IN = 120;
+
+/**
+ * The real drop (ceiling -> shade bottom, inches) a stem / rod pendant can
+ * actually hang at, nearest `wantIn` without hanging lower than wanted:
+ * `stepsIn` (discrete rod combinations) -> the longest step <= wantIn (the
+ * shortest if none); otherwise clamped to `rangeIn` [min, max].
+ */
+export function realDropIn(wantIn, { realDropRangeIn, realDropStepsIn } = {}) {
+  if (Array.isArray(realDropStepsIn) && realDropStepsIn.length) {
+    const s = [...realDropStepsIn].sort((a, b) => a - b);
+    let best = s[0];
+    for (const d of s) if (d <= wantIn + 1e-6) best = d;
+    return best;
+  }
+  if (Array.isArray(realDropRangeIn)) return Math.min(realDropRangeIn[1], Math.max(realDropRangeIn[0], wantIn));
+  return wantIn;
+}
+
 /** A `defaultHangBottomIn` (shade bottom) that centres a shade `shadeHIn`
  *  tall on the mirror's widest point, so it follows the "Mirror bottom"
- *  slider (a function default, see docs/ADDING_OPTIONS.md). */
-export const hangAtMirrorCentre = (shadeHIn) => (env) => mirrorCentreIn(env) - shadeHIn / 2;
+ *  slider (a function default, see docs/ADDING_OPTIONS.md).  With `real`
+ *  ({ realDropRangeIn, realDropStepsIn }, the option's own data) the result
+ *  is snapped to a drop the real stem / rods can give at env.ceilingIn,
+ *  never below the mirror centre unless even the shortest drop is too long. */
+export const hangAtMirrorCentre = (shadeHIn, real) => (env = {}) => {
+  const want = mirrorCentreIn(env) - shadeHIn / 2;
+  if (!real) return want;
+  const ceiling = env.ceilingIn ?? FALLBACK_CEILING_IN;
+  return +(ceiling - realDropIn(ceiling - want, real)).toFixed(2);
+};
+
+/** The lowest shade bottom (inches AFF) the real fixture reaches. */
+export const lowestRealBottomIn = (ceilingIn, { realDropRangeIn, realDropStepsIn } = {}) =>
+  ceilingIn - Math.max(...(realDropStepsIn?.length ? realDropStepsIn : realDropRangeIn));
 
 /** [west, east] x offsets from the sink centre that keep a shade of radius
  *  `shadeRIn` `clearIn` clear of the mirror frame at its widest point. */
@@ -112,8 +144,9 @@ export function offsetsClearOfMirror(ctx, shadeRIn, clearIn = 2) {
 /**
  * Pair of ceiling-hung pendants, one each side of the mirror.
  * spec: { name, defaultHangIn (shade bottom AFF when opts.hangBottomIn is
- *   missing), minDropIn (ceiling to shade bottom on the shortest real stem:
- *   the hang is clamped to it, so nothing ever enters the ceiling),
+ *   missing), realDropRangeIn ([min, max] ceiling to shade bottom on the
+ *   real stem / rods: the hang is clamped to the min, so nothing ever
+ *   enters the ceiling; a longer-than-max hang still renders),
  *   offsetsIn ([west, east] x offsets from opts.centreXIn), defaultFromWallIn,
  *   makePendant(dropM, k) -> Group with its origin at the shade's bottom
  *   centre, y up, reaching the ceiling at y = dropM, with
@@ -128,7 +161,7 @@ export function flankingPendantPair(ctx, opts, spec) {
   const D = remodelDims(ctx);
   const ceiling = opts.ceilingIn != null ? inch(opts.ceilingIn) : D.ceiling;
   const want = inch(opts.hangBottomIn != null ? opts.hangBottomIn : spec.defaultHangIn);
-  const bottom = Math.min(want, ceiling - inch(spec.minDropIn));
+  const bottom = Math.min(want, ceiling - inch(spec.realDropRangeIn[0]));
   const drop = ceiling - bottom;
   const cx = opts.centreXIn != null ? inch(opts.centreXIn) : D.lightCentreX;
   const cz = opts.centreZIn != null ? inch(opts.centreZIn) : inch(spec.defaultFromWallIn);
@@ -144,7 +177,12 @@ export function flankingPendantPair(ctx, opts, spec) {
     lights.push(...p.userData.lights);
     for (const m of p.userData.glowMaterials || []) glows.add(m);
   });
-  group.userData.placement = { bottom, drop, xs: offsets.map((d) => cx + d), z: cz };
+  const dropIn = drop / inch(1);
+  group.userData.placement = {
+    bottom, drop, xs: offsets.map((d) => cx + d), z: cz,
+    // what the real fixture would hang at, and whether this hang needs more than it has
+    realDropIn: realDropIn(dropIn, spec), beyondRealMaxIn: Math.max(0, dropIn - spec.realDropRangeIn[1]),
+  };
   return finishFixture(group, lights, [...glows]);
 }
 

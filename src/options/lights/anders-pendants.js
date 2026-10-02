@@ -15,14 +15,14 @@
 // porcelain casts, so the bulb throws a pool of light down through the open
 // bottom, as in the lit product photo) plus one weak unshadowed PointLight
 // standing for the light the thin porcelain lets through.
-import { warmWhite } from '../../remodel/cfg.js';
+import { warmWhite, remodelDims } from '../../remodel/cfg.js';
 import {
-  bulbLight, glowRamp, heightUV, flankingPendantPair, hangAtMirrorCentre,
+  bulbLight, glowRamp, heightUV, flankingPendantPair, hangAtMirrorCentre, lowestRealBottomIn,
   inch, mm,
 } from './common.js';
 
 const SHADE_D_IN = 5, SHADE_H_IN = 4.5;
-const MIN_DROP_IN = 12.6, MAX_DROP_IN = 54.6;      // West Elm: hanging length
+const REAL = { realDropRangeIn: [12.6, 54.6] };    // West Elm: min / max hanging length (continuous)
 // Default x offsets from the sink centre: the Harlan sconce positions
 // (x 36.25" / 70.75", config.js REMODEL.sconceOffsetsIn).  With the 5"
 // shade that leaves 3.75" / 2.75" to the mirror frame at its widest point,
@@ -31,7 +31,9 @@ const FALLBACK_OFFSETS_IN = [-17.75, 16.75];
 // Shade centre 7" off the finished wall: its back is 4.5" clear of the tile
 // and the 5" canopy sits wholly on the ceiling.
 const DEFAULT_FROM_WALL_IN = 7;
-const defaultHang = hangAtMirrorCentre(SHADE_H_IN);   // shade centre on the mirror's widest point
+// Shade centre on the mirror's widest point, kept within the real stem's
+// reach (a mirror below 38.6" would otherwise need more than 54.6").
+const defaultHang = hangAtMirrorCentre(SHADE_H_IN, REAL);
 
 function pendant(THREE, mats, dropM, shadows, candela) {
   const p = new THREE.Group();
@@ -120,8 +122,10 @@ export default {
   id: 'anders-pendants',
   name: 'West Elm Anders pendants (pair)',
   order: 40,
-  description: 'Two 5" ivory porcelain pendants on Champagne Bronze stems, hung from the ceiling either side of the mirror ' +
-    '(5" x 4.5" shade, 5" canopy, drop 12.6–54.6"; also sold as a 14" drum). Damp rating not stated by West Elm.',
+  ...REAL,
+  description: (ctx) => 'Two 5" ivory porcelain pendants on Champagne Bronze stems, hung from the ceiling either side of the mirror ' +
+    `(5" x 4.5" shade, 5" canopy, drop 12.6–54.6": at this ceiling the shade bottom can go no lower than ` +
+    `${lowestRealBottomIn(remodelDims(ctx).ceiling / inch(1), REAL).toFixed(1)}"; also sold as a 14" drum). Damp rating not stated by West Elm.`,
   // Placement defaults: shade centre on the mirror's widest point (follows
   // the "Mirror bottom" slider), 7" off the wall.
   defaultHangBottomIn: defaultHang,
@@ -156,17 +160,13 @@ export default {
 
     const group = flankingPendantPair(ctx, opts, {
       name: 'light:anders-pendants',
-      defaultHangIn: defaultHang({}),
-      minDropIn: MIN_DROP_IN,
+      defaultHangIn: defaultHang({ ceilingIn: opts.ceilingIn ?? remodelDims(ctx).ceiling / inch(1) }),
+      ...REAL,
       offsetsIn,
       defaultFromWallIn: DEFAULT_FROM_WALL_IN,
       makePendant: (drop) => pendant(THREE, mats, drop, shadows, opts.candela ?? 2.6),
     });
-    const dropIn = group.userData.placement.drop / inch(1);
-    group.userData.size = {
-      shadeDiameter: inch(SHADE_D_IN), shadeHeight: inch(SHADE_H_IN),
-      dropIn, beyondRealMaxDropIn: Math.max(0, dropIn - MAX_DROP_IN),
-    };
+    group.userData.size = { shadeDiameter: inch(SHADE_D_IN), shadeHeight: inch(SHADE_H_IN) };
     const dispose = group.userData.dispose;
     group.userData.dispose = () => { dispose(); ramp.dispose(); rampIn.dispose(); };
     return group;

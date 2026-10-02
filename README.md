@@ -104,10 +104,13 @@ when a pad is connected.
   - *Claxy brass rod pendants, frosted glass (pair)*: two 7" x 6.3"
     frosted-glass cylinders with a floating brushed-brass band on rigid
     brass rods, at x 37" and 71" (2" clear of the mirror frame each side),
-    7" off the wall, shade centred on the mirror's widest point. The rods
-    (3 x 12" + 6") only reach 50.4", so at the 120" ceiling the real shade
-    cannot hang lower than 69.6" (bottom), 2.75" above the default. No damp
-    rating; Claxy advises a dry location. Photos and specs:
+    7" off the wall. The rods (3 x 12" + 6") give drops of 8.4"–50.4" in 6"
+    steps, so at the 120" ceiling the real shade cannot hang lower than
+    69.6" (bottom). The default is the real rod setup nearest the mirror's
+    widest point without going below it: all four rods at the default
+    mirror (shade bottom 69.6", centre 72.75", 2.75" above the mirror
+    centre). The slider can go lower to explore, past what the rods
+    reach. No damp rating; Claxy advises a dry location. Photos and specs:
     `assets/source/lights/claxy-brass-rod-pendant/SOURCES.md`.
 - **Accent extent**: *Full wall, around window* (the default) runs the tile
   or wallpaper across the whole vanity wall: from the tub column, behind the
@@ -128,8 +131,9 @@ when a pad is connected.
   no brackets); light height, which is the *bottom* of a hanging fixture
   (60"–110"; defaults: rattan 80", Monteaux 76", both below the mirror top so
   the fixture hangs in front of the mirror as you walk in; Anders 67.75" and
-  Claxy 66.85", which put the shades' centre on the mirror's widest point and
-  follow the "Mirror bottom" slider like the sconces; each fixture stops
+  Claxy 69.6", which put the shades' centre on (Claxy: as near as its rods
+  allow above) the mirror's widest point and follow the "Mirror bottom"
+  slider like the sconces; each fixture stops
   itself before it reaches the ceiling) or the *centre* of the sconces
   (56"–84"; by default on the mirror's widest point, i.e. its vertical
   centre: 70" with the mirror at 42", and they follow the "Mirror bottom"

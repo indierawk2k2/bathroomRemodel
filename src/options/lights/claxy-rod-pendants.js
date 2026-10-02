@@ -19,9 +19,9 @@
 // band, plate, socket, rod and canopy do, so the band throws its shadow
 // ring on the wall) and a weaker unshadowed one for the glow off the lit
 // glass, which keeps that ring soft and partial as in the bathroom photo.
-import { warmWhite } from '../../remodel/cfg.js';
+import { warmWhite, remodelDims } from '../../remodel/cfg.js';
 import {
-  bulbLight, glowRamp, heightUV, flankingPendantPair, hangAtMirrorCentre,
+  bulbLight, glowRamp, heightUV, flankingPendantPair, hangAtMirrorCentre, lowestRealBottomIn, realDropIn,
   offsetsClearOfMirror, inch, mm,
 } from './common.js';
 
@@ -29,18 +29,24 @@ const GLASS_D_IN = 5.8, SHADE_H_IN = 6.3, BAND_D_IN = 7, BAND_H_IN = 2.7, BAND_T
 const MINI_DROP_IN = 8.4;                 // canopy top -> shade bottom, no rods
 const RODS_IN = [12, 12, 12, 6];          // supplied rod sections
 const DEFAULT_FROM_WALL_IN = 7;           // band back 3.5" off the finished wall
-const defaultHang = hangAtMirrorCentre(SHADE_H_IN);
+// Every rod combination: drop (canopy top -> shade bottom) -> rods used.
+const COMBOS = new Map();
+for (let mask = 0; mask < 1 << RODS_IN.length; mask++) {
+  const rods = RODS_IN.filter((_, i) => mask & (1 << i));
+  const d = +(MINI_DROP_IN + rods.reduce((a, b) => a + b, 0)).toFixed(2);
+  if (!COMBOS.has(d)) COMBOS.set(d, rods);
+}
+const STEPS = [...COMBOS.keys()].sort((a, b) => a - b);          // 8.4, 14.4, ... 50.4
+const REAL = { realDropRangeIn: [STEPS[0], STEPS[STEPS.length - 1]], realDropStepsIn: STEPS };
+// Default: shade centre on the mirror's widest point, snapped to the
+// longest real rod drop that keeps it at or above that point (at the 120"
+// ceiling and 42" mirror: all four rods, 50.4", shade bottom 69.6").
+const defaultHang = hangAtMirrorCentre(SHADE_H_IN, REAL);
 
-/** Real rod combination nearest a wanted drop (inches): { rodsIn, dropIn }. */
-export function nearestRealDrop(wantDropIn) {
-  let best = { rodsIn: [], dropIn: MINI_DROP_IN };
-  const n = RODS_IN.length;
-  for (let mask = 0; mask < 1 << n; mask++) {
-    const rods = RODS_IN.filter((_, i) => mask & (1 << i));
-    const d = MINI_DROP_IN + rods.reduce((a, b) => a + b, 0);
-    if (Math.abs(d - wantDropIn) < Math.abs(best.dropIn - wantDropIn)) best = { rodsIn: rods, dropIn: d };
-  }
-  return best;
+/** The real rod combination for a hang (inches): { rodsIn, dropIn }. */
+export function realRods(wantDropIn) {
+  const d = realDropIn(wantDropIn, REAL);
+  return { rodsIn: COMBOS.get(d), dropIn: d };
 }
 
 function pendant(THREE, mats, dropM, shadows, candela) {
@@ -165,10 +171,16 @@ export default {
   id: 'claxy-rod-pendants',
   name: 'Claxy brass rod pendants, frosted glass (pair)',
   order: 45,
-  description: 'Two 7" x 6.3" frosted-glass cylinders with a floating brushed-brass band on rigid brass rods, either side of the mirror ' +
-    '(4.9" canopy; rods 3 x 12" + 6" give drops of 8.4–50.4" only, so at a 120" ceiling the shade bottom cannot go below 69.6": ' +
-    'the default mirror-centre height needs 53.2"). Damp rating not stated; Claxy advises a dry location.',
-  // Shade centre on the mirror's widest point (follows "Mirror bottom").
+  ...REAL,
+  description: (ctx) => {
+    const ceil = remodelDims(ctx).ceiling / inch(1);
+    return 'Two 7" x 6.3" frosted-glass cylinders with a floating brushed-brass band on rigid brass rods, either side of the mirror ' +
+      `(4.9" canopy; rods 3 x 12" + 6" give drops of 8.4–50.4" in 6" steps, so at this ${ceil.toFixed(0)}" ceiling the shade bottom ` +
+      `can go no lower than ${lowestRealBottomIn(ceil, REAL).toFixed(1)}"; the default is the real rod setup nearest the mirror's ` +
+      'widest point, and lower slider values show heights the real rods cannot reach). Damp rating not stated; Claxy advises a dry location.';
+  },
+  // Shade centre on the mirror's widest point, snapped to a real rod drop
+  // (follows "Mirror bottom").
   defaultHangBottomIn: defaultHang,
   defaultFromWallIn: DEFAULT_FROM_WALL_IN,
   build(ctx, opts = {}) {
@@ -208,8 +220,8 @@ export default {
 
     const group = flankingPendantPair(ctx, opts, {
       name: 'light:claxy-rod-pendants',
-      defaultHangIn: defaultHang({}),
-      minDropIn: MINI_DROP_IN,
+      defaultHangIn: defaultHang({ ceilingIn: opts.ceilingIn ?? remodelDims(ctx).ceiling / inch(1) }),
+      ...REAL,
       offsetsIn,
       defaultFromWallIn: DEFAULT_FROM_WALL_IN,
       makePendant: (drop) => pendant(THREE, mats, drop, shadows, opts.candela ?? 2.4),
@@ -217,7 +229,7 @@ export default {
     const dropIn = group.userData.placement.drop / inch(1);
     group.userData.size = {
       bandDiameter: inch(BAND_D_IN), shadeHeight: inch(SHADE_H_IN), dropIn,
-      nearestReal: nearestRealDrop(dropIn),
+      realRods: realRods(dropIn),
     };
     const dispose = group.userData.dispose;
     group.userData.dispose = () => { dispose(); ramp.dispose(); };

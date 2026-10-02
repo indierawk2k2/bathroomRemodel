@@ -56,9 +56,12 @@ export function placementDefault(opt, key, env = {}) {
 const derived = (opt, key) => !!opt && typeof opt[PLACEMENT[key].field] === 'function';
 const DEBOUNCE_MS = 80;
 
-/** Option lists for the UI: [{id, name, description}] */
-function optionLists() {
-  const pick = (o) => ({ id: o.id, name: o.name, description: o.description || '' });
+/** Option lists for the UI: [{id, name, description}].  A description may
+ *  be a function of ctx (e.g. a pendant stating its real limits for the
+ *  room's ceiling). */
+function optionLists(ctx) {
+  const desc = (o) => (typeof o.description === 'function' ? o.description(ctx) : o.description) || '';
+  const pick = (o) => ({ id: o.id, name: o.name, description: desc(o) });
   return {
     tiles: tiles().map(pick),
     lights: lights().map((o) => ({ ...pick(o), mount: o.mount || 'ceiling' })),
@@ -89,9 +92,12 @@ export function setupRemodel(app) {
   const frameRef = app.frameRef || (app.frameRef = { frame: 0, inOverride: false });
 
   // ---- options + defaults (hash values set before this call win)
-  // Mirror numbers the derived placement defaults read.
-  const mirrorEnv = () => ({ mirrorBottomIn: state.mirrorBottomIn ?? R.ovalMirror.bottomIn, mirrorHeightIn: R.ovalMirror.height / 0.0254 });
-  const lists = optionLists();
+  // Mirror (and ceiling) numbers the derived placement defaults read.
+  const mirrorEnv = () => ({
+    mirrorBottomIn: state.mirrorBottomIn ?? R.ovalMirror.bottomIn, mirrorHeightIn: R.ovalMirror.height / 0.0254,
+    ceilingIn: config.ROOM.ceiling / 0.0254,
+  });
+  const lists = optionLists(ctx);
   const has = (list, id) => list.some((o) => o.id === id);
   const patch = { options: lists };
   if (!has(lists.tiles, state.tile)) patch.tile = has(lists.tiles, DEFAULT_TILE) ? DEFAULT_TILE : lists.tiles[0]?.id ?? null;

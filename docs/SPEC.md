@@ -322,7 +322,9 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   shade centre on the **mirror's widest point** (`defaultHangBottomIn` =
   mirror bottom + 28" − 2.25" = **67.75"** at the default mirror, drop 52.25"),
   a function of the mirror like the sconces', so it follows "Mirror bottom"
-  until the user moves "Light hang" for this light or gives `#hang=`.
+  until the user moves "Light hang" for this light or gives `#hang=`; the
+  default is clamped to the real 12.6–54.6" drop (`realDropRangeIn`), so a
+  mirror below 38.6" leaves it at the 54.6" maximum (bottom 65.4").
   Centre heights of mirror centre −6 / −3 / 0 / +3 / +6" were compared from
   presets 1 and 3, day and night (`shots/anders-height-candidates.jpg`): the
   pendants flank the glass at every height, so a standing face (eyes 60–68")
@@ -346,16 +348,23 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   the band's back is 3.5" off the wall, the casing only 0.6" proud, so they
   never touch). The sconce positions (x 36.25 / 70.75) would leave the east
   band only 1.75" from the frame. Default **7"** off the wall (band back 3.5"
-  clear, canopy wholly on the ceiling). Default shade centre on the
-  **mirror's widest point** (`defaultHangBottomIn` = mirror bottom + 28" −
-  3.15" = **66.85"**, drop 53.15"), following "Mirror bottom". That drop is
-  **2.75" longer than the real maximum**: the nearest real hang is all four
-  rods, 50.4", shade bottom 69.6" / centre 72.75". Heights of mirror centre
+  clear, canopy wholly on the ceiling). Default height: the shade centre on
+  the **mirror's widest point**, snapped to the **longest real rod drop that
+  keeps it at or above that point** (`realDropRangeIn: [8.4, 50.4]`,
+  `realDropStepsIn` = every rod combination; ceiling from the room config).
+  The mirror-centre height at the default mirror would need a 53.15" drop,
+  2.75" more than the rods give, so the default is all four rods: drop
+  50.4", **shade bottom 69.6" / centre 72.75"** (the same at `#mirror=38`;
+  at `#mirror=50` three 12" rods, 44.4", bottom 75.6" / centre 78.75").
+  It follows "Mirror bottom" until the user moves "Light hang". The slider
+  stays continuous; lower values render but need more rod than exists,
+  and the option's description gives the lowest real shade bottom for the
+  ceiling (69.6" at 120"). Heights of mirror centre
   −6…+6" were compared from presets 1 and 3, day and night
-  (`shots/claxy-height-candidates.jpg`): the pair flanks the glass at every
-  height (a standing face is never blocked) and none was clearly more
-  dramatic, so the default stays on the mirror's widest point; +3" is the
-  closest candidate to what the real rods allow. Lights, per pendant, both
+  (`shots/claxy-height-candidates.jpg`, shot before the snap): the pair
+  flanks the glass at every height (a standing face is never blocked) and
+  none was clearly more dramatic; +3" is the candidate the real default
+  (+2.75") matches. Lights, per pendant, both
   at the bulb: a shadow-casting PointLight (the glass does not cast, the
   brass band does: a shadow ring on the tile between lit bands above and
   below) and a weaker unshadowed one for the glow off the glass, which keeps
