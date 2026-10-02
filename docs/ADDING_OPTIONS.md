@@ -412,6 +412,18 @@ point): it is evaluated with the current mirror, clamped to the slider's
 range, and re-applied whenever the "Mirror bottom" slider moves, unless the
 user has moved that slider for this light (or set it in the URL hash).
 
+**A ceiling-hung pair beside the mirror** (`anders-pendants`,
+`claxy-rod-pendants`): the app passes `offsetsIn` to wall mounts only, so a
+ceiling pair picks its own x offsets (`ctx.config.REMODEL.sconceOffsetsIn`
+for the sconce positions, or `offsetsClearOfMirror(ctx, shadeRadiusIn, 2)`
+when the shade is too wide for them). `flankingPendantPair(ctx, opts, spec)`
+in `lights/common.js` does the rest: it clamps the hang to the product's
+shortest real drop (`minDropIn`), places the two pendants and calls
+`finishFixture`; `makePendant(dropM)` builds one pendant with its origin at
+the shade's bottom centre, reaching the ceiling at `y = dropM`. Use
+`defaultHangBottomIn: hangAtMirrorCentre(shadeHeightIn)` for the sconces'
+height rule on the "Light hang (bottom)" slider.
+
 ### Light conventions
 
 - Coordinates: metres, X east, Y up, Z into the room; the north wall's

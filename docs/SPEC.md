@@ -281,7 +281,10 @@ light in this session.
 Hanging fixtures: centre x = 54, hung **below the mirror top** so that from
 the door they read as a layer in front of the mirror and show in its
 reflection, with the bottom kept above ~74" so a person at the sink still
-sees their face. "Light hang (bottom)" slider 60–110" and "Light distance from
+sees their face. Pendant pairs (`anders-pendants`, `claxy-rod-pendants`)
+are the exception: they hang beside the mirror, not in front of it, so they
+take the sconces' height rule instead (shade centre on the mirror's widest
+point, derived from the mirror). "Light hang (bottom)" slider 60–110" and "Light distance from
 wall" slider 6–36" (fixture centre off the finished face); each fixture clamps
 itself so it never enters the ceiling. Wall fixtures (`mount: 'wall'`): the
 height slider sets the glass centre (56–84"); the distance slider is hidden.
@@ -320,10 +323,44 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   mirror bottom + 28" − 2.25" = **67.75"** at the default mirror, drop 52.25"),
   a function of the mirror like the sconces', so it follows "Mirror bottom"
   until the user moves "Light hang" for this light or gives `#hang=`.
+  Centre heights of mirror centre −6 / −3 / 0 / +3 / +6" were compared from
+  presets 1 and 3, day and night (`shots/anders-height-candidates.jpg`): the
+  pendants flank the glass at every height, so a standing face (eyes 60–68")
+  is never blocked, and none was clearly more dramatic; −3" and −6" also need
+  55.25" / 58.25" drops, past the real 54.6" maximum. Mirror centre kept.
   Lights: per pendant one shadow-casting PointLight low in the shade (the
   porcelain casts, so it throws a pool down through the open bottom and a
   scallop on the tile) and one weak unshadowed PointLight for the light the
   porcelain lets through. Damp rating: not stated by West Elm.
+- `claxy-rod-pendants` (br-wbi): pair of Claxy "Modern Brass Pendant Light
+  with Frosted Glass Shade Hanging Rod" (CL-B5333DU-J-M;
+  assets/source/lights/claxy-brass-rod-pendant/SOURCES.md): open frosted
+  glass cylinder 5.8" x 6.3" ringed by a floating brushed-brass band 7" x
+  2.7", rigid 0.36" brass rod, swivel adaptor, 4.9" canopy. The rods come as
+  3 x 12" + 1 x 6", so the real drop (canopy top to shade bottom) is only
+  8.4" + {0, 6, …, 42}" = **8.4–50.4"**; the hang slider stays continuous
+  (clamped to the 8.4" minimum), joints are drawn where real sections meet.
+  Positions **x = 37" and 71"** (54 ∓ 17, `offsetsClearOfMirror`): the 7"
+  band is the minimum 2.0" clear of the frame at its widest point each side,
+  3.5" from the tub-column tile and 1.5" from the window casing edge (x 76";
+  the band's back is 3.5" off the wall, the casing only 0.6" proud, so they
+  never touch). The sconce positions (x 36.25 / 70.75) would leave the east
+  band only 1.75" from the frame. Default **7"** off the wall (band back 3.5"
+  clear, canopy wholly on the ceiling). Default shade centre on the
+  **mirror's widest point** (`defaultHangBottomIn` = mirror bottom + 28" −
+  3.15" = **66.85"**, drop 53.15"), following "Mirror bottom". That drop is
+  **2.75" longer than the real maximum**: the nearest real hang is all four
+  rods, 50.4", shade bottom 69.6" / centre 72.75". Heights of mirror centre
+  −6…+6" were compared from presets 1 and 3, day and night
+  (`shots/claxy-height-candidates.jpg`): the pair flanks the glass at every
+  height (a standing face is never blocked) and none was clearly more
+  dramatic, so the default stays on the mirror's widest point; +3" is the
+  closest candidate to what the real rods allow. Lights, per pendant, both
+  at the bulb: a shadow-casting PointLight (the glass does not cast, the
+  brass band does: a shadow ring on the tile between lit bands above and
+  below) and a weaker unshadowed one for the glow off the glass, which keeps
+  that ring soft as in the maker's bathroom photo. Damp rating: not stated;
+  Claxy lists bathrooms but advises a dry location.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,
