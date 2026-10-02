@@ -1,0 +1,228 @@
+[
+  {
+    "name": "floor_plank",
+    "map": "floor_plank_albedo.jpg",
+    "normalMap": "floor_plank_normal.png",
+    "roughnessMap": "floor_plank_rough.png",
+    "physicalSizeM": [
+      0.9144,
+      0.6096
+    ],
+    "repeat": [
+      1.0936,
+      1.6404
+    ],
+    "plankAxis": "v",
+    "tileSizeIn": [
+      12,
+      24
+    ],
+    "note": "planks run along V (image vertical): map V to world Z (N-S)"
+  },
+  {
+    "name": "wainscot",
+    "map": "wainscot_albedo.jpg",
+    "normalMap": "wainscot_normal.png",
+    "roughnessMap": "wainscot_rough.png",
+    "physicalSizeM": [
+      1.2192,
+      0.6096
+    ],
+    "repeat": [
+      0.8202,
+      1.6404
+    ],
+    "tileSizeIn": [
+      24,
+      12
+    ]
+  },
+  {
+    "name": "accent_band",
+    "map": "accent_band_albedo.jpg",
+    "normalMap": "accent_band_normal.png",
+    "roughnessMap": "accent_band_rough.png",
+    "physicalSizeM": [
+      1.2192,
+      0.3048
+    ],
+    "repeat": [
+      0.8202,
+      3.2808
+    ],
+    "tileSizeIn": [
+      24,
+      12
+    ]
+  },
+  {
+    "name": "vanity_wood",
+    "map": "vanity_wood_albedo.jpg",
+    "normalMap": "vanity_wood_normal.png",
+    "roughnessMap": "vanity_wood_rough.png",
+    "physicalSizeM": [
+      0.447,
+      0.447
+    ],
+    "repeat": [
+      2.2369,
+      2.2369
+    ],
+    "grain": "horizontal (along U)"
+  },
+  {
+    "name": "quartz",
+    "map": "quartz_albedo.jpg",
+    "normalMap": "quartz_normal.png",
+    "roughnessMap": "quartz_rough.png",
+    "physicalSizeM": [
+      0.1016,
+      0.1016
+    ],
+    "repeat": [
+      9.8425,
+      9.8425
+    ]
+  },
+  {
+    "name": "wall_paint",
+    "map": "wall_paint_albedo.jpg",
+    "normalMap": "wall_paint_normal.png",
+    "roughnessMap": "wall_paint_rough.png",
+    "physicalSizeM": [
+      0.3048,
+      0.3048
+    ],
+    "repeat": [
+      3.2808,
+      3.2808
+    ],
+    "color": "#B8BFBB"
+  },
+  {
+    "name": "rattan",
+    "map": "rattan_albedo.jpg",
+    "normalMap": "rattan_normal.png",
+    "roughnessMap": "rattan_rough.png",
+    "alphaMap": "rattan_alpha.png",
+    "physicalSizeM": [
+      0.1869,
+      0.1267
+    ],
+    "repeat": [
+      5.3492,
+      7.8898
+    ]
+  },
+  {
+    "name": "wood_frame",
+    "map": "wood_frame_albedo.jpg",
+    "normalMap": "wood_frame_normal.png",
+    "roughnessMap": "wood_frame_rough.png",
+    "physicalSizeM": [
+      0.1016,
+      0.1016
+    ],
+    "repeat": [
+      9.8425,
+      9.8425
+    ],
+    "grain": "along V"
+  },
+  {
+    "name": "frosted_glass",
+    "map": "frosted_glass_albedo.jpg",
+    "normalMap": "frosted_glass_normal.png",
+    "roughnessMap": "frosted_glass_rough.png",
+    "physicalSizeM": [
+      0.1651,
+      0.1651
+    ],
+    "repeat": [
+      6.0569,
+      6.0569
+    ]
+  },
+  {
+    "name": "curtain",
+    "map": "curtain_albedo.jpg",
+    "normalMap": "curtain_normal.png",
+    "roughnessMap": "curtain_rough.png",
+    "physicalSizeM": [
+      0.16,
+      0.16
+    ],
+    "repeat": [
+      6.25,
+      6.25
+    ]
+  },
+  {
+    "name": "tile_sage_fan",
+    "map": "tile_sage_fan_albedo.jpg",
+    "normalMap": "tile_sage_fan_normal.png",
+    "roughnessMap": "tile_sage_fan_rough.png",
+    "physicalSizeM": [
+      0.6096,
+      0.6096
+    ],
+    "repeat": [
+      1.6404,
+      1.6404
+    ],
+    "fanWidthIn": 4,
+    "rowPitchIn": 2,
+    "fans": [
+      6,
+      12
+    ]
+  },
+  {
+    "name": "tile_white_subway_stacked",
+    "map": "tile_white_subway_stacked_albedo.jpg",
+    "normalMap": "tile_white_subway_stacked_normal.png",
+    "roughnessMap": "tile_white_subway_stacked_rough.png",
+    "physicalSizeM": [
+      0.6096,
+      0.6096
+    ],
+    "repeat": [
+      1.6404,
+      1.6404
+    ],
+    "tileSizeIn": [
+      6,
+      3
+    ],
+    "layout": "stacked 4 x 8"
+  },
+  {
+    "name": "wallpaper_sample",
+    "map": "wallpaper_sample_albedo.jpg",
+    "normalMap": "wallpaper_sample_normal.png",
+    "roughnessMap": "wallpaper_sample_rough.png",
+    "physicalSizeM": [
+      0.53,
+      0.53
+    ],
+    "repeat": [
+      1.8868,
+      1.8868
+    ]
+  },
+  {
+    "name": "door_slab",
+    "map": "door_slab_albedo.jpg",
+    "normalMap": "door_slab_normal.png",
+    "roughnessMap": "door_slab_rough.png",
+    "physicalSizeM": [
+      0.4064,
+      0.4064
+    ],
+    "repeat": [
+      2.4606,
+      2.4606
+    ],
+    "color": "#6B6C6B"
+  }
+]
