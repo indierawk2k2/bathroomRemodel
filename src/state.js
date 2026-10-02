@@ -9,6 +9,7 @@ export const DEFAULT_STATE = {
   tile: null, // option id from state.options.tiles
   light: null, // option id from state.options.lights
   transition: null, // id from state.options.transitions ('butt-joint' | 'metal-edge' | 'flush-fill')
+  accentExtent: 'full-wall', // 'full-wall' (round the window to the east corner) | 'vanity-strip' (x 30-76")
   accentTopIn: 120,
   mirrorBottomIn: 42,
   // Light placement.  null = the selected light option's own default

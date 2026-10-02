@@ -7,7 +7,7 @@
 //   remodel.setQuality({ reflectorSize, pointShadowSize })
 //   remodel.groups -> { root, accent, mirror, light }
 //
-// State keys read: scenario, tile, light, transition, accentTopIn,
+// State keys read: scenario, tile, light, transition, accentExtent, accentTopIn,
 // mirrorBottomIn, lightHangBottomIn + lightFromWallIn (ceiling fixtures),
 // sconceCentreIn (wall fixtures), tileThicknessMmOverride, lightsOn.
 //
@@ -21,7 +21,7 @@
 // from the registry, so adding an option is still one file + one line in
 // src/options/index.js.
 import { tiles, lights, getTile, getLight } from '../options/index.js';
-import { buildAccentWall, TRANSITIONS } from './accentWall.js';
+import { buildAccentWall, TRANSITIONS, EXTENTS } from './accentWall.js';
 import { buildOvalMirror } from './ovalMirror.js';
 import { createJunctionInspector } from './junction.js';
 
@@ -52,6 +52,7 @@ function optionLists() {
     tiles: tiles().map(pick),
     lights: lights().map((o) => ({ ...pick(o), mount: o.mount || 'ceiling' })),
     transitions: TRANSITIONS.map(pick),
+    extents: EXTENTS.map(pick),
   };
 }
 
@@ -83,6 +84,7 @@ export function setupRemodel(app) {
   if (!has(lists.tiles, state.tile)) patch.tile = has(lists.tiles, DEFAULT_TILE) ? DEFAULT_TILE : lists.tiles[0]?.id ?? null;
   if (!has(lists.lights, state.light)) patch.light = has(lists.lights, DEFAULT_LIGHT) ? DEFAULT_LIGHT : lists.lights[0]?.id ?? null;
   if (!has(lists.transitions, state.transition)) patch.transition = lists.transitions[0].id;
+  if (!has(lists.extents, state.accentExtent)) patch.accentExtent = lists.extents[0].id;
   state.set(patch);
 
   // ---- per-option light placement: { [lightId]: { key: value } } for the
@@ -130,6 +132,7 @@ export function setupRemodel(app) {
     g.accent = buildAccentWall(ctx, {
       tile: state.tile,
       transition: state.transition,
+      extent: state.accentExtent,
       topIn: state.accentTopIn,
       thicknessMmOverride: state.tileThicknessMmOverride ?? undefined,
     });
@@ -179,6 +182,10 @@ export function setupRemodel(app) {
 
   // ---- fixtures on the accent wall: towel ring + vanity GFCI ride on the
   // new finished face in the remodel and go back to the drywall in current.
+  // Both sit in the vanity strip, so they move in either extent; nothing
+  // else is mounted on the north wall east of it (the GFCI in photo 54 is
+  // this same vanity outlet; the toilet tank tops out at 30", below the
+  // accent's 40" start; the frame on the stool stands on the stool).
   const remount = [];
   for (const name of ['towelRing', 'outlet_vanity']) {
     const o = groups.fixtures.getObjectByName(name);
@@ -228,7 +235,7 @@ export function setupRemodel(app) {
     }
     const want = { accent: false, mirror: false, light: false };
     for (const k of changed) {
-      if (k === 'tile' || k === 'transition' || k === 'accentTopIn' || k === 'tileThicknessMmOverride') want.accent = true;
+      if (k === 'tile' || k === 'transition' || k === 'accentExtent' || k === 'accentTopIn' || k === 'tileThicknessMmOverride') want.accent = true;
       if (k === 'mirrorBottomIn') want.mirror = true;
       if (k === 'light' || PLACEMENT[k]) want.light = true;
     }

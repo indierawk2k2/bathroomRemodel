@@ -153,6 +153,12 @@ export const WINDOW = {
   trimW: inch(2.5),
   sillNose: inch(1.5),
   jambDepth: inch(4.5),
+  // Trim profile (src/room.js buildWindow); the full-wall accent cuts round
+  // the outline these make (src/remodel/accentWall.js windowCutouts).
+  casingProud: inch(0.6), // flat casing + apron, ~5/8" proud of the drywall
+  stoolThick: inch(0.75), // stool (sill) board thickness, top at sillTop
+  stoolHorn: inch(0.5), // stool runs this far past each casing edge
+  apronH: inch(1.75), // apron height under the stool
 };
 
 export const TOILET = { centerX: inch(87.5) };
@@ -189,8 +195,16 @@ Object.assign(ROOM, {
 // Remodel scenario defaults (section 4).  Owned by the remodel components;
 // kept here so all dimensions live in one file.
 export const REMODEL = {
-  accentX0: inch(30), // tub-column tile edge
-  accentX1: inch(76), // window trim outer edge
+  // Accent extent (state.accentExtent): 'vanity-strip' covers x 30..76
+  // (tub-column tile edge -> window trim outer edge); 'full-wall' runs on
+  // round the window to the inside corner with the east wall (x 102).
+  // The vanity strip stays the reference for everything centred on the
+  // vanity (sconces, mirror, pattern origin) whatever the extent.
+  vanityStripX0: inch(30), // tub-column tile edge
+  vanityStripX1: inch(76), // window trim outer edge
+  fullWallX1: ROOM.width, // inside corner with the east wall
+  accentX0: inch(30), // = vanityStripX0 (older alias; room.js splits the wainscot here)
+  accentX1: inch(76), // = vanityStripX1
   accentBottom: inch(40),
   accentTopIn: 120,
   // Oval mirror centred on the sink (x = 54"), bottom 42" -> top 98".
@@ -214,7 +228,6 @@ export const REMODEL = {
   // is then 4.1" / 3.1" clear of the frame and 4.1" / 3.1" inside the accent.
   sconceRangeIn: [56, 80],
   thinsetMm: 3,
-  thinsetMm: 3,
   // Junction inspector anchor: the clear gap between the glass soap
   // dispenser (x 45.5") and the faucet (x 54"), on the wainscot top.
   junction: { x: inch(49.5), y: inch(40), z: 0, radius: inch(30) },
@@ -225,8 +238,9 @@ REMODEL.mirrorCentreX = REMODEL.ovalMirror.centerX;
   // Sconce offsets from the sink centre (see the comment above), in inches.
   const toIn = (m) => m / inch(1);
   const half = toIn(REMODEL.ovalMirror.width) / 2, cx = toIn(REMODEL.lightCentreX);
-  const west = (toIn(REMODEL.accentX0) + toIn(REMODEL.mirrorCentreX) - half) / 2;
-  const east = (toIn(REMODEL.accentX1) + toIn(REMODEL.mirrorCentreX) + half) / 2;
+  // Always the vanity strip, never the full-wall extent.
+  const west = (toIn(REMODEL.vanityStripX0) + toIn(REMODEL.mirrorCentreX) - half) / 2;
+  const east = (toIn(REMODEL.vanityStripX1) + toIn(REMODEL.mirrorCentreX) + half) / 2;
   REMODEL.sconceOffsetsIn = [west - cx, east - cx];
 }
 

@@ -256,15 +256,16 @@ function buildWindow(ctx, mat, std) {
   const { WINDOW: Wn } = ctx.config;
   const g = new THREE.Group();
   g.name = 'window';
-  const tw = Wn.trimW, dep = Wn.jambDepth, pr = inch(0.6);
+  const tw = Wn.trimW, dep = Wn.jambDepth, pr = Wn.casingProud;
+  const st = Wn.stoolThick, horn = Wn.stoolHorn, apH = Wn.apronH;
   const ix0 = Wn.trimX0 + tw, ix1 = Wn.trimX1 - tw, iy0 = Wn.sillTop, iy1 = Wn.head - tw;
   // casing (flat 2.5" trim, ~5/8" proud): sides + head
   g.add(box(Wn.trimX0, iy0, 0, ix0, Wn.head, pr, mat.trim, { name: 'window_casing_l' }));
   g.add(box(ix1, iy0, 0, Wn.trimX1, Wn.head, pr, mat.trim, { name: 'window_casing_r' }));
   g.add(box(ix0, iy1, 0, ix1, Wn.head, pr, mat.trim, { name: 'window_casing_head' }));
   // stool (sill) with 1.5" nose and short horns, apron below (photo 53)
-  g.add(box(Wn.trimX0 - inch(0.5), iy0 - inch(0.75), -dep, Wn.trimX1 + inch(0.5), iy0, Wn.sillNose, mat.trim, { name: 'window_sill' }));
-  g.add(box(Wn.trimX0, iy0 - inch(0.75) - inch(1.75), 0, Wn.trimX1, iy0 - inch(0.75), pr, mat.trim, { name: 'window_apron' }));
+  g.add(box(Wn.trimX0 - horn, iy0 - st, -dep, Wn.trimX1 + horn, iy0, Wn.sillNose, mat.trim, { name: 'window_sill' }));
+  g.add(box(Wn.trimX0, iy0 - st - apH, 0, Wn.trimX1, iy0 - st, pr, mat.trim, { name: 'window_apron' }));
   // jamb returns (drywall wrapped, painted white like the trim)
   g.add(box(ix0 - inch(0.1), iy0, -dep, ix0, iy1, 0, mat.trim));
   g.add(box(ix1, iy0, -dep, ix1 + inch(0.1), iy1, 0, mat.trim));

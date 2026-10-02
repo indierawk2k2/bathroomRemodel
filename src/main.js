@@ -44,6 +44,7 @@ function hashState(h) {
   if (h.tile) s.tile = h.tile;
   if (h.light) s.light = h.light;
   if (h.transition) s.transition = h.transition;
+  if (h.extent) s.accentExtent = { full: 'full-wall', strip: 'vanity-strip' }[h.extent] || h.extent;
   if (h.night !== undefined) s.night = flag(h.night);
   if (h.lights !== undefined) s.lightsOn = flag(h.lights);
   for (const [k, key] of [['top', 'accentTopIn'], ['mirror', 'mirrorBottomIn'], ['hang', 'lightHangBottomIn'], ['sconce', 'sconceCentreIn'], ['fromwall', 'lightFromWallIn'], ['thick', 'tileThicknessMmOverride']]) {
@@ -201,7 +202,7 @@ async function boot() {
   });
   app.probe = probe;
   probe.request(4);
-  const PROBE_KEYS = ['scenario', 'tile', 'light', 'transition', 'night', 'lightsOn', 'accentTopIn',
+  const PROBE_KEYS = ['scenario', 'tile', 'light', 'transition', 'accentExtent', 'night', 'lightsOn', 'accentTopIn',
     'mirrorBottomIn', 'lightHangBottomIn', 'lightFromWallIn', 'sconceCentreIn', 'tileThicknessMmOverride'];
 
   const ui = buildUI({ state, controls, presets, applyPreset, quality });

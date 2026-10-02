@@ -32,8 +32,25 @@ export function remodelDims(ctx) {
     capHeight: cfg(ctx, ['ROOM.wainscotCapHeight', 'ROOM.wainscot.capHeight', 'ROOM.capHeight'], mm(6)),
     wainscotProud: cfg(ctx, ['ROOM.wainscotProud', 'ROOM.wainscot.proud', 'ROOM.wainscotThickness'], mm(13)),
     wainscotThinset: cfg(ctx, ['ROOM.wainscotThinset', 'ROOM.wainscot.thinset'], mm(3)),
-    accentX0: cfg(ctx, ['REMODEL.accentX0', 'REMODEL.accent.x0'], inch(30)),
-    accentX1: cfg(ctx, ['REMODEL.accentX1', 'REMODEL.accent.x1'], inch(76)),
+    // vanity strip (x 30..76): the 'vanity-strip' extent, and the pattern
+    // origin / sconce reference in every extent
+    accentX0: cfg(ctx, ['REMODEL.vanityStripX0', 'REMODEL.accentX0', 'REMODEL.accent.x0'], inch(30)),
+    accentX1: cfg(ctx, ['REMODEL.vanityStripX1', 'REMODEL.accentX1', 'REMODEL.accent.x1'], inch(76)),
+    // 'full-wall' extent: on round the window to the east inside corner
+    fullWallX1: cfg(ctx, ['REMODEL.fullWallX1', 'ROOM.width'], inch(102)),
+    roomWidth: cfg(ctx, ['ROOM.width'], inch(102)),
+    // window trim outline (src/room.js buildWindow), cut out of the full wall
+    window: {
+      trimX0: cfg(ctx, ['WINDOW.trimX0'], inch(76)),
+      trimX1: cfg(ctx, ['WINDOW.trimX1'], inch(99)),
+      sillTop: cfg(ctx, ['WINDOW.sillTop'], inch(44)),
+      head: cfg(ctx, ['WINDOW.head'], inch(90)),
+      casingProud: cfg(ctx, ['WINDOW.casingProud'], inch(0.6)),
+      stoolThick: cfg(ctx, ['WINDOW.stoolThick'], inch(0.75)),
+      stoolHorn: cfg(ctx, ['WINDOW.stoolHorn'], inch(0.5)),
+      stoolNose: cfg(ctx, ['WINDOW.sillNose'], inch(1.5)),
+      apronH: cfg(ctx, ['WINDOW.apronH'], inch(1.75)),
+    },
     accentBottom: cfg(ctx, ['REMODEL.accentBottom', 'REMODEL.accent.y0'], inch(40)),
     accentTop: cfg(ctx, ['REMODEL.accentTop', 'REMODEL.accent.y1'], inch(120)),
     thinset: cfg(ctx, ['REMODEL.thinset', 'REMODEL.thinsetM'], mm(3)),

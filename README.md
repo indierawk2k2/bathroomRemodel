@@ -51,6 +51,7 @@ press a button once after plugging it in so the browser exposes it):
 | B | next tile / wallpaper option |
 | X | next transition at the wainscot |
 | Y | switch between Current and Remodel |
+| Back (View) | switch the accent extent (full wall / vanity strip) |
 | D-pad left / right | previous / next camera preset |
 | Start | hide / show the panel |
 
@@ -62,8 +63,9 @@ when a pad is connected.
 - **Scenario**: *Current* (the bathroom as it is, with the frameless mirror
   and chrome light bar) or *Remodel*.
 - **Daylight**: Day / Night. **Vanity light**: On / Off.
-- **Tile / wallpaper** for the accent wall (x 30"–76", from the top of the
-  wainscot up to the "Accent top" height):
+- **Tile / wallpaper** for the accent wall (from the top of the wainscot up
+  to the "Accent top" height; how far it runs across the wall is the
+  "Accent extent" below):
   - *Sage Fan (Daltile Handcrafted)*: the 4" green fan / fish-scale mosaic
     from the store display (photo 01), glossy glaze, 3/8" (10 mm) thick.
   - *White glass subway 3x6, stacked*: 3" x 6" white glass, long side
@@ -89,8 +91,20 @@ when a pad is connected.
   - *Harlan brass sconces, ribbed glass (pair)*: one either side of the
     mirror, each centred in the strip of tile between the mirror frame and
     the edge of the accent wall (x 36.25" and 70.75").
+- **Accent extent**: *Full wall, around window* (the default) runs the tile
+  or wallpaper across the whole vanity wall: from the tub column, behind the
+  vanity, round the window (above its head trim, below the sill and apron
+  down to the wainscot, and the narrow strip between the trim and the
+  corner) and into the corner with the toilet-side wall, which itself stays
+  painted. Tile stops at the outer edge of the window trim with a caulk
+  joint, the way a tile setter would butt it; wallpaper is trimmed tight to
+  it. *Vanity strip only* keeps it to the strip behind the vanity (x 30"–76",
+  tub column to window trim). The pattern is laid from the same starting
+  point in both, so the vanity strip looks identical and the full wall just
+  carries on; the mirror and the lights stay where they are.
 - **Transition at wainscot**: how the new tile meets the top of the existing
-  tile (see below).
+  tile (see below); it runs the whole length of the new tile, under the
+  window and behind the toilet too.
 - **Sliders**: accent top height; mirror bottom height (default 42", so the
   56"-tall mirror spans 42"–98"; the mirror hangs flat like a picture, with
   no brackets); light height, which is the *bottom* of a hanging fixture
@@ -165,6 +179,7 @@ view and returns the time per frame.
 | `#preset=N` | start at camera preset N (1–6) |
 | `#scenario=remodel` | start in the remodel scenario |
 | `#tile=ID` `#light=ID` `#transition=ID` | pick options (ids as listed above, e.g. `tile=white-glass-subway-stacked`, `light=rattan-linear`, `transition=metal-edge`) |
+| `#extent=full` (`strip`) | accent extent: full wall round the window (default) or the vanity strip only |
 | `#night=1`, `#lights=0` | night; vanity light off |
 | `#top=` `#mirror=` `#hang=` `#fromwall=` `#sconce=` `#thick=` | slider values (inches; `thick` in mm); `fromwall` = hanging light's distance from the wall |
 | `#q=high` (`medium`, `low`) | force a quality level, no automatic step-down |
@@ -198,7 +213,7 @@ the decision:
 | wainscot proudness | 1/2" (13 mm) from the painted wall to the tile face | the step at the junction (the whole point of preset 5) |
 | wainscot top edge | factory-rounded edge about 1/4" (6 mm) tall, no separate cap | the transition options |
 | tile-column edge (left end of the accent wall) | 30" from the tub wall | accent width |
-| window trim | outer edges at 76" and 99", sill 44", head trim top 90" | right end of the accent wall |
+| window trim | outer edges at 76" and 99", sill 44", head trim top 90"; casing and apron 5/8" proud, stool 3/4" thick with 1/2" horns, apron 1 3/4" | right end of the vanity strip; the cut-out in the full wall |
 | new tile thicknesses | Sage Fan 10 mm, glass subway 8 mm, ceramic subway 6 mm, thin-set 3 mm | the step |
 | oval mirror | 56" x 23", bottom at 42", centred on the sink | spacing to the lights |
 | outlet | centre 68.5" from the tub wall, 43.5" high | sits in the new tile |
