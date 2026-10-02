@@ -150,7 +150,7 @@ export default {
       }),
       // Champagne Bronze: a soft, pale satin brass (photos); metalness 1,
       // so the room's env probe gives it real reflections.
-      metal: new THREE.MeshPhysicalMaterial({ color: 0xc4a77a, metalness: 1, roughness: 0.32, anisotropy: 0.3 }),
+      metal: new THREE.MeshPhysicalMaterial({ color: 0xcfb284, metalness: 1, roughness: 0.42, anisotropy: 0.3 }),
     };
     for (const m of [mats.porcelain, mats.inside, mats.bulb]) m.userData.onIntensity = m.emissiveIntensity;
 
