@@ -4,3 +4,4 @@ __pycache__/
 .beads/*.db
 screenshots/
 node_modules/
+.claude/worktrees/
