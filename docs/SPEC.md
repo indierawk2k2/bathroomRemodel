@@ -403,6 +403,12 @@ Tile / wallpaper options (registry):
   repeat (0.265 x 0.1767 m) from the retailer's 1200 px flat; partly
   metallic satin gold lines on a matte ground, metalness in the roughness
   map's B channel (br-9a0).
+- `wallpaper-heroad-gold-chevron-dark-green`: Heroad peel-and-stick gold
+  chevron on dark green (eBay 168714908980, Amazon B0CF5HCQ69), PVC,
+  17.3" x 78.7" self-adhesive roll; no published repeat or flat image:
+  texture = the repeat measured in a front-on room scene (40 copies
+  averaged), at an estimated 0.22 x 0.142 m (two repeats per 44 cm roll
+  width); partly metallic gold lines, embossed PVC grain (br-34z).
 
 ## 5. Viewer
 
@@ -512,8 +518,9 @@ Required texture names (section 7): `floor_plank`, `wainscot`, `accent_band`,
 `curtain`, `tile_sage_fan`, `tile_white_subway_stacked`, `wallpaper_sample`,
 `door_slab`; product wallpapers add `wallpaper_cole_son_feather_fan_soft_olive`,
 `wallpaper_rebel_walls_ripple_blue`,
-`wallpaper_debona_crystal_trellis_blue_silver` and
-`wallpaper_wow_metro_prism_emerald_gold` (from `assets/source/wallpapers/`).
+`wallpaper_debona_crystal_trellis_blue_silver`,
+`wallpaper_wow_metro_prism_emerald_gold` and
+`wallpaper_heroad_gold_chevron_dark_green` (from `assets/source/wallpapers/`).
 
 ## 7. Textures
 

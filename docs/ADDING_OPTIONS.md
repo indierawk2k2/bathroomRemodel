@@ -323,7 +323,9 @@ export default {
 This is how `wallpaper-cole-son-feather-fan-soft-olive` and
 `wallpaper-rebel-walls-ripple-blue` were added (br-ukz),
 `wallpaper-debona-crystal-trellis-blue-silver` (br-oc9) and
-`wallpaper-wow-metro-prism-emerald-gold` (br-9a0):
+`wallpaper-wow-metro-prism-emerald-gold` (br-9a0), and from a marketplace
+listing with no flat image, `wallpaper-heroad-gold-chevron-dark-green`
+(br-34z, step 11):
 
 1. **Open the page in a real browser** (Claude in Chrome). Retail sites
    often block `curl` for the HTML. Read the product name, collection,
@@ -393,6 +395,21 @@ This is how `wallpaper-cole-son-feather-fan-soft-olive` and
    that, and draw the ink in its median colour on the median ground: the
    maker's colours, with the sheen left to the material's metalness. A
    uniformly printed matte flat is still used as is.
+11. **Marketplace listings (eBay, Amazon) with no flat image.** eBay
+   listings expire: record item number, title, seller, condition, price,
+   quantity, every Item-specifics field and the image URLs (request
+   `i.ebayimg.com/images/g/<id>/s-l1600.jpg`) in `SOURCES.md` the same
+   day. Search the listing title on Amazon: resellers copy the maker's
+   photos, and Amazon serves them unbadged and larger (drop the
+   `._AC_SL1500_` suffix for the original). If no photo is a flat, look
+   for a room scene whose wall is a front-on composite (high, even
+   autocorrelation over the whole wall), measure its period to 0.01 px
+   with a parabolic fit at several multiples, resample the crop to a
+   whole-pixel period and average the copies. Without a published repeat,
+   estimate the scale from anything with a known size in the photos (a
+   printed cutting grid on the backing is the best ruler; furniture is a
+   cross-check), prefer a whole number of repeats per roll width, and say
+   in the option's `description` that the repeat is an estimate.
 
 ### Metallic and glitter papers
 

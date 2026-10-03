@@ -23,6 +23,7 @@ export { default as wallpaperColeSonFeatherFanSoftOlive } from './wallpapers/wal
 export { default as wallpaperRebelWallsRippleBlue } from './wallpapers/wallpaper-rebel-walls-ripple-blue.js';
 export { default as wallpaperDebonaCrystalTrellisBlueSilver } from './wallpapers/wallpaper-debona-crystal-trellis-blue-silver.js';
 export { default as wallpaperWowMetroPrismEmeraldGold } from './wallpapers/wallpaper-wow-metro-prism-emerald-gold.js';
+export { default as wallpaperHeroadGoldChevronDarkGreen } from './wallpapers/wallpaper-heroad-gold-chevron-dark-green.js';
 
 // ---- lights -------------------------------------------------------------
 export { default as rattanLinear } from './lights/rattan-linear.js';
