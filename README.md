@@ -99,6 +99,27 @@ when a pad is connected.
     says waterproof "but not for bathroom use".
   The product wallpapers are built from the makers' or retailers' own artwork
   (`assets/source/wallpapers/SOURCES.md`) at true scale.
+  - **Paint colours** (eggshell), five bold colours picked to contrast with
+    the white walls and grey stone and to flatter the red-brown oak mirror
+    frame, in hue order: *Vardo* (Farrow & Ball No. 288, deep peacock teal),
+    *Hunt Club* (Sherwin-Williams SW 6468, hunter green), *Hale Navy*
+    (Benjamin Moore HC-154, inky navy), *Brinjal* (Farrow & Ball No. 222,
+    aubergine) and *Cavern Clay* (Sherwin-Williams SW 7701, terracotta).
+    Hexes are the makers' own (`assets/source/paints/SOURCES.md`). Paint is
+    0 mm at the junction, like wallpaper.
+  - Colours you saved with the colour chooser follow the presets.
+- **Custom colour** (just under the tile select): pick any colour, a finish
+  (*Eggshell*, *Matte* or *Satin paint*, or *Glazed subway tile*: 3" x 6"
+  glass subway in that colour, stacked like the white glass option, 8 mm
+  thick with light grey grout) and the accent wall shows it live. Picking any
+  paint in the list (preset or saved) loads it into the chooser so you can
+  start from it and tweak. **Save** keeps it in this browser under the name
+  you type (saving the same name again overwrites it), and it appears at the
+  end of the list (and in the B-button cycle). **Delete** removes the
+  selected saved colour. An unsaved colour is also written into the page
+  address, so copying the URL shares it. Saved colours live in this
+  browser's local storage only: another browser or computer will not see
+  them (send the link instead).
 - **Light**:
   - *Rattan oval linear, 4-light (Adara)*: 32" x 12" x 10" woven rattan
     chandelier over the sink, hung from the ceiling on chains.
@@ -216,7 +237,8 @@ view and returns the time per frame.
 | --- | --- |
 | `#preset=N` | start at camera preset N (1–6) |
 | `#scenario=remodel` | start in the remodel scenario |
-| `#tile=ID` `#light=ID` `#transition=ID` | pick options (ids as listed above, e.g. `tile=white-glass-subway-stacked`, `light=rattan-linear`, `transition=metal-edge`) |
+| `#tile=ID` `#light=ID` `#transition=ID` | pick options (ids as listed above, e.g. `tile=white-glass-subway-stacked`, `tile=paint-hale-navy`, `light=rattan-linear`, `transition=metal-edge`) |
+| `#tile=custom&paint=RRGGBB&finish=F&pname=NAME` | an unsaved custom colour: hex without `#`; `finish` = `eggshell` (default), `matte`, `satin` or `subway`; `pname` URL-encoded name (optional). The panel writes these when you use the colour chooser |
 | `#extent=full` (`strip`) | accent extent: full wall round the window (default) or the vanity strip only |
 | `#night=1`, `#lights=0` | night; vanity light off |
 | `#top=` `#mirror=` `#hang=` `#fromwall=` `#sconce=` `#thick=` | slider values (inches; `thick` in mm); `fromwall` = hanging light's distance from the wall |

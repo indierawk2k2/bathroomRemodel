@@ -12,6 +12,7 @@ src/options/
   procedural.js        helpers for runtime maps (noise, height -> normal, canvas textures, tileMaterial)
   tiles/*.js           kind: 'tile'
   wallpapers/*.js      kind: 'wallpaper' (thicknessMm 0, no thin-set)
+  paints/paint.js      makePaint() factory, kind: 'paint'; paints/*.js one preset each; paints/custom.js saved colours
   lights/*.js          light fixtures; lights/common.js has chains, rods, bulbs, PointLights
 ```
 
@@ -444,6 +445,41 @@ if (r) {
   roughness and some metalness. Put them in the roughness / metal map, not
   the normal map, so mip-mapping averages them into a faint sheen at
   distance and nothing shimmers when the camera moves.
+
+## Paint colours
+
+A paint colour is one line through the factory in
+`src/options/paints/paint.js` (kind `'paint'`):
+
+```js
+// src/options/paints/hale-navy.js
+import { makePaint } from './paint.js';
+export default makePaint({ id: 'paint-hale-navy', name: 'Hale Navy', hex: '#434b56', finish: 'eggshell',
+  brand: 'Benjamin Moore', code: 'HC-154', order: 62, description: '...' });
+```
+
+plus `export { default as paintHaleNavy } from './paints/hale-navy.js';` in
+the paint block of `src/options/index.js`. Record the hex and the page you
+read it from in `assets/source/paints/SOURCES.md` (makers' pages carry it:
+Benjamin Moore in the page JSON `"hex"`, Sherwin-Williams as the RGB
+property, Farrow & Ball as the swatch background colour).
+
+- `finish`: `eggshell` (default, roughness 0.72), `matte` (0.9), `satin`
+  (0.5) are paint: 0 mm, wallpaper-like at the junction, a colour-independent
+  roller-stipple normal map. `subway` is glazed 3" x 6" glass subway tile in
+  the colour, stacked, 8 mm + thinset, light grey grout (the white glass
+  subway generator, tinted).
+- `order`: presets use 60–64 in hue order; saved colours come after (90+).
+- The display name is built for you: `"Hale Navy, Benjamin Moore HC-154 (paint)"`.
+
+Saved colours: the panel's **Custom colour** chooser stores them in the
+browser, `localStorage['bathroomRemodel.customPaints']`, a JSON array of
+`{ id, name, hex, finish }`, and `src/options/paints/custom.js` registers
+them at startup. To promote one to a preset, read it back in the browser
+console (`JSON.parse(localStorage['bathroomRemodel.customPaints'])`), copy
+its `hex`, `finish` and `name` into a new preset file as above (give it a
+`paint-<slug>` id and an `order`), add the export line, then delete the saved
+copy in the panel so it does not show twice.
 
 ## 4. A light fixture
 

@@ -55,6 +55,11 @@
   #btn-hide { width: 100%; margin-top: 4px; }
   .help { color: var(--dim); font-size: 11px; margin-top: 8px; }
   .desc { color: var(--dim); font-size: 11px; margin-top: 3px; }
+  .paint-line { display: flex; gap: 6px; align-items: center; margin-bottom: 4px; }
+  #paint-colour { width: 44px; height: 28px; padding: 0 2px; border: 1px solid #444; border-radius: 6px; background: #2a2d2f; cursor: pointer; flex: none; }
+  #paint-finish { flex: 1; }
+  #paint-name { width: 100%; box-sizing: border-box; background: #2a2d2f; color: var(--fg); border: 1px solid #444; border-radius: 6px; padding: 4px 6px; font: inherit; margin-bottom: 4px; }
+  .seg button:disabled { opacity: .4; cursor: default; }
   .row.two { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
   #pad-legend { color: var(--acc); }
   #fps-box { position: fixed; left: 12px; top: 12px; background: var(--bg); padding: 3px 8px; border-radius: 6px; font: 12px ui-monospace, Menlo, monospace; }
@@ -83,7 +88,14 @@
     <div><label>Daylight (N)</label><div class="seg"><button id="tod-day">Day</button><button id="tod-night">Night</button></div></div>
     <div><label>Vanity light (L)</label><div class="seg"><button id="light-on">On</button><button id="light-off">Off</button></div></div>
   </div>
-  <div class="row"><label for="sel-tile">Tile / wallpaper</label><select id="sel-tile"></select><div class="desc" id="desc-tile"></div></div>
+  <div class="row"><label for="sel-tile">Tile / wallpaper / paint</label><select id="sel-tile"></select><div class="desc" id="desc-tile"></div></div>
+  <div class="row" id="paint-chooser">
+    <label for="paint-colour">Custom colour</label>
+    <div class="paint-line"><input id="paint-colour" type="color" value="#434b56" title="Pick a colour (live preview)"><select id="paint-finish" title="Finish"></select></div>
+    <input id="paint-name" type="text" maxlength="40" placeholder="Name (for Save)" autocomplete="off">
+    <div class="seg"><button id="paint-apply" title="Show this colour on the accent wall">Apply</button><button id="paint-save" title="Save under this name (same name overwrites)">Save</button><button id="paint-delete" title="Delete the selected saved colour">Delete</button></div>
+    <div class="desc" id="paint-msg"></div>
+  </div>
   <div class="row"><label for="sel-light">Light</label><select id="sel-light"></select></div>
   <div class="row"><label for="sel-extent">Accent extent</label><select id="sel-extent"></select></div>
   <div class="row"><label for="sel-transition">Transition at wainscot</label><select id="sel-transition"></select><div class="desc" id="desc-transition"></div></div>

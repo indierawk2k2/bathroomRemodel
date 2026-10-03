@@ -6,6 +6,10 @@
 //   remodel.frame(camera)                // every frame (inspector, re-mounts)
 //   remodel.setQuality({ reflectorSize, pointShadowSize })
 //   remodel.groups -> { root, accent, mirror, light }
+//   remodel.refreshOptions(patch?)       // re-read the registry into state.options
+//                                        // (after saving / deleting a custom paint)
+//   remodel.paintInPlace(hex) -> bool    // recolour the accent face without a rebuild
+//                                        // (paint finishes only; false otherwise)
 //
 // State keys read: scenario, tile, light, transition, accentExtent, accentTopIn,
 // mirrorBottomIn, lightHangBottomIn + lightFromWallIn (ceiling fixtures),
@@ -27,6 +31,7 @@ import { tiles, lights, getTile, getLight } from '../options/index.js';
 import { buildAccentWall, TRANSITIONS, EXTENTS } from './accentWall.js';
 import { buildOvalMirror } from './ovalMirror.js';
 import { createJunctionInspector } from './junction.js';
+import { registerSavedPaints } from '../options/paints/custom.js';
 
 export const DEFAULT_TILE = 'sage-fan';
 export const DEFAULT_LIGHT = 'harlan-sconces';
@@ -97,6 +102,7 @@ export function setupRemodel(app) {
     mirrorBottomIn: state.mirrorBottomIn ?? R.ovalMirror.bottomIn, mirrorHeightIn: R.ovalMirror.height / 0.0254,
     ceilingIn: config.ROOM.ceiling / 0.0254,
   });
+  registerSavedPaints();             // the owners' saved custom paint colours
   const lists = optionLists(ctx);
   const has = (list, id) => list.some((o) => o.id === id);
   const patch = { options: lists };
@@ -297,5 +303,17 @@ export function setupRemodel(app) {
     },
     rebuild,
     getTile, getLight,
+    refreshOptions(extra = {}) {
+      state.set({ options: optionLists(ctx), ...extra });
+    },
+    paintInPlace(hex) {
+      const face = g.accent && g.accent.getObjectByName('accentFace');
+      const m = face && [].concat(face.material)[0];
+      const p = m && m.userData.paint;
+      if (!p || p.finish === 'subway') return false;
+      m.color.set(hex);
+      p.hex = hex;
+      return true;
+    },
   };
 }
