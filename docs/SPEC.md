@@ -396,6 +396,19 @@ Tile / wallpaper options (registry):
   on across the strips); texture = one roll width x 4 repeats (0.53 x
   0.64 m); satin metallic trellis (metalness in the roughness map's B
   channel) on a matte textured ground with glitter flecks (br-oc9).
+- `wallpaper-wow-metro-prism-emerald-gold`: World of Wallpaper Metro Prism
+  WOW037 Emerald Green / Gold (B&Q 3294270361047), roll 0.53 x 10.05 m,
+  17.6 cm repeat, offset match (a half drop inside the artwork; the roll
+  width is a whole number of motifs); texture = half a roll width x one
+  repeat (0.265 x 0.1767 m) from the retailer's 1200 px flat; partly
+  metallic satin gold lines on a matte ground, metalness in the roughness
+  map's B channel (br-9a0).
+- `wallpaper-heroad-gold-chevron-dark-green`: Heroad peel-and-stick gold
+  chevron on dark green (eBay 168714908980, Amazon B0CF5HCQ69), PVC,
+  17.3" x 78.7" self-adhesive roll; no published repeat or flat image:
+  texture = the repeat measured in a front-on room scene (40 copies
+  averaged), at an estimated 0.22 x 0.142 m (two repeats per 44 cm roll
+  width); partly metallic gold lines, embossed PVC grain (br-34z).
 
 ## 5. Viewer
 
@@ -504,8 +517,10 @@ Required texture names (section 7): `floor_plank`, `wainscot`, `accent_band`,
 `vanity_wood`, `quartz`, `wall_paint`, `rattan`, `wood_frame`, `frosted_glass`,
 `curtain`, `tile_sage_fan`, `tile_white_subway_stacked`, `wallpaper_sample`,
 `door_slab`; product wallpapers add `wallpaper_cole_son_feather_fan_soft_olive`,
-`wallpaper_rebel_walls_ripple_blue` and
-`wallpaper_debona_crystal_trellis_blue_silver` (from `assets/source/wallpapers/`).
+`wallpaper_rebel_walls_ripple_blue`,
+`wallpaper_debona_crystal_trellis_blue_silver`,
+`wallpaper_wow_metro_prism_emerald_gold` and
+`wallpaper_heroad_gold_chevron_dark_green` (from `assets/source/wallpapers/`).
 
 ## 7. Textures
 

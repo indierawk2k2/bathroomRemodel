@@ -321,8 +321,11 @@ export default {
 ### A wallpaper from a product web page
 
 This is how `wallpaper-cole-son-feather-fan-soft-olive` and
-`wallpaper-rebel-walls-ripple-blue` were added (br-ukz), and
-`wallpaper-debona-crystal-trellis-blue-silver` (br-oc9):
+`wallpaper-rebel-walls-ripple-blue` were added (br-ukz),
+`wallpaper-debona-crystal-trellis-blue-silver` (br-oc9) and
+`wallpaper-wow-metro-prism-emerald-gold` (br-9a0), and from a marketplace
+listing with no flat image, `wallpaper-heroad-gold-chevron-dark-green`
+(br-34z, step 11):
 
 1. **Open the page in a real browser** (Claude in Chrome). Retail sites
    often block `curl` for the HTML. Read the product name, collection,
@@ -373,7 +376,40 @@ This is how `wallpaper-cole-son-feather-fan-soft-olive` and
    trellis has 4 lanterns per 53 cm with alternate columns dropped, and
    retailers call it "offset". Only bake two strips (the second rolled by
    half the repeat) when the roll width is *not* a lattice vector but
-   `(roll width, repeat / 2)` is.
+   `(roll width, repeat / 2)` is. Metro Prism is the same case: its
+   "offset" match is a `(repeat / 2, roll width / 4)` lattice vector inside
+   the artwork, so the texture is the plain rectangular repeat
+   (roll width / 2 x repeat).
+9. **Use a zero-padded, overlap-normalised autocorrelation** when the
+   circular one (the snippet above) gives weak or contradictory peaks.
+   Circular correlation wraps the image onto itself, which only works if
+   it is an exact whole number of periods with no lighting across it. Pad
+   the mask into a 2H x 2W array, divide by the overlap count and
+   variance at each shift, and ignore shifts with under ~20% overlap.
+   (Metro Prism: 0.73 circular vs 0.96 padded, at the same offsets.)
+10. **Baked "metallic" lighting.** Some retailer flats paint a light sweep
+   across a metallic ink (Metro Prism's gold runs R 100–150 across the
+   image, differently in every copy of the repeat). That is lighting, not
+   print, and averaging repeats leaves a blotch. Take the ink coverage from
+   a channel the sweep does not change (R − B for gold on green), average
+   that, and draw the ink in its median colour on the median ground: the
+   maker's colours, with the sheen left to the material's metalness. A
+   uniformly printed matte flat is still used as is.
+11. **Marketplace listings (eBay, Amazon) with no flat image.** eBay
+   listings expire: record item number, title, seller, condition, price,
+   quantity, every Item-specifics field and the image URLs (request
+   `i.ebayimg.com/images/g/<id>/s-l1600.jpg`) in `SOURCES.md` the same
+   day. Search the listing title on Amazon: resellers copy the maker's
+   photos, and Amazon serves them unbadged and larger (drop the
+   `._AC_SL1500_` suffix for the original). If no photo is a flat, look
+   for a room scene whose wall is a front-on composite (high, even
+   autocorrelation over the whole wall), measure its period to 0.01 px
+   with a parabolic fit at several multiples, resample the crop to a
+   whole-pixel period and average the copies. Without a published repeat,
+   estimate the scale from anything with a known size in the photos (a
+   printed cutting grid on the backing is the best ruler; furniture is a
+   cross-check), prefer a whole number of repeats per roll width, and say
+   in the option's `description` that the repeat is an estimate.
 
 ### Metallic and glitter papers
 

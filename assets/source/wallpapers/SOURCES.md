@@ -92,3 +92,111 @@ unmodified download.
   The retailer's room scene (`..._ae2.jpg`, not kept) shows silver
   about 120, closer to B&Q, so the texture uses B&Q's colours. This file is
   kept as the identity and colour reference.
+
+## World of Wallpaper Metro Prism, Emerald Green / Gold (WOW037)
+
+Downloaded 2026-10-02 (same method: `curl -L`, browser User-Agent, product
+page as Referer; files unmodified).
+
+- Retail page (the owners' link):
+  https://www.worldofwallpaper.com/metro-prism-geometric-triangle-wallpaper-emerald-green-and-gold-wow037.html
+  ("Metro Prism Geometric Triangle Wallpaper - Emerald Green and Gold -
+  WOW037", SKU WOW037, World of Wallpaper's own exclusive Metro
+  collection). Read in Chrome on 2026-10-02: metallic gold geometric
+  triangles on a matte emerald green background, "the metallic elements
+  capture the light"; **10.05 m x 53 cm roll, 17.6 cm pattern repeat,
+  offset pattern match**, paste the paper, **spongeable**. No embossing or
+  texture is mentioned.
+- Other stockists: B&Q sells it through World of Wallpaper
+  (https://www.diy.com/departments/world-of-wallpaper-metro-prism-geometric-wallpaper-emerald-green-gold-a361-an-bur-/3294270361047_BQ.prd,
+  "A361.AN-BUR", code 3294270361047): same specs (176 mm repeat, offset
+  match, 10050 x 530 mm, 800 g, not paintable) and "any room, excluding
+  bathroom & kitchen". Its five Scene7 images are all 1200 x 1200
+  (`?req=imageprops`); image `_04c_MP` is byte-for-byte the same artwork as
+  World of Wallpaper's flat (mean abs difference 0.04/255). No larger flat
+  was found.
+- `wow037-metro-prism-geometric-triangle-wallpaper-green-gold.jpg`,
+  1200 x 1200, from
+  https://www.worldofwallpaper.com/media/catalog/product/w/o/wow037-metro-prism-geometric-triangle-wallpaper-green-gold.jpg
+  (the Magento original, without `/cache/<hash>/`). Flat digital artwork.
+  **This is the texture source.** Zero-padded, overlap-normalised
+  autocorrelation of the gold-line mask gives the lattice (dy, dx) =
+  (400, 0) and (200, 300) px (0.96; the shortfall from 1.0 is a light
+  sweep baked into the gold, which is darker in two corners). So the
+  rectangular repeat is 600 x 400 px with two half-dropped motifs, and the
+  image is 2 x 3 repeats. 400 px = 17.6 cm gives 0.44 mm/px, and
+  1200 px = 52.8 cm = the roll width: the image is one roll width x three
+  repeats, the "offset" match is the half drop inside the artwork, and the
+  roll width is a lattice vector, so strips run on across the seams. The
+  lines sit on a 150 x 100 px (6.6 x 4.4 cm) grid of star nodes and are
+  about 4 px (2 mm) wide. Ground sRGB 58,89,84 everywhere; gold sRGB R
+  100-150 across the image (the sweep), median 137,125,66.
+- `wow037-metro-prism-geometric-triangle-wallpaper-green-gold-7.jpg`,
+  1200 x 1200, same path with `-7`: the retailer's photo of the roll,
+  kept as the finish reference (bright, mirror-like gold lines; under
+  studio light the ground photographs more saturated than the flat). The
+  other gallery images (`-2`, `-3`, `-6`, room scenes and a second roll
+  photo) were not kept.
+
+## Heroad peel-and-stick gold chevron, dark green (eBay 168714908980 / Amazon B0CF5HCQ69)
+
+Read and downloaded 2026-10-02.
+
+- eBay listing (the owners' link): https://www.ebay.com/itm/168714908980
+  "Peel and Stick Wallpaper Dark Green and Gold Wallpaper Geometric
+  Wallpaper Dark", seller **roy-more** (CARVAJAL STORE, 99.6% positive,
+  Tampa, Florida), condition **New**, **US $10.11 each** (2 for $9.91
+  each), **2 available**, free 2-3 day shipping, 30-day returns. Item
+  specifics: Brand "Does not apply"; Room Type Bedroom; Unit Count / Coverage
+  9.36 sq ft; Number of Packs 1; Number of Items 1; Color Dark Green and
+  Gold; Style Name / Style Modern; Theme Geometric; Material (Type)
+  Polyvinyl Chloride; Item Weight 0.24 kg; Item Dimensions L x W
+  78.7" L x 17.3" W; Installation Type Self-Adhesive; Application Method
+  Direct Application; Type Does not apply; UPC 7445049618626; Country of
+  Origin China. "Last updated on Oct 02, 2026".
+- Seller's description (https://itm.ebaydesc.com/itmdesc/168714908980):
+  title "... Contact Paper Self Adhesive Removable Wallpaper for Cabinets
+  Thicken Vinyl 78.7"X17.3"" and "Heroad brand is committed to ...".
+  17.3" x 78.7" per roll (1.44' x 6.5'), 9.36 sq ft; dark green and gold
+  geometric pattern "arranged regularly like a herringbone"; "the gold
+  part of the wallpaper surface has a slight luster"; faux vinyl / PVC,
+  self-adhesive, **waterproof (but not for bathroom use)**, indoor, smooth
+  flat surfaces. **No pattern repeat or match is given.**
+- Identification: the same title, text and photos are Amazon
+  https://www.amazon.com/dp/B0CF5HCQ69 ("Heroad Peel and Stick Wallpaper
+  Dark Green and Gold ... Thicken Vinyl 78.7"x17.3"", "Visit the Heroad
+  Store"); eBay's nine photos are Amazon's nine with a shipping badge
+  added. Heroad is the maker; it publishes nothing else.
+- eBay image URLs (all `s-l1600`; returned at 1500 px or less):
+  i.ebayimg.com/images/g/{8cIAAeSwj8Fqs~yM, ~CUAAeSw7k1qs~yN,
+  9LcAAeSwnR1qs~yO, ZYoAAeSwGB1qs~yP, ~EwAAeSw7k1qs~yQ, CMQAAeSwrvBqs~yR,
+  CP0AAeSwrgBqs~yS, aAwAAeSwkfhqs~yT, 2mgAAeSwsABqs~yU}/s-l1600.jpg.
+  Amazon originals (no size suffix):
+  m.media-amazon.com/images/I/{81d7FAqKJUL, 815l9LOE+iL, 81ZBwuoPu6L,
+  81epgy27nUL, 71y+YWWVpRL, 71zXryPBs3L, 81QnLa5B5IL, 91JMBEZHcIL,
+  71nRejWWLKL}.jpg, Referer the Amazon page.
+- **There is no flat image.** Every photo is a roll close-up or a room
+  scene. Kept here:
+  - `ebay-168714908980-8cIAAeSwj8Fqs~yM-s-l1600.jpg`, 1500 x 1500: eBay's
+    main photo (roll on a sheet, with the badge), the identity reference.
+    (eBay names every image `s-l1600.jpg`, so the item number and image
+    id are prefixed.)
+  - `81ZBwuoPu6L.jpg`, 1874 x 2560: the dining-room scene. Its wall is a
+    flat, front-on composite. **This is the texture source.** Crop x
+    420-1860, y 20-1380. Gold-line coverage (R - B) autocorrelation:
+    rectangular period 241.72 x 156.07 px (0.95-0.98 out to 5 periods)
+    plus a half lattice vector (78, 121): columns of four nested chevrons,
+    alternate columns dropped half a repeat. Ground sRGB 15,35,33, gold
+    129,114,69.
+  - `81epgy27nUL.jpg`, 1600 x 1600: four close-ups; the "Easy to cut"
+    panel shows the backing's 1 cm cutting grid (5 / 10 cm / 15 labels)
+    next to the front. The nested chevrons there are ~3.2-3.4 cm apart
+    (perspective makes this approximate). The close-ups also show the
+    PVC's fine embossed grain and the lines' slight metallic luster.
+  - `91JMBEZHcIL.jpg`, 1934 x 2499: the living-room scene, the same
+    lattice (ratio 1.55) at 216 x 139 px; against a ~75 cm sofa back the
+    chevrons are ~3.5 cm apart.
+- Scale chosen: two rectangular repeats per 44 cm roll width
+  (0.22 x 0.142 m, chevrons 3.55 cm apart), which agrees with both
+  estimates and keeps the lattice continuous across the strips. **It is an
+  estimate, about +/-10%**; the seller would have to confirm the repeat.

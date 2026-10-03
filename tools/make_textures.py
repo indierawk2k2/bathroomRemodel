@@ -45,6 +45,7 @@ ORDER = [
     "tile_sage_fan", "tile_white_subway_stacked", "wallpaper_sample",
     "door_slab", "wallpaper_cole_son_feather_fan_soft_olive",
     "wallpaper_rebel_walls_ripple_blue", "wallpaper_debona_crystal_trellis_blue_silver",
+    "wallpaper_wow_metro_prism_emerald_gold", "wallpaper_heroad_gold_chevron_dark_green",
 ]
 
 # --------------------------------------------------------------------------
@@ -1028,6 +1029,136 @@ def tex_wallpaper_debona_crystal_trellis_blue_silver():
     return e
 
 
+def tex_wallpaper_wow_metro_prism_emerald_gold():
+    """World of Wallpaper Metro Prism geometric triangle, Emerald Green / Gold
+    (WOW037; B&Q 3294270361047, "A361.AN-BUR").  Roll 0.53 m x 10.05 m,
+    pattern repeat 17.6 cm, offset match, paste the paper, spongeable.
+    Source: World of Wallpaper's 1200 x 1200 flat (the Magento original; B&Q's
+    Scene7 image 04 is the same file, mean abs diff 0.04/255; neither stockist
+    has a larger one) = one roll width x 3 repeats, 0.44 mm/px.
+    Mask autocorrelation (zero-padded, overlap-normalised): lattice
+    (dy, dx) = (400, 0) and (200, 300) px, i.e. a 600 x 400 px rectangular
+    repeat holding two half-dropped motifs; 400 px = 17.6 cm sets the scale
+    and 4 x 300 px = 1200 px = 53 cm, so the roll width is a lattice vector
+    (the "offset" match is the half drop inside the artwork; the strips run on
+    across the seams).  Texture = that 600 x 400 px repeat = 26.5 x 17.67 cm
+    (53 / 2 x 53 / 3: the label's 17.6 cm is rounded), the six copies in the
+    image averaged and upscaled 3x.
+    Colour: a flat matte ground (sRGB 58,89,84 everywhere) with thin gold
+    lines (~2 mm).  The flat bakes a light sweep into the gold (sRGB R 100..150
+    across the image, different in every copy, so it is lighting, not print);
+    the line coverage is taken from R - B, which the sweep leaves unchanged,
+    and the lines are drawn in the median gold.  The renderer's metalness
+    gives the angle-dependent sheen the page describes.
+    Finish: metallic gold ink (partial metal, satin) on matte paper; the
+    roughness PNG carries roughness in R/G and metalness in B."""
+    fname = "wow037-metro-prism-geometric-triangle-wallpaper-green-gold.jpg"
+    src = wallpaper_src(fname)
+    assert src.shape[:2] == (1200, 1200), src.shape
+    CH, CW = 400, 600
+    # ink coverage from R - B: ground (58 - 84) = -26, gold ~ +62 at any sweep brightness
+    rb = (src[..., 0] - src[..., 2]) * 255
+    cov = np.clip((rb + 26) / 88, 0, 1)
+    ground_s = np.median(src[cov < 0.05], 0)
+    gold_s = np.median(src[cov > 0.95], 0)
+    cell = np.mean([cov[j * CH:(j + 1) * CH, i * CW:(i + 1) * CW] for j in range(3) for i in range(2)], axis=0)
+    K = 3
+    W, H = CW * K, CH * K                               # 1800 x 1200
+    big = resize_wrap(cell[..., None], W, H, 20)[..., 0]
+    ink = smoothstep(0.3, 0.7, big)                     # re-sharpen the upscaled antialiased lines
+    ink = gblur(ink, 0.6, wrap=True)
+    size = (0.53 / 2, 0.53 / 3)                         # 0.265 x 0.1767 m
+    px_mm = size[1] * 1000 / H                          # 0.147 mm / px
+    g_lin, k_lin = s2l(ground_s), s2l(gold_s)
+    rng = np.random.default_rng(841)
+    paper = value_noise((H, W), 36, 842, octaves=3)     # faint print / paper mottle (tileable)
+    grain = gblur(rng.standard_normal((H, W)), 0.8, wrap=True)
+    grain /= grain.std() + 1e-9
+    lin = (g_lin * (1 - ink)[..., None] + k_lin * ink[..., None]) * (1 + 0.012 * paper + 0.006 * grain)[..., None]
+    lin = np.clip(lin, 0, 1)
+    h = paper_height((H, W), 843, 0.008) + 0.02 * gblur(ink, 1.5, wrap=True)   # ink sits ~0.02 mm proud
+    rough = np.clip(0.86 * (1 - ink) + 0.34 * ink + 0.02 * gblur(rng.standard_normal((H, W)), 1, wrap=True), 0, 1)
+    metal = np.clip(0.5 * ink, 0, 1)
+    name = "wallpaper_wow_metro_prism_emerald_gold"
+    e = entry(name, lin, size, normal_map(h, px_mm))
+    rm = np.round(np.clip(np.stack([rough, rough, metal], -1), 0, 1) * 255).astype(np.uint8)
+    e["roughnessMap"] = _save(Image.fromarray(rm), f"{name}_rough.png", optimize=True)   # B = metalness
+    e.update(source="assets/source/wallpapers/" + fname, rollWidthM=0.53, patternRepeatM=0.176,
+             match="offset (half drop inside the artwork; lattice continuous across strips)",
+             metalnessInRoughnessB=True, groundSrgb=lin2hex(g_lin), inkSrgb=lin2hex(k_lin),
+             color=lin2hex(lin.reshape(-1, 3).mean(0)))
+    return e
+
+
+def tex_wallpaper_heroad_gold_chevron_dark_green():
+    """Heroad peel-and-stick "Dark Green and Gold Geometric" contact paper
+    (Amazon B0CF5HCQ69, UPC 7445049618626; the owners' eBay listing
+    168714908980 resells it with the same photos and text).  17.3" x 78.7"
+    (44 x 200 cm) PVC roll, self-adhesive.  No pattern repeat is published
+    and there is no flat image: every product photo is a room scene or a
+    close-up of the roll.
+    Source: the dining-room scene (Amazon 81ZBwuoPu6L, 1874 x 2560), whose
+    wall is a flat, front-on composite.  Crop x 420-1860, y 20-1380 (above the
+    candle holders, right of the cabinet).  Coverage autocorrelation:
+    rectangular period 241.72 x 156.07 px (0.95-0.98 out to 5 periods), with
+    a half lattice vector (78, 121): columns of four nested chevrons, alternate
+    columns dropped half a repeat.  The crop is resampled so the period is
+    exactly 242 x 156 px, and its 5 x 8 = 40 copies are averaged.
+    Scale (estimated; nothing published): the nested chevrons are ~3.2-3.4 cm
+    apart against the backing's 1 cm cutting grid in the "Easy to cut" photo
+    (81epgy27nUL), and ~3.5 cm against a ~75 cm sofa back in the living-room
+    scene (91JMBEZHcIL).  Two rectangular repeats per 44 cm roll width gives
+    3.55 cm and keeps the lattice continuous across the strips, so the texture
+    is 0.22 x 0.142 m (aspect 1.549, from the measured period).
+    Colour: line coverage from R - B (ground -0.067, gold +0.216), drawn in
+    the scene's median gold on its median ground.  Finish: thick PVC with a
+    fine embossed grain (the close-ups), gold lines with "a slight luster":
+    partial metal; roughness PNG = roughness in R/G, metalness in B."""
+    fname = "81ZBwuoPu6L.jpg"
+    src = wallpaper_src(fname)
+    assert src.shape[:2] == (2560, 1874), src.shape
+    x0, y0, x1, y1 = 420, 20, 1860, 1380
+    PX, PY = 241.72, 156.07                              # measured period, px
+    CW, CH = 242, 156
+    crop = src[y0:y1, x0:x1]
+    rb = crop[..., 0] - crop[..., 2]
+    cov = np.clip((rb + 0.067) / 0.283, 0, 1)
+    ground_s = np.median(crop[cov < 0.05], 0)
+    gold_s = np.median(crop[cov > 0.9], 0)
+    Hc, Wc = cov.shape
+    cov = resize_f(cov[..., None], int(round(Wc * CW / PX)), int(round(Hc * CH / PY)))[..., 0]
+    nx, ny = cov.shape[1] // CW, cov.shape[0] // CH
+    cell = np.mean([cov[j * CH:(j + 1) * CH, i * CW:(i + 1) * CW] for j in range(ny) for i in range(nx)], axis=0)
+    K = 8
+    W, H = CW * K, CH * K                                # 1936 x 1248
+    big = resize_wrap(cell[..., None], W, H, 12)[..., 0]
+    ink = smoothstep(0.45, 0.75, big / max(np.percentile(big, 99.5), 1e-6))   # keeps the ~7 % line width of the close-ups
+    ink = gblur(ink, 1.0, wrap=True)
+    size = (0.22, 0.22 * PY / PX)                        # 0.22 x 0.142 m
+    px_mm = size[1] * 1000 / H
+    g_lin, k_lin = s2l(ground_s), s2l(gold_s)
+    rng = np.random.default_rng(851)
+    paper = value_noise((H, W), 44, 852, octaves=3)
+    lin = (g_lin * (1 - ink)[..., None] + k_lin * ink[..., None]) * (1 + 0.015 * paper)[..., None]
+    lin = np.clip(lin, 0, 1)
+    # embossed PVC grain (~0.2 mm cells), lines printed flat on top of it
+    emb = gblur(rng.standard_normal((H, W)), 1.4, wrap=True)
+    emb /= emb.std() + 1e-9
+    h = 0.012 * emb * (1 - 0.6 * ink) + paper_height((H, W), 853, 0.006)
+    rough = np.clip(0.72 * (1 - ink) + 0.40 * ink + 0.03 * emb, 0, 1)
+    metal = np.clip(0.45 * ink, 0, 1)
+    name = "wallpaper_heroad_gold_chevron_dark_green"
+    e = entry(name, lin, size, normal_map(h, px_mm))
+    rm = np.round(np.clip(np.stack([rough, rough, metal], -1), 0, 1) * 255).astype(np.uint8)
+    e["roughnessMap"] = _save(Image.fromarray(rm), f"{name}_rough.png", optimize=True)   # B = metalness
+    e.update(source="assets/source/wallpapers/" + fname, rollWidthM=0.44,
+             patternRepeatM=round(size[1], 4), repeatEstimated=True,
+             match="half drop inside the artwork; 2 repeats per roll width (estimated)",
+             metalnessInRoughnessB=True, groundSrgb=lin2hex(g_lin), inkSrgb=lin2hex(k_lin),
+             color=lin2hex(lin.reshape(-1, 3).mean(0)))
+    return e
+
+
 BUILDERS = {
     "floor_plank": tex_floor_plank,
     "wainscot": tex_wainscot,
@@ -1046,6 +1177,8 @@ BUILDERS = {
     "wallpaper_cole_son_feather_fan_soft_olive": tex_wallpaper_cole_son_feather_fan_soft_olive,
     "wallpaper_rebel_walls_ripple_blue": tex_wallpaper_rebel_walls_ripple_blue,
     "wallpaper_debona_crystal_trellis_blue_silver": tex_wallpaper_debona_crystal_trellis_blue_silver,
+    "wallpaper_wow_metro_prism_emerald_gold": tex_wallpaper_wow_metro_prism_emerald_gold,
+    "wallpaper_heroad_gold_chevron_dark_green": tex_wallpaper_heroad_gold_chevron_dark_green,
 }
 
 
