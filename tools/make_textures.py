@@ -46,6 +46,9 @@ ORDER = [
     "door_slab", "wallpaper_cole_son_feather_fan_soft_olive",
     "wallpaper_rebel_walls_ripple_blue", "wallpaper_debona_crystal_trellis_blue_silver",
     "wallpaper_wow_metro_prism_emerald_gold", "wallpaper_heroad_gold_chevron_dark_green",
+    "wallpaper_chesapeake_quelala_ring_ogee_navy", "wallpaper_schumacher_imperial_trellis_ii_ivory_navy",
+    "wallpaper_spoonflower_geometric_trellis_white_navy", "wallpaper_arthouse_orson_navy_trellis",
+    "wallpaper_york_graceful_geo_navy_silver", "wallpaper_a_street_livia_dark_blue_trellis",
 ]
 
 # --------------------------------------------------------------------------
@@ -1159,6 +1162,292 @@ def tex_wallpaper_heroad_gold_chevron_dark_green():
     return e
 
 
+# ---- br-cru: six navy trellis / geometric papers -------------------------
+
+def lattice_mean(a, origins, v_row, v_col, CH, CW):
+    """Average copies of one lattice cell, resampled onto a CH x CW grid.
+    The cell spans the lattice vectors v_row = (dy, dx) (one repeat down) and
+    v_col (one repeat across), which may be fractional and slightly sheared;
+    each copy starts at an (y, x) origin.  Bilinear sampling, so integer
+    vectors with CH x CW = their length reproduce a plain crop exactly."""
+    a = np.asarray(a, np.float64)
+    H, W = a.shape[:2]
+    ii, jj = np.meshgrid(np.arange(CH) / CH, np.arange(CW) / CW, indexing="ij")
+    acc = 0
+    for oy, ox in origins:
+        y = oy + ii * v_row[0] + jj * v_col[0]
+        x = ox + ii * v_row[1] + jj * v_col[1]
+        assert y.min() >= 0 and x.min() >= 0 and y.max() <= H - 1 and x.max() <= W - 1, (oy, ox)
+        y0 = np.clip(np.floor(y).astype(int), 0, H - 2); x0 = np.clip(np.floor(x).astype(int), 0, W - 2)
+        fy, fx = y - y0, x - x0
+        if a.ndim == 3:
+            fy, fx = fy[..., None], fx[..., None]
+        acc = acc + (a[y0, x0] * (1 - fy) * (1 - fx) + a[y0 + 1, x0] * fy * (1 - fx)
+                     + a[y0, x0 + 1] * (1 - fy) * fx + a[y0 + 1, x0 + 1] * fy * fx)
+    return acc / len(origins)
+
+
+def two_tone(src, ground_q, ink_q):
+    """Ink coverage (0..1) of a two-colour print from sRGB luminance, and the
+    median ground / ink colours (sRGB) measured on the clean pixels."""
+    L = src.mean(2)
+    g, k = np.percentile(L, ground_q), np.percentile(L, ink_q)
+    cov = np.clip((L - g) / (k - g), 0, 1)
+    return cov, np.median(src[cov < 0.03], 0), np.median(src[cov > 0.97], 0)
+
+
+def resharpen(cov, K, pad, lo=0.35, hi=0.65, soft=0.6):
+    """Upscale a tileable coverage map K x and re-sharpen its edges (the
+    edges of a flat print are hard; the Lanczos upscale is not)."""
+    H, W = cov.shape
+    big = resize_wrap(cov[..., None], W * K, H * K, pad)[..., 0]
+    return gblur(smoothstep(lo, hi, big), soft, wrap=True)
+
+
+def pack_rough_metal(name, rough, metal):
+    rm = np.round(np.clip(np.stack([rough, rough, metal], -1), 0, 1) * 255).astype(np.uint8)
+    return _save(Image.fromarray(rm), f"{name}_rough.png", optimize=True)   # B = metalness
+
+
+def tex_wallpaper_chesapeake_quelala_ring_ogee_navy():
+    """Chesapeake (York Wallcoverings) Quelala Ring Ogee, Navy 3122-11002.
+    Double roll 20.5" x 33 ft, 10.5" repeat, straight match, prepasted
+    acrylic-coated paper, washable and strippable.  Source: York's
+    1800 x 1800 flat (3122-11002-1.jpg).  Ring-mask autocorrelation
+    (zero-padded, overlap-normalised): 0.994 at (0, 450) px and 0.992 at
+    (916.06, 0) px, with half-drop near-copies at (458, +-225) of only 0.75
+    (the distressed ring edges differ), so the exact rectangular repeat is
+    450 x 916 px: 4 per 1800 px = one roll width, and 916 px = 10.43" at
+    87.8 px/in, the 10.5" repeat.  The four copies across the image are
+    averaged and upscaled 2x; the maker's colours (white rings, variegated
+    navy ground) are kept.  Finish: smooth acrylic-coated paper (a light
+    satin), no embossing."""
+    fname = "york-chesapeake-quelala-ring-ogee-navy-3122-11002-1.jpg"
+    src = wallpaper_src(fname)
+    assert src.shape[:2] == (1800, 1800), src.shape
+    CH, CW = 916, 450
+    lin = lattice_mean(s2l(src), [(0, i * CW) for i in range(4)], (CH, 0), (0, CW), CH, CW)
+    K = 2
+    W, H = CW * K, CH * K                                 # 900 x 1832
+    big = resize_wrap(lin, W, H, 20)
+    size = (10.5 * IN * CW / CH, 10.5 * IN)               # 0.1310 x 0.2667 m (pixel aspect kept)
+    px_mm = size[1] * 1000 / H
+    L = lum(big)
+    ink = smoothstep(0.3, 0.6, (L - np.percentile(L, 5)) / (np.percentile(L, 97) - np.percentile(L, 5)))
+    h = paper_height((H, W), 861, 0.008) + 0.006 * gblur(ink, 1.0, wrap=True)
+    grain = gblur(np.random.default_rng(862).standard_normal((H, W)), 1, wrap=True)
+    rough = np.clip(0.72 * (1 - ink) + 0.66 * ink + 0.02 * grain, 0, 1)
+    name = "wallpaper_chesapeake_quelala_ring_ogee_navy"
+    return entry(name, big, size, normal_map(h, px_mm), rough,
+                 source="assets/source/wallpapers/" + fname, rollWidthM=round(20.5 * IN, 4),
+                 patternRepeatM=round(10.5 * IN, 4), match="straight",
+                 groundSrgb=lin2hex(np.median(big[ink < 0.05], 0)), color=lin2hex(big.reshape(-1, 3).mean(0)))
+
+
+def tex_wallpaper_schumacher_imperial_trellis_ii_ivory_navy():
+    """Schumacher Imperial Trellis II, Ivory / Navy 5005801 (Print Happy).
+    Paper, pretrimmed, not prepasted, 27" x 4.5 yd roll, washable; listed
+    repeat 12.625" vertical x 6.75" horizontal, straight match.  Source:
+    Schumacher's 1200 x 1200 "hd" flat (no larger file is served).  Ink-mask
+    autocorrelation: lattice (629.82, 0.65) and (-0.46, 306.70) px (0.984 /
+    0.985): a 630 x 307 px cell, slightly sheared.  At 12.625" = 629.8 px the
+    image is 24.0" square at 49.9 px/in, so the horizontal period is 6.15",
+    not the listed 6.75"; the maker's room photo (5005801-1) has the same
+    2.03 : 1 aspect, so the artwork's aspect is kept and the vertical repeat
+    sets the scale.  The 3 copies across are resampled onto an exact
+    630 x 307 grid and averaged, then the ivory coverage is upscaled 3x,
+    re-sharpened and drawn in the flat's median ivory on its median navy.
+    Finish: matte paper."""
+    fname = "schumacher-imperial-trellis-ii-ivory-navy-5005801-hd.jpg"
+    src = wallpaper_src(fname)
+    assert src.shape[:2] == (1200, 1200), src.shape
+    v_row, v_col = (629.82, 0.65), (-0.46, 306.70)
+    CH, CW = 630, 307
+    cov, ground_s, ink_s = two_tone(src, 20, 80)
+    cell = lattice_mean(cov, [(1.0, 1.0 + i * v_col[1]) for i in range(3)], v_row, v_col, CH, CW)
+    K = 3
+    ink = resharpen(cell, K, 20)
+    H, W = ink.shape                                      # 1890 x 921
+    size = (12.625 * IN * v_col[1] / v_row[0], 12.625 * IN)   # 0.1562 x 0.3207 m
+    px_mm = size[1] * 1000 / H
+    g_lin, k_lin = s2l(ground_s), s2l(ink_s)
+    paper = value_noise((H, W), 24, 872, octaves=3)
+    lin = np.clip((g_lin * (1 - ink)[..., None] + k_lin * ink[..., None]) * (1 + 0.01 * paper)[..., None], 0, 1)
+    h = paper_height((H, W), 873, 0.010) + 0.008 * gblur(ink, 1.2, wrap=True)
+    grain = gblur(np.random.default_rng(874).standard_normal((H, W)), 1, wrap=True)
+    rough = np.clip(0.86 * (1 - ink) + 0.80 * ink + 0.02 * grain, 0, 1)
+    name = "wallpaper_schumacher_imperial_trellis_ii_ivory_navy"
+    return entry(name, lin, size, normal_map(h, px_mm), rough,
+                 source="assets/source/wallpapers/" + fname, rollWidthM=round(27 * IN, 4),
+                 patternRepeatM=round(12.625 * IN, 4), match="straight",
+                 horizontalPeriodNote="artwork 6.15 in; listed 6.75 in",
+                 groundSrgb=lin2hex(g_lin), inkSrgb=lin2hex(k_lin), color=lin2hex(lin.reshape(-1, 3).mean(0)))
+
+
+def tex_wallpaper_spoonflower_geometric_trellis_white_navy():
+    """Spoonflower design 15299902 "Traditional Geometric Trellis White on
+    Navy Blue" (allisonrichardson), printed to order on 24"-wide panels,
+    6" design repeat.  Spoonflower serves only a 400 x 400 swatch of the
+    flat (every larger size key returns the same file; the 1024 px images
+    are roll and room mock-ups at lower resolution).  Swatch
+    autocorrelation: exact square lattice 262 x 262 px (0.9997), plus a
+    (131, 131) centring vector at 0.90 (the over/under interlace differs),
+    so one 6" repeat = 262 px (43.7 px/in) and four repeats span the panel.
+    Rebuilt at 4x: the single full repeat's white-line coverage is
+    upscaled with a wrap-padded Lanczos and re-thresholded (hard
+    two-colour edges, ~0.15 mm/px), then drawn in the swatch's median white
+    on its median navy.  The geometry is the swatch's, not traced vectors.
+    Finish: Spoonflower's vinyl option (the one it lists for bathrooms),
+    modelled as a smooth satin vinyl with a fine grain."""
+    fname = "spoonflower-15299902-traditional-geometric-trellis-white-on-navy-l.jpg"
+    src = wallpaper_src(fname)
+    assert src.shape[:2] == (400, 400), src.shape
+    C = 262
+    cov, ground_s, ink_s = two_tone(src, 30, 90)
+    cell = cov[0:C, 0:C]
+    K = 4
+    ink = resharpen(cell, K, 16, soft=0.7)
+    H, W = ink.shape                                      # 1048 x 1048
+    size = (6 * IN, 6 * IN)
+    px_mm = size[1] * 1000 / H
+    g_lin, k_lin = s2l(ground_s), s2l(ink_s)
+    paper = value_noise((H, W), 16, 882, octaves=3)
+    lin = np.clip((g_lin * (1 - ink)[..., None] + k_lin * ink[..., None]) * (1 + 0.01 * paper)[..., None], 0, 1)
+    emb = gblur(np.random.default_rng(883).standard_normal((H, W)), 1.0, wrap=True)
+    emb /= emb.std() + 1e-9
+    h = 0.006 * emb + paper_height((H, W), 884, 0.006)
+    rough = np.clip(0.58 * (1 - ink) + 0.55 * ink + 0.02 * emb, 0, 1)
+    name = "wallpaper_spoonflower_geometric_trellis_white_navy"
+    return entry(name, lin, size, normal_map(h, px_mm), rough,
+                 source="assets/source/wallpapers/" + fname, rollWidthM=round(24 * IN, 4),
+                 patternRepeatM=round(6 * IN, 4), match="straight (printed to order)",
+                 rebuiltFrom="400 px swatch, 262 px repeat, mask upscaled 4x",
+                 groundSrgb=lin2hex(g_lin), inkSrgb=lin2hex(k_lin), color=lin2hex(lin.reshape(-1, 3).mean(0)))
+
+
+def tex_wallpaper_arthouse_orson_navy_trellis():
+    """Arthouse Orson Navy Trellis AH909702 (Brewster; Wallpaper Warehouse).
+    Paper, unpasted, 20.9" x 33 ft roll, 20.9" repeat, straight match,
+    spongeable and wet removable.  Source: the 1800 x 1800 flat = one roll
+    width x one 20.9" repeat (86.1 px/in).  Line-mask autocorrelation:
+    exact (0, 300) and (600, 0) px (0.995 / 0.999), so the artwork itself
+    repeats every 3.48" x 6.97" (6 x 3 copies in the image); the 18 copies
+    are averaged, upscaled 3x, re-sharpened and drawn in the flat's median
+    line colour on its median navy.  The retailer calls the lines "crisp
+    white linework"; the owners asked for them to read as lightly metallic
+    silver, so they carry a little metalness (0.25) and a satin roughness
+    (roughness PNG: R/G roughness, B metalness).  Matte paper ground."""
+    fname = "arthouse-orson-navy-trellis-AH909702.jpg"
+    src = wallpaper_src(fname)
+    assert src.shape[:2] == (1800, 1800), src.shape
+    CH, CW = 600, 300
+    cov, ground_s, ink_s = two_tone(src, 30, 97)
+    cell = lattice_mean(cov, [(j * CH, i * CW) for j in range(3) for i in range(6)], (CH, 0), (0, CW), CH, CW)
+    K = 3
+    ink = resharpen(cell, K, 20, 0.3, 0.6)
+    H, W = ink.shape                                      # 1800 x 900
+    size = (20.9 * IN / 6, 20.9 * IN / 3)                 # 0.0885 x 0.1769 m
+    px_mm = size[1] * 1000 / H
+    g_lin, k_lin = s2l(ground_s), s2l(ink_s)
+    paper = value_noise((H, W), 12, 892, octaves=3)
+    lin = np.clip((g_lin * (1 - ink)[..., None] + k_lin * ink[..., None]) * (1 + 0.01 * paper)[..., None], 0, 1)
+    h = paper_height((H, W), 893, 0.008) + 0.01 * gblur(ink, 1.2, wrap=True)
+    grain = gblur(np.random.default_rng(894).standard_normal((H, W)), 1, wrap=True)
+    rough = np.clip(0.86 * (1 - ink) + 0.45 * ink + 0.02 * grain, 0, 1)
+    metal = np.clip(0.25 * ink, 0, 1)
+    name = "wallpaper_arthouse_orson_navy_trellis"
+    e = entry(name, lin, size, normal_map(h, px_mm))
+    e["roughnessMap"] = pack_rough_metal(name, rough, metal)
+    e.update(source="assets/source/wallpapers/" + fname, rollWidthM=round(20.9 * IN, 4),
+             patternRepeatM=round(20.9 * IN, 4), match="straight", metalnessInRoughnessB=True,
+             groundSrgb=lin2hex(g_lin), inkSrgb=lin2hex(k_lin), color=lin2hex(lin.reshape(-1, 3).mean(0)))
+    return e
+
+
+def tex_wallpaper_york_graceful_geo_navy_silver():
+    """York Graceful Geo, Navy / Silver MD7174 (Antonina Vella Modern Metals
+    Second Edition).  Unpasted non-woven, 27" x 26.9 ft double roll, 25.2"
+    repeat, straight match, washable and strippable; "navy with deep silver
+    metallic", a "burnished, weathered metallic".  Source: York's
+    1800 x 1682 flat = one roll width x one repeat at 66.7 px/in (25.2" =
+    1680 px; its last two rows repeat rows 0-1, mean abs diff 0.015 vs
+    0.08-0.17 for other rows, so the period is 1680).  Across it the ribbons
+    repeat every 450 px = 6.75" (0.96: the weathered texture in the metal
+    differs between copies), so the 1800 x 1680 crop is used unchanged,
+    keeping that texture; it wraps within the spread of interior steps.  Finish: matte
+    non-woven ground; the silver ink (no light sweep in the flat: median sRGB
+    163 in every block) is partly metallic, with the weathered flecks
+    rougher and less metallic."""
+    fname = "york-graceful-geo-navy-silver-MD7174.jpg"
+    src = wallpaper_src(fname)
+    assert src.shape[:2] == (1682, 1800), src.shape
+    src = src[:1680]                                      # rows 1680-1681 repeat rows 0-1: period 1680
+    lin = s2l(src)
+    H, W = lin.shape[:2]
+    size = (27 * IN, 25.2 * IN)                           # 0.6858 x 0.6401 m
+    px_mm = size[1] * 1000 / H
+    Ls = src.mean(2)                                      # sRGB: ground ~0.29, silver ~0.64
+    ink = smoothstep(0.36, 0.56, gblur(Ls, 0.5, wrap=True))
+    ink_s = np.median(Ls[ink > 0.97])
+    wear = np.clip((ink_s - Ls) / 0.15, 0, 1) * ink       # darker flecks inside the metal
+    wear = gblur(wear, 0.6, wrap=True)
+    h = paper_height((H, W), 901, 0.010) + 0.012 * gblur(ink, 1.0, wrap=True)
+    grain = gblur(np.random.default_rng(902).standard_normal((H, W)), 1, wrap=True)
+    rough = np.clip(0.88 * (1 - ink) + (0.38 + 0.3 * wear) * ink + 0.02 * grain, 0, 1)
+    metal = np.clip((0.5 - 0.3 * wear) * ink, 0, 1)
+    name = "wallpaper_york_graceful_geo_navy_silver"
+    e = entry(name, lin, size, normal_map(h, px_mm))
+    e["roughnessMap"] = pack_rough_metal(name, rough, metal)
+    e.update(source="assets/source/wallpapers/" + fname, rollWidthM=round(27 * IN, 4),
+             patternRepeatM=round(25.2 * IN, 4), match="straight", metalnessInRoughnessB=True,
+             groundSrgb=lin2hex(np.median(lin[ink < 0.03], 0)), inkSrgb=lin2hex(np.median(lin[ink > 0.97], 0)),
+             color=lin2hex(lin.reshape(-1, 3).mean(0)))
+    return e
+
+
+def tex_wallpaper_a_street_livia_dark_blue_trellis():
+    """A-Street Prints Livia Dark Blue Trellis 4014-26411 (Seychelles; via
+    Wallpaper Warehouse).  Unpasted non-woven, 20.5" x 33 ft roll, 10.4"
+    repeat, straight match, washable and strippable; "white geometric frame
+    ... accented with lines of metallic silver".  Source: the 1770 x 1800
+    flat = one roll width x two repeats (86.3 px/in).  Autocorrelation:
+    exact (0, 885) and (900, 0) px (0.997), with a (450, 442.5) near-copy
+    (0.85), so the repeat is 885 x 900 px = half the roll width x 10.42".
+    The 4 copies are averaged and upscaled 2x, keeping the maker's three
+    colours (navy ground, white bands, grey "silver" lines).  Finish: matte
+    non-woven ground, satin white ink, partly metallic silver lines only
+    (the neutral mid-grey pixels: not blue like the ground, darker than the
+    white)."""
+    fname = "a-street-livia-dark-blue-trellis-4014-26411.jpg"
+    src = wallpaper_src(fname)
+    assert src.shape[:2] == (1800, 1770), src.shape
+    CH, CW = 900, 885
+    cell = lattice_mean(src, [(j * CH, i * CW) for j in range(2) for i in range(2)], (CH, 0), (0, CW), CH, CW)
+    K = 2
+    W, H = CW * K, CH * K                                 # 1770 x 1800
+    big_s = resize_wrap(cell, W, H, 20)
+    lin = s2l(big_s)
+    size = (20.5 * IN / 2, 10.4 * IN)                     # 0.2604 x 0.2642 m
+    px_mm = size[1] * 1000 / H
+    Ls = big_s.mean(2)
+    blue = np.clip((big_s[..., 2] - big_s[..., 0]) / 0.2, 0, 1)        # ground B - R ~ 0.22, silver ~0.02
+    white = smoothstep(0.80, 0.90, Ls)
+    silver = smoothstep(0.45, 0.55, Ls) * (1 - white) * (1 - blue)
+    ink = np.clip(white + silver, 0, 1)
+    h = paper_height((H, W), 911, 0.010) + 0.01 * gblur(ink, 1.0, wrap=True)
+    grain = gblur(np.random.default_rng(912).standard_normal((H, W)), 1, wrap=True)
+    rough = np.clip(0.88 * (1 - ink) + 0.72 * white + 0.36 * silver + 0.02 * grain, 0, 1)
+    metal = np.clip(0.5 * silver, 0, 1)
+    name = "wallpaper_a_street_livia_dark_blue_trellis"
+    e = entry(name, lin, size, normal_map(h, px_mm))
+    e["roughnessMap"] = pack_rough_metal(name, rough, metal)
+    e.update(source="assets/source/wallpapers/" + fname, rollWidthM=round(20.5 * IN, 4),
+             patternRepeatM=round(10.4 * IN, 4), match="straight", metalnessInRoughnessB=True,
+             groundSrgb=lin2hex(np.median(lin[ink < 0.03], 0)), inkSrgb=lin2hex(np.median(lin[silver > 0.6], 0)),
+             color=lin2hex(lin.reshape(-1, 3).mean(0)))
+    return e
+
+
 BUILDERS = {
     "floor_plank": tex_floor_plank,
     "wainscot": tex_wainscot,
@@ -1179,6 +1468,12 @@ BUILDERS = {
     "wallpaper_debona_crystal_trellis_blue_silver": tex_wallpaper_debona_crystal_trellis_blue_silver,
     "wallpaper_wow_metro_prism_emerald_gold": tex_wallpaper_wow_metro_prism_emerald_gold,
     "wallpaper_heroad_gold_chevron_dark_green": tex_wallpaper_heroad_gold_chevron_dark_green,
+    "wallpaper_chesapeake_quelala_ring_ogee_navy": tex_wallpaper_chesapeake_quelala_ring_ogee_navy,
+    "wallpaper_schumacher_imperial_trellis_ii_ivory_navy": tex_wallpaper_schumacher_imperial_trellis_ii_ivory_navy,
+    "wallpaper_spoonflower_geometric_trellis_white_navy": tex_wallpaper_spoonflower_geometric_trellis_white_navy,
+    "wallpaper_arthouse_orson_navy_trellis": tex_wallpaper_arthouse_orson_navy_trellis,
+    "wallpaper_york_graceful_geo_navy_silver": tex_wallpaper_york_graceful_geo_navy_silver,
+    "wallpaper_a_street_livia_dark_blue_trellis": tex_wallpaper_a_street_livia_dark_blue_trellis,
 }
 
 

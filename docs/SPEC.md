@@ -468,6 +468,30 @@ Tile / wallpaper options (registry):
   texture = the repeat measured in a front-on room scene (40 copies
   averaged), at an estimated 0.22 x 0.142 m (two repeats per 44 cm roll
   width); partly metallic gold lines, embossed PVC grain (br-34z).
+- `wallpaper-chesapeake-quelala-ring-ogee-navy`: Chesapeake (York)
+  Quelala Ring Ogee 3122-11002 Navy, prepasted acrylic-coated paper,
+  20.5" roll, 10.5" repeat, straight match; texture = a quarter roll
+  width x one repeat (0.131 x 0.2667 m), satin, no metal (br-cru).
+- `wallpaper-schumacher-imperial-trellis-ii-ivory-navy`: Schumacher
+  Imperial Trellis II 5005801 Ivory / Navy, paper, 27" roll, 12.625"
+  repeat, straight; the artwork's cell is 6.15" across (listed 6.75");
+  texture = one cell (0.1562 x 0.3207 m), matte (br-cru).
+- `wallpaper-spoonflower-geometric-trellis-white-navy`: Spoonflower
+  15299902 white on navy, printed to order, 24" panels, 6" repeat;
+  rebuilt 4x from the 400 px swatch (0.1524 m square), vinyl finish
+  (br-cru).
+- `wallpaper-arthouse-orson-navy-trellis`: Arthouse Orson AH909702,
+  paper, 20.9" roll and repeat, straight; texture = the artwork's
+  3.48" x 6.97" cell (0.0885 x 0.177 m); lightly metallic lines
+  (metalness in the roughness map's B channel) (br-cru).
+- `wallpaper-york-graceful-geo-navy-silver`: York Graceful Geo MD7174
+  Navy / Silver, non-woven, 27" roll, 25.2" repeat, straight; texture =
+  the maker's flat, one roll width x one repeat (0.6858 x 0.6401 m);
+  partly metallic weathered silver (br-cru).
+- `wallpaper-a-street-livia-dark-blue-trellis`: A-Street Prints Livia
+  4014-26411 Dark Blue, non-woven, 20.5" roll, 10.4" repeat, straight;
+  texture = half the roll width x one repeat (0.2603 x 0.2642 m); metal
+  only on the silver accent lines (br-cru).
 
 ## 5. Viewer
 
@@ -594,8 +618,14 @@ Required texture names (section 7): `floor_plank`, `wainscot`, `accent_band`,
 `door_slab`; product wallpapers add `wallpaper_cole_son_feather_fan_soft_olive`,
 `wallpaper_rebel_walls_ripple_blue`,
 `wallpaper_debona_crystal_trellis_blue_silver`,
-`wallpaper_wow_metro_prism_emerald_gold` and
-`wallpaper_heroad_gold_chevron_dark_green` (from `assets/source/wallpapers/`).
+`wallpaper_wow_metro_prism_emerald_gold`,
+`wallpaper_heroad_gold_chevron_dark_green`,
+`wallpaper_chesapeake_quelala_ring_ogee_navy`,
+`wallpaper_schumacher_imperial_trellis_ii_ivory_navy`,
+`wallpaper_spoonflower_geometric_trellis_white_navy`,
+`wallpaper_arthouse_orson_navy_trellis`,
+`wallpaper_york_graceful_geo_navy_silver` and
+`wallpaper_a_street_livia_dark_blue_trellis` (from `assets/source/wallpapers/`).
 
 ## 7. Textures
 

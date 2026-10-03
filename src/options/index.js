@@ -36,6 +36,12 @@ export { default as wallpaperRebelWallsRippleBlue } from './wallpapers/wallpaper
 export { default as wallpaperDebonaCrystalTrellisBlueSilver } from './wallpapers/wallpaper-debona-crystal-trellis-blue-silver.js';
 export { default as wallpaperWowMetroPrismEmeraldGold } from './wallpapers/wallpaper-wow-metro-prism-emerald-gold.js';
 export { default as wallpaperHeroadGoldChevronDarkGreen } from './wallpapers/wallpaper-heroad-gold-chevron-dark-green.js';
+export { default as wallpaperChesapeakeQuelalaRingOgeeNavy } from './wallpapers/wallpaper-chesapeake-quelala-ring-ogee-navy.js';
+export { default as wallpaperSchumacherImperialTrellisIiIvoryNavy } from './wallpapers/wallpaper-schumacher-imperial-trellis-ii-ivory-navy.js';
+export { default as wallpaperSpoonflowerGeometricTrellisWhiteNavy } from './wallpapers/wallpaper-spoonflower-geometric-trellis-white-navy.js';
+export { default as wallpaperArthouseOrsonNavyTrellis } from './wallpapers/wallpaper-arthouse-orson-navy-trellis.js';
+export { default as wallpaperYorkGracefulGeoNavySilver } from './wallpapers/wallpaper-york-graceful-geo-navy-silver.js';
+export { default as wallpaperAStreetLiviaDarkBlueTrellis } from './wallpapers/wallpaper-a-street-livia-dark-blue-trellis.js';
 
 // ---- paint colours (kind:'paint'; src/options/paints/paint.js) ----------
 // Ordered by hue: teal, green, navy, plum, terracotta.  Colours saved from
