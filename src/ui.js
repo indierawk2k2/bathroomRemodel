@@ -8,13 +8,26 @@
 // time and the selects repopulate.  Until then each select shows a
 // placeholder "none" item.
 //
+// Custom colour (under the tile select; src/options/paints/custom.js): colour
+// input + finish select live-preview on the accent wall as the unsaved option
+// 'custom' (paint finishes recolour the material in place, a finish change or
+// the subway finish rebuilds the wall); Save stores it in localStorage and
+// adds it to the list; Delete removes the selected saved colour.  Picking any
+// paint option pre-fills the chooser.  An unsaved colour is mirrored into the
+// URL hash (tile=custom&paint=&finish=&pname=) so the link reproduces it.
+//
 // Keys: H panel, N day/night, L light on/off, 1-6 presets.
 // Gamepad: A light, B tile, X transition, Y scenario, Back accent extent, Start UI,
 //          D-pad left/right previous/next preset.
 
-const $ = (id) => document.getElementById(id);
+import { getTile, tiles } from './options/index.js';
+import { FINISHES, normHex } from './options/paints/paint.js';
+import { setUnsavedPaint, clearUnsavedPaint, savePaint, deletePaint, isSavedPaint, UNSAVED_ID } from './options/paints/custom.js';
 
-export function buildUI({ state, controls, presets, applyPreset, quality }) {
+const $ = (id) => document.getElementById(id);
+const PAINT_DEBOUNCE_MS = 100;
+
+export function buildUI({ state, controls, presets, applyPreset, quality, remodel }) {
   const panel = $('ui');
   const sel = { tile: $('sel-tile'), light: $('sel-light'), transition: $('sel-transition'), accentExtent: $('sel-extent') };
 
@@ -57,6 +70,103 @@ export function buildUI({ state, controls, presets, applyPreset, quality }) {
     el.addEventListener('change', () => state.set({ [k]: el.value || null }));
   }
   const describe = (k) => lists()[k].find((o) => o.id === state[k])?.description || '';
+
+  // ---- custom paint colour chooser
+  const pc = {
+    colour: $('paint-colour'), finish: $('paint-finish'), name: $('paint-name'),
+    apply: $('paint-apply'), save: $('paint-save'), del: $('paint-delete'), msg: $('paint-msg'),
+  };
+  pc.finish.innerHTML = FINISHES.map((f) => `<option value="${f.id}">${f.name}</option>`).join('');
+  pc.finish.value = 'eggshell';
+  const say = (t) => { pc.msg.textContent = t || ''; };
+  const chooserValues = () => ({
+    hex: normHex(pc.colour.value) || '#808080',
+    finish: pc.finish.value,
+    name: pc.name.value.trim(),
+  });
+  /** Mirror the unsaved colour into the hash (or drop it when another
+   *  option is picked), keeping every other key.  No hashchange fires. */
+  function writeHash() {
+    const parts = location.hash.replace(/^#/, '').split('&').filter(Boolean);
+    const kv = parts.map((p) => { const i = p.indexOf('='); return i < 0 ? [p, null] : [p.slice(0, i), p.slice(i + 1)]; });
+    const hadTile = kv.some(([k]) => k === 'tile');
+    const keep = kv.filter(([k]) => !['tile', 'paint', 'finish', 'pname'].includes(k));
+    if (state.tile === UNSAVED_ID) {
+      const o = getTile(UNSAVED_ID);
+      if (!o) return;
+      keep.push(['tile', 'custom'], ['paint', o.hex.slice(1)], ['finish', o.finish]);
+      if (o.paintName && o.paintName !== o.hex) keep.push(['pname', encodeURIComponent(o.paintName)]);
+    } else if (hadTile && state.tile) {
+      keep.push(['tile', encodeURIComponent(state.tile)]);
+    } else if (!hadTile) {
+      return;
+    }
+    const h = keep.map(([k, v]) => (v == null ? k : `${k}=${v}`)).join('&');
+    try { history.replaceState(null, '', h ? '#' + h : location.pathname + location.search); } catch (e) { /* file:// etc. */ }
+  }
+  /** Show the chooser's colour on the wall as the unsaved option. */
+  function applyChooser() {
+    const v = chooserValues();
+    const prev = getTile(state.tile);
+    const inPlace = state.tile === UNSAVED_ID && prev && prev.kind === 'paint' && prev.finish === v.finish && v.finish !== 'subway';
+    setUnsavedPaint(v);
+    if (inPlace && remodel && remodel.paintInPlace(v.hex)) {
+      remodel.refreshOptions();                 // new name / description in the list
+      window.__app?.probe?.request(12);          // brass / chrome see the new wall colour
+    } else if (state.tile === UNSAVED_ID) {
+      remodel?.refreshOptions();
+      remodel?.rebuild({ accent: true });
+      window.__app?.probe?.request(12);
+    } else {
+      remodel?.refreshOptions({ tile: UNSAVED_ID });
+      if (!remodel) state.set({ tile: UNSAVED_ID });
+    }
+    writeHash();
+    say(`Showing ${v.hex} (${FINISHES.find((f) => f.id === v.finish).name.toLowerCase()}), not saved`);
+  }
+  let paintTimer = null;
+  const applySoon = () => { clearTimeout(paintTimer); paintTimer = setTimeout(applyChooser, PAINT_DEBOUNCE_MS); };
+  pc.colour.addEventListener('input', applySoon);
+  pc.finish.addEventListener('change', applySoon);
+  pc.apply.addEventListener('click', () => { clearTimeout(paintTimer); applyChooser(); });
+  pc.save.addEventListener('click', () => {
+    clearTimeout(paintTimer);
+    const v = chooserValues();
+    if (!v.name) { pc.name.value = v.name = v.hex; }
+    const was = state.tile;
+    const id = savePaint(v);
+    if (!id) { say('Could not save: browser storage is unavailable'); return; }
+    if (was === UNSAVED_ID) clearUnsavedPaint();
+    remodel?.refreshOptions({ tile: id });
+    if (was === id) remodel?.rebuild({ accent: true });   // overwrote the selected colour
+    writeHash();
+    say(`Saved "${v.name}"`);
+  });
+  pc.del.addEventListener('click', () => {
+    const id = state.tile;
+    if (!isSavedPaint(id)) return;
+    const name = getTile(id)?.paintName || id;
+    deletePaint(id);
+    const first = tiles().find((t) => t.kind === 'paint' && !t.id.startsWith('custom')) || tiles()[0];
+    remodel?.refreshOptions({ tile: first ? first.id : null });
+    writeHash();
+    say(`Deleted "${name}"`);
+  });
+  /** Selecting a paint option pre-fills the chooser so it can be tweaked. */
+  let prefilledFor = null;
+  function syncChooser() {
+    const o = getTile(state.tile);
+    pc.del.disabled = !isSavedPaint(state.tile);
+    if (!o || o.kind !== 'paint') { prefilledFor = null; return; }
+    const sig = `${o.id}|${o.hex}|${o.finish}|${o.paintName}`;
+    if (sig === prefilledFor) return;
+    prefilledFor = sig;
+    // (only touch fields that differ: the native picker may be open)
+    if (normHex(pc.colour.value) !== o.hex) pc.colour.value = o.hex;
+    if (pc.finish.value !== o.finish) pc.finish.value = o.finish;
+    const nm = o.paintName && o.paintName !== o.hex ? o.paintName : '';
+    if (o.id !== UNSAVED_ID || !pc.name.value) pc.name.value = nm;
+  }
 
   // ---- toggles
   const scn = { current: $('scn-current'), remodel: $('scn-remodel') };
@@ -154,6 +264,8 @@ export function buildUI({ state, controls, presets, applyPreset, quality }) {
     }
     $('desc-transition').textContent = describe('transition');
     $('desc-tile').textContent = describe('tile');
+    if (!changed || changed.includes('tile') || changed.includes('options')) syncChooser();
+    if (changed && changed.includes('tile') && state.tile !== UNSAVED_ID) writeHash();
     panel.classList.toggle('hidden', !state.uiVisible);
     $('ui-show-hint').classList.toggle('hidden', state.uiVisible);
   }

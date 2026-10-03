@@ -1,14 +1,16 @@
 // Option registry: tiles, wallpapers and lights.
 //
 // Tile / wallpaper option (SPEC section 6):
-//   { id, name, kind: 'tile' | 'wallpaper', thicknessMm, makeMaterial(ctx),
+//   { id, name, kind: 'tile' | 'wallpaper' | 'paint', thicknessMm, makeMaterial(ctx),
 //     // optional extras used by the remodel components:
 //     repeatM: [w, h],        // metres covered by one texture repeat
 //     textureName: 'tile_x',  // key in ctx.textures, if a map exists
 //     groutColor, edgeColor,  // CSS colours for edges / the junction inset
 //     description }
 // Wallpapers are tiles with kind 'wallpaper' and thicknessMm 0 (they sit on
-// the drywall with no thinset).
+// the drywall with no thinset).  Paints (src/options/paints/paint.js) are
+// kind 'paint': thicknessMm 0 for the paint finishes (treated like wallpaper
+// at the junction) or 8 for the glazed-subway finish (treated like tile).
 //
 // Light option:
 //   { id, name, description?, build(ctx, { hangBottomIn, ... }) -> THREE.Group }
@@ -30,6 +32,11 @@ export function registerTile(opt) {
   if (o.kind === 'wallpaper') o.thicknessMm = 0;
   _tiles.set(o.id, o);
   return o;
+}
+
+/** Remove a tile / wallpaper / paint option (saved custom paint colours). */
+export function unregisterTile(id) {
+  return _tiles.delete(id);
 }
 
 /** Same as registerTile with kind forced to 'wallpaper' and thickness 0. */

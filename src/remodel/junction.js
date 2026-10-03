@@ -12,7 +12,7 @@
 //   thicknessMmOverride | tileThicknessMm (number, optional),
 //   accentBottomIn (optional).
 import { inch, mm, remodelDims, readState } from './cfg.js';
-import { computeJunction, TRANSITIONS } from './accentWall.js';
+import { computeJunction, resolveTile, TRANSITIONS } from './accentWall.js';
 
 /** "13 mm (1/2\")" style label; inches rounded to the nearest 1/16. */
 export function fmtMmIn(m, { signed = false } = {}) {
@@ -133,7 +133,7 @@ function drawInset(canvas, J, title) {
   };
   line('Wainscot face', fmtMmIn(P), '#ffb347');
   if (J.buildOut > 0) line('Build-out', fmtMmIn(J.buildOut), '#c4c6c0');
-  line(J.isWallpaper ? 'Wallpaper' : `Tile + ${Math.round(J.thinset * 1000)} mm thinset`, fmtMmIn(J.material + J.thinset), (J.option && J.option.edgeColor) || '#8fa088');
+  line(J.isPaint ? 'Paint' : J.isWallpaper ? 'Wallpaper' : `Tile + ${Math.round(J.thinset * 1000)} mm thinset`, fmtMmIn(J.material + J.thinset), (J.option && J.option.edgeColor) || '#8fa088');
   line('New face', fmtMmIn(J.face), '#7fd4ff');
   const st = J.step;
   const stepTxt = Math.abs(st) < 0.0005 ? 'flush' : (st > 0 ? 'new face proud' : 'new face recessed');
@@ -259,7 +259,10 @@ export function createJunctionInspector(ctx, opts = {}) {
       const want = !!(opts.force || (scen === 'remodel' && near));
       if (!want) { if (shown) setShown(false); return; }
       const so = stateOpts(state);
-      const k = JSON.stringify(so);
+      // the option object too: an edited custom paint keeps its id but
+      // changes colour / thickness
+      const o = resolveTile(so.tile);
+      const k = JSON.stringify(so) + (o ? `|${o.edgeColor}|${o.thicknessMm}|${o.name}` : '');
       if (k !== key || !dims) {
         key = k;
         const J = computeJunction(ctx, so);

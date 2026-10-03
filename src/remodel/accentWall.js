@@ -62,6 +62,7 @@ export function resolveTile(tile) {
  *   capTop         top of the existing wainscot (40")
  *   capBottom      bottom of its eased lip (capTop - 6 mm)
  *   buildOut       flush-fill substrate thickness (0 otherwise)
+ *   isWallpaper    wallpaper or a 0 mm paint finish (isPaint): no thinset / caulk
  *   thinset        3 mm under tile, 0 for wallpaper
  *   material       tile / wallpaper thickness (override applied)
  *   face           new finished face z (= buildOut + thinset + material)
@@ -75,7 +76,11 @@ export function computeJunction(ctx, opts = {}) {
   const D = remodelDims(ctx);
   const option = resolveTile(opts.tile);
   const transition = TRANSITIONS.some((t) => t.id === opts.transition) ? opts.transition : DEFAULT_TRANSITION;
-  const isWallpaper = option && option.kind === 'wallpaper';
+  // Paint (kind 'paint', 0 mm) sits on the drywall like wallpaper: no
+  // thinset, no caulk line, trimmed tight; the glazed-subway paint finish
+  // (8 mm) is a tile.
+  const isPaint = !!option && option.kind === 'paint' && !(option.thicknessMm > 0);
+  const isWallpaper = !!option && (option.kind === 'wallpaper' || isPaint);
   const ovr = opts.thicknessMmOverride;
   const tMm = (typeof ovr === 'number' && ovr > 0 && Number.isFinite(ovr)) ? ovr : (option ? option.thicknessMm : 10);
   const material = isWallpaper ? Math.max(mm(tMm), WALLPAPER_T) : mm(tMm);
@@ -106,7 +111,7 @@ export function computeJunction(ctx, opts = {}) {
     [W.trimX0 - W.stoolHorn, W.trimX1 + W.stoolHorn, stoolBottom, W.sillTop],
   ].filter((r) => full && r[1] > x0 && r[0] < x1);
   return {
-    option, transition, isWallpaper, extent,
+    option, transition, isWallpaper, isPaint, extent,
     wainscotProud: D.wainscotProud, wainscotThinset: D.wainscotThinset,
     capTop, capBottom, capChamfer: CAP_CHAMFER,
     buildOut, thinset, material, face,

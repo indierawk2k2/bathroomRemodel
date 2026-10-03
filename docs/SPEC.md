@@ -247,7 +247,34 @@ window and behind the toilet tank, whose top at 30" is well below it):
 
 Resulting steps (new face − wainscot face): Sage Fan 10 + 3 = 13 mm → flush;
 glass subway 8 + 3 = 11 mm → 2 mm recessed; ceramic subway 6 + 3 = 9 mm →
-4 mm recessed; wallpaper 0.4 mm → 13 mm recessed; `flush-fill` → 0 for all.
+4 mm recessed; wallpaper and paint 0.4 mm → 13 mm recessed; glazed-subway
+paint finish as glass subway; `flush-fill` → 0 for all.
+
+**Paint colours (br-9q0).** Option kind `paint`, made by
+`makePaint({ id, name, hex, finish, brand, code, description, order, tag })`
+in `src/options/paints/paint.js` → `{ id, name, kind: 'paint', thicknessMm,
+order, hex, finish, paintName, edgeColor: hex, groutColor, repeatM,
+description, makeMaterial(ctx), repeatFor(ctx) }`. Finishes: `eggshell`
+(roughness 0.72), `matte` (0.9), `satin` (0.5): thicknessMm 0, treated
+exactly like wallpaper at the junction (`computeJunction` sets `isWallpaper`
+and `isPaint`: no thinset, no caulk line, trimmed tight to the window trim,
+inset label "Paint"); a `MeshPhysicalMaterial` in the colour with a
+colour-independent procedural roller-stipple normal / roughness map (built
+once per finish, 25 cm repeat), so the colour can change in place. `subway`:
+glazed 3" x 6" glass subway in the colour, stacked grid, thicknessMm 8 (a
+tile at the junction: thinset, caulk), light grey `#cbccc9` grout, from the
+white glass subway generator tinted (`makeGlassSubway`; the white option's
+procedural output is bit-identical to before and it still prefers the
+photo texture). Presets, in hue order (`order` 60–64), all eggshell, hexes
+from the makers' pages (`assets/source/paints/SOURCES.md`):
+`paint-vardo` Farrow & Ball Vardo No. 288 `#427f83`, `paint-hunt-club`
+Sherwin-Williams Hunt Club SW 6468 `#2a4f43`, `paint-hale-navy` Benjamin
+Moore Hale Navy HC-154 `#434b56`, `paint-brinjal` Farrow & Ball Brinjal
+No. 222 `#5e4449`, `paint-cavern-clay` Sherwin-Williams Cavern Clay SW 7701
+`#ac6b53`. Chosen against the mirror frame's mean sRGB `#784137`.
+Saved custom colours (`src/options/paints/custom.js`) are registered at
+startup after the presets (order 90+), the unsaved one as id `custom`
+(section 5).
 
 When the camera is within 30" of the accent/wainscot junction (anchor
 x = 49.5", in the clear gap between the glass soap dispenser and the faucet;
@@ -439,9 +466,22 @@ Tile / wallpaper options (registry):
   ceiling fixtures, centre for sconces), light distance from wall (ceiling
   fixtures only), tile thickness override; Quality
   select; FPS counter with the quality level; "Hide UI" (H).
+- **Custom colour** group under the Tile/Wallpaper select (br-9q0): colour
+  input, finish select (Eggshell / Matte / Satin paint, Glazed subway tile),
+  name field, Apply / Save / Delete. Colour and finish changes preview live
+  (100 ms debounce) as the unsaved option `custom`: a colour change on a
+  paint finish sets `material.color` in place, a finish change or the subway
+  finish rebuilds the accent wall. Selecting any paint option pre-fills the
+  chooser. Save stores `{ id: 'custom-<slug>-<4 random>', name, hex, finish }`
+  in `localStorage['bathroomRemodel.customPaints']` (JSON array; same name,
+  case-insensitive, overwrites) and selects it; Delete (enabled only for a
+  saved colour) removes it and selects the first paint preset. All storage
+  access is try/catch. While `custom` is selected the hash carries
+  `tile=custom&paint=<hex>&finish=<finish>&pname=<name>`.
 - URL hash: `preset`, `scenario`, `tile`, `light`, `transition`, `extent`, `night`,
   `lights`, `top`, `mirror`, `hang`, `fromwall`, `sconce`, `thick`, `q`, `auto`, `ui`,
-  `cam`, `off` (README).
+  `cam`, `off`, and with `tile=custom`: `paint` (hex without `#`), `finish`,
+  `pname` (README).
 - Renderer: `WebGLRenderer({antialias:true})`, `outputColorSpace = SRGB`,
   `ACESFilmicToneMapping`, exposure 1, `PCFSoftShadowMap` (on-demand shadow
   updates), PMREM environment from `RoomEnvironment` (intensity 0.28 by day)
@@ -492,6 +532,9 @@ run.sh                     local server + browser launcher
 src/options/registry.js    registerTile/registerLight/registerWallpaper, lists
 src/options/tiles/*.js     one file per tile; each `export default {id, name,
                            kind:'tile'|'wallpaper', thicknessMm, makeMaterial(ctx)}`
+src/options/paints/paint.js   makePaint() factory + FINISHES (kind 'paint')
+src/options/paints/custom.js  saved / unsaved custom colours (localStorage)
+src/options/paints/*.js    one preset per file: `export default makePaint({...})`
 src/options/lights/*.js    one file per light; each `export default {id, name,
                            build(ctx, {hangBottomIn, centreZIn, ...}) -> Group,
                            defaultHangBottomIn?, defaultFromWallIn?,

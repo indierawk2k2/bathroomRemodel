@@ -8,7 +8,8 @@
 //
 // How: this module imports its own namespace, then registers every export
 // that looks like an option: objects with `build` are lights, objects with
-// `makeMaterial` are tiles (kind 'tile') or wallpapers (kind 'wallpaper').
+// `makeMaterial` are tiles (kind 'tile'), wallpapers (kind 'wallpaper') or
+// paint colours (kind 'paint').
 import * as self from './index.js';
 import { registerTile, registerLight } from './registry.js';
 
@@ -24,6 +25,15 @@ export { default as wallpaperRebelWallsRippleBlue } from './wallpapers/wallpaper
 export { default as wallpaperDebonaCrystalTrellisBlueSilver } from './wallpapers/wallpaper-debona-crystal-trellis-blue-silver.js';
 export { default as wallpaperWowMetroPrismEmeraldGold } from './wallpapers/wallpaper-wow-metro-prism-emerald-gold.js';
 export { default as wallpaperHeroadGoldChevronDarkGreen } from './wallpapers/wallpaper-heroad-gold-chevron-dark-green.js';
+
+// ---- paint colours (kind:'paint'; src/options/paints/paint.js) ----------
+// Ordered by hue: teal, green, navy, plum, terracotta.  Colours saved from
+// the panel's colour chooser are registered at startup by paints/custom.js.
+export { default as paintVardo } from './paints/vardo.js';
+export { default as paintHuntClub } from './paints/hunt-club.js';
+export { default as paintHaleNavy } from './paints/hale-navy.js';
+export { default as paintBrinjal } from './paints/brinjal.js';
+export { default as paintCavernClay } from './paints/cavern-clay.js';
 
 // ---- lights -------------------------------------------------------------
 export { default as rattanLinear } from './lights/rattan-linear.js';

@@ -26,6 +26,7 @@ import { buildUI } from './ui.js';
 import { setupRemodel, guardReflector } from './remodel/index.js';
 import { createQuality, savedLevel, LEVELS } from './quality.js';
 import { createEnvProbe } from './envProbe.js';
+import { setUnsavedPaint } from './options/paints/custom.js';
 
 function parseHash() {
   const out = {};
@@ -42,6 +43,8 @@ function hashState(h) {
   const s = {};
   if (h.scenario) s.scenario = h.scenario === 'remodel' ? 'remodel' : 'current';
   if (h.tile) s.tile = h.tile;
+  // Unsaved custom paint colour: tile=custom&paint=<hex>&finish=<finish>&pname=<name>
+  if (h.tile === 'custom' && !setUnsavedPaint({ hex: h.paint, finish: h.finish, name: typeof h.pname === 'string' ? h.pname : '' })) delete s.tile;
   if (h.light) s.light = h.light;
   if (h.transition) s.transition = h.transition;
   if (h.extent) s.accentExtent = { full: 'full-wall', strip: 'vanity-strip' }[h.extent] || h.extent;
@@ -205,7 +208,7 @@ async function boot() {
   const PROBE_KEYS = ['scenario', 'tile', 'light', 'transition', 'accentExtent', 'night', 'lightsOn', 'accentTopIn',
     'mirrorBottomIn', 'lightHangBottomIn', 'lightFromWallIn', 'sconceCentreIn', 'tileThicknessMmOverride'];
 
-  const ui = buildUI({ state, controls, presets, applyPreset, quality });
+  const ui = buildUI({ state, controls, presets, applyPreset, quality, remodel });
   app.ui = ui;
   ui.setQualityLabel(quality.label);
 
@@ -226,7 +229,11 @@ async function boot() {
   addEventListener('hashchange', () => {
     const h = parseHash();
     if (h.preset) applyPreset(h.preset);
-    state.set(hashState(h));
+    const wasCustom = state.tile === 'custom';
+    const hs = hashState(h);
+    if (hs.tile === 'custom') remodel.refreshOptions();   // the hash re-registered it
+    state.set(hs);
+    if (hs.tile === 'custom' && wasCustom) remodel.rebuild({ accent: true });
   });
 
   /** n synchronous frames at the current pose -> ms/frame (real GPU timing). */
