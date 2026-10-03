@@ -455,5 +455,26 @@
     "groundSrgb": "#33536A",
     "inkSrgb": "#9FA7A4",
     "color": "#8B959B"
+  },
+  {
+    "name": "wallpaper_chesapeake_tap_root_dark_blue",
+    "map": "wallpaper_chesapeake_tap_root_dark_blue_albedo.jpg",
+    "normalMap": "wallpaper_chesapeake_tap_root_dark_blue_normal.png",
+    "roughnessMap": "wallpaper_chesapeake_tap_root_dark_blue_rough.png",
+    "physicalSizeM": [
+      0.2603,
+      0.2603
+    ],
+    "repeat": [
+      3.841,
+      3.841
+    ],
+    "source": "assets/source/wallpapers/brewster-chesapeake-tap-root-dark-blue-4169-27600.jpg",
+    "rollWidthM": 0.5207,
+    "patternRepeatM": 0.2603,
+    "match": "straight",
+    "repeatNote": "Brewster 10.25 in; Total Wallcovering lists 20.86 in",
+    "groundSrgb": "#364656",
+    "color": "#7A8082"
   }
 ]

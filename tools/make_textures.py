@@ -49,6 +49,7 @@ ORDER = [
     "wallpaper_chesapeake_quelala_ring_ogee_navy", "wallpaper_schumacher_imperial_trellis_ii_ivory_navy",
     "wallpaper_spoonflower_geometric_trellis_white_navy", "wallpaper_arthouse_orson_navy_trellis",
     "wallpaper_york_graceful_geo_navy_silver", "wallpaper_a_street_livia_dark_blue_trellis",
+    "wallpaper_chesapeake_tap_root_dark_blue",
 ]
 
 # --------------------------------------------------------------------------
@@ -1448,6 +1449,47 @@ def tex_wallpaper_a_street_livia_dark_blue_trellis():
     return e
 
 
+def tex_wallpaper_chesapeake_tap_root_dark_blue():
+    """Chesapeake Tap Root Dark Blue Floral Damask 4169-27600 (book Oak &
+    Moss; via Total Wallcovering p122666).  Unpasted non-woven, 20.5" x
+    33 ft roll, straight match, washable and strippable.  Brewster lists a
+    10.25" repeat, Total Wallcovering 20.86"; the artwork settles it.
+    Source: Brewster's 1800 x 1796 flat.  Autocorrelation (zero-padded,
+    overlap-normalised): (896.99, 0) px at 0.989 and (0, 898.75) px at
+    0.981, with half-drop near-copies at (449, +-449.3) of only 0.91 (the
+    printed linen texture breaks the centring), so the exact repeat is a
+    rectangular 898.75 x 897 px cell.  The roll photo (Dims) shows two
+    scallop columns of that cell across the 20.5" roll, so the flat is
+    two cells = one roll width (87.8 px/in, as York's Quelala flat) and
+    897 px = 10.22", Brewster's 10.25".  The 2 x 2 copies are resampled onto
+    an exact 899 x 897 grid, averaged and upscaled 2x, keeping the maker's
+    colours.  Finish: matte non-woven, flat inks (no metallic in the
+    description)."""
+    fname = "brewster-chesapeake-tap-root-dark-blue-4169-27600.jpg"
+    src = wallpaper_src(fname)
+    assert src.shape[:2] == (1796, 1800), src.shape
+    v_row, v_col = (896.99, 0.0), (0.0, 898.75)
+    CH, CW = 897, 899
+    cell = lattice_mean(src, [(j * v_row[0], i * v_col[1]) for j in range(2) for i in range(2)], v_row, v_col, CH, CW)
+    K = 2
+    W, H = CW * K, CH * K                                 # 1798 x 1794
+    big_s = resize_wrap(cell, W, H, 20)
+    lin = s2l(big_s)
+    size = (20.5 * IN / 2, 10.25 * IN)                    # 0.2604 x 0.2604 m
+    px_mm = size[1] * 1000 / H
+    Ls = big_s.mean(2)
+    ink = smoothstep(0.30, 0.45, Ls)                      # leaves and flowers vs the dark blue ground
+    h = paper_height((H, W), 921, 0.012) + 0.006 * gblur(ink, 1.0, wrap=True)
+    grain = gblur(np.random.default_rng(922).standard_normal((H, W)), 1, wrap=True)
+    rough = np.clip(0.88 * (1 - ink) + 0.82 * ink + 0.02 * grain, 0, 1)
+    name = "wallpaper_chesapeake_tap_root_dark_blue"
+    return entry(name, lin, size, normal_map(h, px_mm), rough,
+                 source="assets/source/wallpapers/" + fname, rollWidthM=round(20.5 * IN, 4),
+                 patternRepeatM=round(10.25 * IN, 4), match="straight",
+                 repeatNote="Brewster 10.25 in; Total Wallcovering lists 20.86 in",
+                 groundSrgb=lin2hex(np.median(lin[ink < 0.03], 0)), color=lin2hex(lin.reshape(-1, 3).mean(0)))
+
+
 BUILDERS = {
     "floor_plank": tex_floor_plank,
     "wainscot": tex_wainscot,
@@ -1474,6 +1516,7 @@ BUILDERS = {
     "wallpaper_arthouse_orson_navy_trellis": tex_wallpaper_arthouse_orson_navy_trellis,
     "wallpaper_york_graceful_geo_navy_silver": tex_wallpaper_york_graceful_geo_navy_silver,
     "wallpaper_a_street_livia_dark_blue_trellis": tex_wallpaper_a_street_livia_dark_blue_trellis,
+    "wallpaper_chesapeake_tap_root_dark_blue": tex_wallpaper_chesapeake_tap_root_dark_blue,
 }
 
 
