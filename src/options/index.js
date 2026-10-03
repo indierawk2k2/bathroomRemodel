@@ -17,6 +17,17 @@ import { registerTile, registerLight } from './registry.js';
 export { default as sageFan } from './tiles/sage-fan.js';
 export { default as whiteGlassSubwayStacked } from './tiles/white-glass-subway-stacked.js';
 export { default as whiteCeramicSubwayOffset } from './tiles/white-ceramic-subway-offset.js';
+// fan / fish-scale tiles (tiles/fanTile.js factory; br-s42): navy group, then teal / green
+export { default as revaliaRadiantBlueFan } from './tiles/revalia-radiant-blue-fan.js';
+export { default as mercurySlateFishScaleMedium } from './tiles/mercury-slate-fish-scale-medium.js';
+export { default as mercurySlateFishScaleLarge } from './tiles/mercury-slate-fish-scale-large.js';
+export { default as mercuryDenimFishScaleLarge } from './tiles/mercury-denim-fish-scale-large.js';
+export { default as fireclayNavyOgeeDrop } from './tiles/fireclay-navy-ogee-drop.js';
+export { default as nabiMidnightBlueFishscale } from './tiles/nabi-midnight-blue-fishscale.js';
+export { default as miramoReefFan } from './tiles/miramo-reef-fan.js';
+export { default as miramoHorizonFan } from './tiles/miramo-horizon-fan.js';
+export { default as mercuryCanopyFishScaleLarge } from './tiles/mercury-canopy-fish-scale-large.js';
+export { default as fireclayEvergreenOgeeDrop } from './tiles/fireclay-evergreen-ogee-drop.js';
 
 // ---- wallpapers (kind:'wallpaper', thicknessMm 0) ------------------------
 export { default as wallpaperSample } from './wallpapers/wallpaper-sample.js';

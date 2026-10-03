@@ -224,6 +224,83 @@ exactly at `w` and `h` (a half-offset bond needs an even number of rows; `fbm`
 cell counts must divide evenly) or seams show. Generation runs on the main
 thread at first use; keep it around 1 MP.
 
+### 2b. Fan / fish-scale / ogee tiles (`tiles/fanTile.js`)
+
+All scallop mosaics come from one factory, `makeFanTile(params)`. It returns a
+complete tile option: `kind: 'tile'`, `thicknessMm`, `makeMaterial(ctx)`,
+`repeatFor`, `edgeColor` and `description`. It prefers a texture-pack map named
+`textureName` and draws procedurally otherwise. `sage-fan.js` and the ten
+br-s42 tiles are each one call (see `docs/SPEC.md` section 4):
+
+```js
+import { makeFanTile } from './fanTile.js';
+export default makeFanTile({
+  id: 'mercury-slate-fish-scale-large', name: 'Moroccan Fish Scale Large, Slate (Mercury 129)',
+  order: 33, thicknessMm: 6.35,               // real body thickness: the junction step uses it
+  scaleWIn: 5.8, pitchIn: 2.56,               // fan period across a row, row pitch (inches)
+  cols: 3, rows: 6, ppi: 60,                  // fans / rows per repeat (rows even), px per inch (~1 MP)
+  glaze: { base: '#434654', light: '#4e515f', dark: '#383a47' },
+  variation: { mottle: 0.45, hue: 0.05, value: 0.08 },
+  grout: { color: '#cfcdc6', halfIn: 0.0625 }, // half the joint width (1/8" joint)
+  description: 'brand, product, code, size, thickness, finish, price, URL; colour vs Hale Navy / sage',
+});
+```
+
+**Geometry.** Each fan is a dome over its centre with a vertical skirt below
+it. Rows are `pitchIn` apart and odd rows shift half a fan. A pixel belongs to
+the **lowest** row whose shape contains it, so lower fans lie over the skirts
+of the fans above. The dome radius is r = `scaleWIn` / 2. How `pitchIn`
+compares with the dome height sets the look:
+
+| `pitchIn` compared with the dome height | look | tiles |
+|---|---|---|
+| greater | tombstone fans with a straight skirt | Sage Fan, 4" and 2.5" |
+| equal | classic fish scale with a needle tip | Miramo, 2.96" and 1.48" |
+| less | lower domes cut the sides: flatter fans with angled corners and short spikes | Mercury |
+
+The visible chip is about `domeIn` + `pitchIn` tall, or about 2 x `pitchIn` when
+the pitch is below r. To fit a product's piece size, run the generator in node
+with `debug: true`: `fanFields()` then returns `ownerId`, and you can measure the
+bounding box of one piece.
+
+- `shape: 'fan'` (default): a semicircle dome, or a semi-ellipse when `domeIn`
+  is not r.
+- `shape: 'pointed'`: a gothic-arch dome `domeIn` high (TileBar Nabi).
+- `shape: 'ogee'`: the fan lattice upside down. The round end is at the
+  bottom; the top is a pointed drop whose concave flanks are the round ends of
+  the two fans above it (Fireclay Ogee Drop, with `domeIn` = `pitchIn` so the
+  sides have no straight skirt).
+
+**Glaze.**
+
+- `glaze.base`, `glaze.light`, `glaze.dark` are sRGB hexes. Each fan's tone is
+  a mix of `base` and `light`; glaze pools toward `dark`; the rim breaks
+  toward `rim.to`, which is a grey level or a hex (use a warm hex for a red
+  clay body).
+- Sample the colours from the maker's photo. Then scale them until the median
+  of the generated face equals the photo median: render in node and compare.
+  `assets/source/tiles/SOURCES.md` lists the method and the values.
+- `finish` is one of:
+  - `'gloss'`: the Sage Fan's clear-coat;
+  - `'satin'`;
+  - `'matte'`;
+  - `'glass'`: full clear-coat, IOR 1.52, sheen, and edges darkened by `glassEdge`.
+
+**Extras.** Each one is off unless you set it, so the Sage Fan output stays
+bit-identical.
+
+| parameter | effect |
+|---|---|
+| `variation.hue` / `.value` | per-fan colour / lightness jitter (V2 about 0.05, V3 about 0.1) |
+| `variation.mottleTiles` | the share of fans fired dark and speckled (Miramo V3) |
+| `variation.speckle` | dark glaze specks (Mercury Canopy) |
+| `crackle: { cellIn, depth, albedo, widthIn }` | a periodic Voronoi craze network in the normal, roughness and (faintly) albedo. Its lines are about 0.01" wide, so it only shows up close. |
+| `undulate: { waveIn, amp }` | ripples running round each fan (Miramo "undulated") |
+| `ribs: { count, amp, albedo, color }` | feather ribs fanning out from the bottom tip, with pale crests (Nabi) |
+
+Generation runs once per tile per page (`cached`) and takes about 0.5–1.7 s on
+first selection.
+
 ## 3. A wallpaper from an image
 
 Wallpaper is printed artwork. Repeat it **exactly**: crop the image to whole

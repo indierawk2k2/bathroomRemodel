@@ -408,6 +408,38 @@ Tile / wallpaper options (registry):
 - `white-ceramic-subway-offset`: 3" x 6" glossy white ceramic subway,
   running bond (half offset), long edge horizontal, 1/4" (6 mm) thick, light
   grey grout (procedural; br-uio, added by following docs/ADDING_OPTIONS.md).
+- Fan / fish-scale tiles (br-s42). Each one is a one-line call to the
+  `makeFanTile()` factory in `src/options/tiles/fanTile.js`, which is the Sage
+  Fan generator parametrised: fan period, row pitch, dome shape, glaze, and
+  variation / crackle / undulation / feather ribs. The Sage Fan itself now goes
+  through the factory, and its procedural output is bit-identical to before.
+  All ten are procedural. Their colours are photo medians from
+  `assets/source/tiles/SOURCES.md`.
+  - The step is measured at the wainscot with a butt joint: new face
+    (thickness + 3 mm thinset) minus the 13 mm wainscot face.
+  - The casing figure is the new face minus the 15.2 mm window-casing face.
+
+  Navy group, `order` 31–36:
+
+  | id | product | thickness | step at wainscot | at casing |
+  |---|---|---|---|---|
+  | `revalia-radiant-blue-fan` | Daltile Revalia Remix 3" Fan, Radiant Blue RV33. Measured 1.64" fans, 0.80" rows. | 8 mm | −2.0 mm (recessed) | 4.2 mm behind |
+  | `mercury-slate-fish-scale-medium` | Mercury Medium Moroccan Fish Scale, 129 Slate, 3-3/4" x 3-3/16" | 6.35 mm | −3.65 mm | 5.9 mm behind |
+  | `mercury-slate-fish-scale-large` | Mercury Large Moroccan Fish Scale, 129 Slate, 5-5/8" x 5" | 6.35 mm | −3.65 mm | 5.9 mm behind |
+  | `mercury-denim-fish-scale-large` | Mercury Large, 1013 Denim, glossy crackle | 6.35 mm | −3.65 mm | 5.9 mm behind |
+  | `fireclay-navy-ogee-drop` | Fireclay Ogee Drop, Navy Blue Gloss, 5-5/16" x 4-11/16", `shape: 'ogee'`, crazing | 8 mm | −2.0 mm | 4.2 mm behind |
+  | `nabi-midnight-blue-fishscale` | TileBar Nabi Fish Scale 3x4 glass, Midnight Blue Green, `shape: 'pointed'`, feather ribs | 11.5 mm | **+1.5 mm proud** | 0.7 mm behind |
+
+  Teal / green group, `order` 41–44:
+
+  | id | product | thickness | step at wainscot | at casing |
+  |---|---|---|---|---|
+  | `miramo-reef-fan` | Daltile Miramo 3" Fan Undulated, Reef MR49, V3 | 6.35 mm | −3.65 mm | 5.9 mm behind |
+  | `miramo-horizon-fan` | Daltile Miramo, Horizon MR48 | 6.35 mm | −3.65 mm | 5.9 mm behind |
+  | `mercury-canopy-fish-scale-large` | Mercury Large, 512 Canopy, speckled | 6.35 mm | −3.65 mm | 5.9 mm behind |
+  | `fireclay-evergreen-ogee-drop` | Fireclay Ogee Drop, Evergreen Gloss, V3 | 8 mm | −2.0 mm | 4.2 mm behind |
+
+  With `flush-fill`, every one of them steps 0 mm.
 - `wallpaper-sample`: one placeholder wallpaper (muted botanical print),
   0 mm thick — exists so the wallpaper path is proven and extensible.
 - `wallpaper-cole-son-feather-fan-soft-olive`: Cole & Son Icons Feather Fan
