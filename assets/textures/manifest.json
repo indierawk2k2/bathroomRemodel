@@ -280,5 +280,27 @@
     "match": "offset (lattice continuous across strips)",
     "metalnessInRoughnessB": true,
     "color": "#3A3C47"
+  },
+  {
+    "name": "wallpaper_wow_metro_prism_emerald_gold",
+    "map": "wallpaper_wow_metro_prism_emerald_gold_albedo.jpg",
+    "normalMap": "wallpaper_wow_metro_prism_emerald_gold_normal.png",
+    "physicalSizeM": [
+      0.265,
+      0.1767
+    ],
+    "repeat": [
+      3.7736,
+      5.6604
+    ],
+    "roughnessMap": "wallpaper_wow_metro_prism_emerald_gold_rough.png",
+    "source": "assets/source/wallpapers/wow037-metro-prism-geometric-triangle-wallpaper-green-gold.jpg",
+    "rollWidthM": 0.53,
+    "patternRepeatM": 0.176,
+    "match": "offset (half drop inside the artwork; lattice continuous across strips)",
+    "metalnessInRoughnessB": true,
+    "groundSrgb": "#3A5954",
+    "inkSrgb": "#897D42",
+    "color": "#495E52"
   }
 ]

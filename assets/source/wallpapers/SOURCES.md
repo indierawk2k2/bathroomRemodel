@@ -92,3 +92,48 @@ unmodified download.
   The retailer's room scene (`..._ae2.jpg`, not kept) shows silver
   about 120, closer to B&Q, so the texture uses B&Q's colours. This file is
   kept as the identity and colour reference.
+
+## World of Wallpaper Metro Prism, Emerald Green / Gold (WOW037)
+
+Downloaded 2026-10-02 (same method: `curl -L`, browser User-Agent, product
+page as Referer; files unmodified).
+
+- Retail page (the owners' link):
+  https://www.worldofwallpaper.com/metro-prism-geometric-triangle-wallpaper-emerald-green-and-gold-wow037.html
+  ("Metro Prism Geometric Triangle Wallpaper - Emerald Green and Gold -
+  WOW037", SKU WOW037, World of Wallpaper's own exclusive Metro
+  collection). Read in Chrome on 2026-10-02: metallic gold geometric
+  triangles on a matte emerald green background, "the metallic elements
+  capture the light"; **10.05 m x 53 cm roll, 17.6 cm pattern repeat,
+  offset pattern match**, paste the paper, **spongeable**. No embossing or
+  texture is mentioned.
+- Other stockists: B&Q sells it through World of Wallpaper
+  (https://www.diy.com/departments/world-of-wallpaper-metro-prism-geometric-wallpaper-emerald-green-gold-a361-an-bur-/3294270361047_BQ.prd,
+  "A361.AN-BUR", code 3294270361047): same specs (176 mm repeat, offset
+  match, 10050 x 530 mm, 800 g, not paintable) and "any room, excluding
+  bathroom & kitchen". Its five Scene7 images are all 1200 x 1200
+  (`?req=imageprops`); image `_04c_MP` is byte-for-byte the same artwork as
+  World of Wallpaper's flat (mean abs difference 0.04/255). No larger flat
+  was found.
+- `wow037-metro-prism-geometric-triangle-wallpaper-green-gold.jpg`,
+  1200 x 1200, from
+  https://www.worldofwallpaper.com/media/catalog/product/w/o/wow037-metro-prism-geometric-triangle-wallpaper-green-gold.jpg
+  (the Magento original, without `/cache/<hash>/`). Flat digital artwork.
+  **This is the texture source.** Zero-padded, overlap-normalised
+  autocorrelation of the gold-line mask gives the lattice (dy, dx) =
+  (400, 0) and (200, 300) px (0.96; the shortfall from 1.0 is a light
+  sweep baked into the gold, which is darker in two corners). So the
+  rectangular repeat is 600 x 400 px with two half-dropped motifs, and the
+  image is 2 x 3 repeats. 400 px = 17.6 cm gives 0.44 mm/px, and
+  1200 px = 52.8 cm = the roll width: the image is one roll width x three
+  repeats, the "offset" match is the half drop inside the artwork, and the
+  roll width is a lattice vector, so strips run on across the seams. The
+  lines sit on a 150 x 100 px (6.6 x 4.4 cm) grid of star nodes and are
+  about 4 px (2 mm) wide. Ground sRGB 58,89,84 everywhere; gold sRGB R
+  100-150 across the image (the sweep), median 137,125,66.
+- `wow037-metro-prism-geometric-triangle-wallpaper-green-gold-7.jpg`,
+  1200 x 1200, same path with `-7`: the retailer's photo of the roll,
+  kept as the finish reference (bright, mirror-like gold lines; under
+  studio light the ground photographs more saturated than the flat). The
+  other gallery images (`-2`, `-3`, `-6`, room scenes and a second roll
+  photo) were not kept.

@@ -85,7 +85,12 @@ when a pad is connected.
     silver ogee trellis (lanterns 5.2" wide, 16 cm / 6.3" repeat) on a
     crinkled midnight-blue ground with glitter, 21" x 33' roll. Washable,
     but B&Q lists it as not for bathrooms or kitchens.
-  All three are built from the makers' own artwork
+  - *World of Wallpaper Metro Prism, Emerald Green & Gold (wallpaper)*:
+    WOW037, thin metallic-gold lines forming triangles and star nodes on a
+    6.6 x 4.4 cm (2.6" x 1.7") grid, on a matte emerald ground; 17.6 cm
+    (6.9") repeat, offset match, 21" x 33' roll, paste the paper,
+    spongeable. B&Q lists it as not for bathrooms or kitchens.
+  The product wallpapers are built from the makers' or retailers' own artwork
   (`assets/source/wallpapers/SOURCES.md`) at true scale.
 - **Light**:
   - *Rattan oval linear, 4-light (Adara)*: 32" x 12" x 10" woven rattan
