@@ -44,6 +44,12 @@ whose URLs, specs and identification are in `SOURCES.md` there. They are
 cropped to whole pattern repeats, with no cross-fade and no colour change.
 See `docs/ADDING_OPTIONS.md`, recipe 3.
 
+The fan / fish-scale tiles from br-s42 (`src/options/tiles/fanTile.js`) have no
+texture-pack maps. They are drawn procedurally at runtime. Their reference
+images are in `assets/source/tiles/`, and `SOURCES.md` there gives the URLs,
+the specs and the sampled glaze colours. Each option has a `textureName`
+(`tile_<id>`), so a photo texture can still be added later the usual way.
+
 Photo indices follow the sorted order of `photos/thumb/*.jpg` (00–54).
 Pixel coordinates refer to the full-size, EXIF-transposed `photos/jpg/` image.
 Photos 09, 10 and 51–54 are 4284x5712 or 5712x4284; all the others are
