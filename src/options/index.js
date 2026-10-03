@@ -42,6 +42,7 @@ export { default as wallpaperSpoonflowerGeometricTrellisWhiteNavy } from './wall
 export { default as wallpaperArthouseOrsonNavyTrellis } from './wallpapers/wallpaper-arthouse-orson-navy-trellis.js';
 export { default as wallpaperYorkGracefulGeoNavySilver } from './wallpapers/wallpaper-york-graceful-geo-navy-silver.js';
 export { default as wallpaperAStreetLiviaDarkBlueTrellis } from './wallpapers/wallpaper-a-street-livia-dark-blue-trellis.js';
+export { default as wallpaperChesapeakeTapRootDarkBlue } from './wallpapers/wallpaper-chesapeake-tap-root-dark-blue.js';
 
 // ---- paint colours (kind:'paint'; src/options/paints/paint.js) ----------
 // Ordered by hue: teal, green, navy, plum, terracotta.  Colours saved from

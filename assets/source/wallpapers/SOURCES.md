@@ -362,3 +362,45 @@ refined with a parabolic fit (recipe step 9).
   neutral mid-grey pixels (not blue like the ground, darker than the
   white). The detail photo (`4014-26411_Detail.jpg`, not kept) shows the
   silver lines along both edges and the middle of each white band.
+
+### Chesapeake Tap Root Dark Blue Floral Damask (4169-27600)
+
+- Page (owner's link): https://totalwallcovering.com/p122666/tap-root-dark-blue-floral-damask-wallpaper.aspx
+  ("4169-27600 Tap Root Dark Blue Floral Damask Wallpaper"; `curl` gets
+  403, read in Chrome): pattern 4169-27600, book "Oak & Moss by
+  Chesapeake", design studio Chesapeake (a Brewster brand); "Clusters of
+  wildflowers arch upwards to form the chic scallops of this charming
+  damask design", inks aqua, beige, sky blue, taupe and cream on "a dark
+  blue backdrop imbued with linen detailing"; **"an unpasted, non woven
+  wallpaper measuring 20.5 inches wide by 33 feet long"**, 56.38 sq ft;
+  **Repeat Length 20.86, Match: StraightMatch**; attributes
+  **"Strippable", "Washable", "Unpasted"**. **$102.00 sale ($120.00
+  regular) per roll** seen 2026-10-02. No metallic wording, no bathroom
+  wording.
+- Maker's page: https://www.brewsterwallcovering.com/4169-27600-tap-root-dark-blue-floral-damask-wallpaper
+  (brand Chesapeake, collection Oak & Moss, sold as a double roll, USD
+  $120): Material Non Woven, Installation Unpasted, **Repeat 10.25"**,
+  Match Straight, Roll Width 20.5", Roll Length 33', Washability
+  "Washable", Removability "Strippable".
+- `brewster-chesapeake-tap-root-dark-blue-4169-27600.jpg`, 1800 x 1796,
+  from https://cdn.shopify.com/s/files/1/0621/3605/7898/files/4169-27600.jpg
+  (Brewster's Shopify CDN). **Texture source.** Total Wallcovering's own
+  images (`cdn.totalwallcovering.com/book/4169-27600_{Detail,Dims,Room,Room2,Stick}-l.jpg`)
+  are 600 px roll / room shots, no flat; the `-xl` and suffix-less names
+  404. Not kept.
+- **Repeat.** Zero-padded, overlap-normalised luminance autocorrelation of
+  the flat: (896.99, 0) px at 0.989 and (0, 898.75) px at 0.981, plus
+  half-drop near-copies at (449, ±449.3) of only 0.91 (the scallops
+  alternate, but the printed linen texture does not), so the exact repeat
+  is a rectangular ~899 x 897 px cell holding two half-dropped scallops,
+  and the flat is 2 x 2 cells. The two listed repeats disagree (10.25" vs
+  20.86"). Total Wallcovering's roll photo (`_Dims-l.jpg`, marked 20.5 in)
+  shows two scallop columns of the same row across the roll, i.e. two
+  cells per roll width, so the flat is one roll width (87.8 px/in, the
+  same scale as York's Quelala flat) and one cell is 10.25" x 10.22":
+  Brewster's 10.25" is right, and the 20.86" is not supported by the
+  artwork. The four copies are resampled onto an exact 899 x 897 grid
+  with `lattice_mean`, averaged and upscaled 2x (1798 x 1794 px for
+  0.2603 m square, the listed 10.25"; the artwork's vertical is 0.2%
+  shorter). Maker's colours kept: ground median #364656 (darker and
+  bluer than Hale Navy #434B56).

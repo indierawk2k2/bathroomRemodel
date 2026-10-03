@@ -492,6 +492,11 @@ Tile / wallpaper options (registry):
   4014-26411 Dark Blue, non-woven, 20.5" roll, 10.4" repeat, straight;
   texture = half the roll width x one repeat (0.2603 x 0.2642 m); metal
   only on the silver accent lines (br-cru).
+- `wallpaper-chesapeake-tap-root-dark-blue`: Chesapeake (Brewster) Tap
+  Root 4169-27600 Dark Blue floral damask, unpasted non-woven, 20.5" roll,
+  10.25" repeat (Total Wallcovering lists 20.86"; the artwork agrees with
+  10.25"), straight; texture = half the roll width x one repeat
+  (0.2603 m square), matte, no metal (br-pov).
 
 ## 5. Viewer
 
@@ -624,8 +629,9 @@ Required texture names (section 7): `floor_plank`, `wainscot`, `accent_band`,
 `wallpaper_schumacher_imperial_trellis_ii_ivory_navy`,
 `wallpaper_spoonflower_geometric_trellis_white_navy`,
 `wallpaper_arthouse_orson_navy_trellis`,
-`wallpaper_york_graceful_geo_navy_silver` and
-`wallpaper_a_street_livia_dark_blue_trellis` (from `assets/source/wallpapers/`).
+`wallpaper_york_graceful_geo_navy_silver`,
+`wallpaper_a_street_livia_dark_blue_trellis` and
+`wallpaper_chesapeake_tap_root_dark_blue` (from `assets/source/wallpapers/`).
 
 ## 7. Textures
 
