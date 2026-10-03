@@ -325,5 +325,135 @@
     "groundSrgb": "#0F2321",
     "inkSrgb": "#817245",
     "color": "#333628"
+  },
+  {
+    "name": "wallpaper_chesapeake_quelala_ring_ogee_navy",
+    "map": "wallpaper_chesapeake_quelala_ring_ogee_navy_albedo.jpg",
+    "normalMap": "wallpaper_chesapeake_quelala_ring_ogee_navy_normal.png",
+    "roughnessMap": "wallpaper_chesapeake_quelala_ring_ogee_navy_rough.png",
+    "physicalSizeM": [
+      0.131,
+      0.2667
+    ],
+    "repeat": [
+      7.6324,
+      3.7495
+    ],
+    "source": "assets/source/wallpapers/york-chesapeake-quelala-ring-ogee-navy-3122-11002-1.jpg",
+    "rollWidthM": 0.5207,
+    "patternRepeatM": 0.2667,
+    "match": "straight",
+    "groundSrgb": "#3C5670",
+    "color": "#8C949F"
+  },
+  {
+    "name": "wallpaper_schumacher_imperial_trellis_ii_ivory_navy",
+    "map": "wallpaper_schumacher_imperial_trellis_ii_ivory_navy_albedo.jpg",
+    "normalMap": "wallpaper_schumacher_imperial_trellis_ii_ivory_navy_normal.png",
+    "roughnessMap": "wallpaper_schumacher_imperial_trellis_ii_ivory_navy_rough.png",
+    "physicalSizeM": [
+      0.1562,
+      0.3207
+    ],
+    "repeat": [
+      6.4038,
+      3.1184
+    ],
+    "source": "assets/source/wallpapers/schumacher-imperial-trellis-ii-ivory-navy-5005801-hd.jpg",
+    "rollWidthM": 0.6858,
+    "patternRepeatM": 0.3207,
+    "match": "straight",
+    "horizontalPeriodNote": "artwork 6.15 in; listed 6.75 in",
+    "groundSrgb": "#32415E",
+    "inkSrgb": "#F5EDE0",
+    "color": "#B4B0AD"
+  },
+  {
+    "name": "wallpaper_spoonflower_geometric_trellis_white_navy",
+    "map": "wallpaper_spoonflower_geometric_trellis_white_navy_albedo.jpg",
+    "normalMap": "wallpaper_spoonflower_geometric_trellis_white_navy_normal.png",
+    "roughnessMap": "wallpaper_spoonflower_geometric_trellis_white_navy_rough.png",
+    "physicalSizeM": [
+      0.1524,
+      0.1524
+    ],
+    "repeat": [
+      6.5617,
+      6.5617
+    ],
+    "source": "assets/source/wallpapers/spoonflower-15299902-traditional-geometric-trellis-white-on-navy-l.jpg",
+    "rollWidthM": 0.6096,
+    "patternRepeatM": 0.1524,
+    "match": "straight (printed to order)",
+    "rebuiltFrom": "400 px swatch, 262 px repeat, mask upscaled 4x",
+    "groundSrgb": "#3B5272",
+    "inkSrgb": "#FCFEFE",
+    "color": "#9DA4AF"
+  },
+  {
+    "name": "wallpaper_arthouse_orson_navy_trellis",
+    "map": "wallpaper_arthouse_orson_navy_trellis_albedo.jpg",
+    "normalMap": "wallpaper_arthouse_orson_navy_trellis_normal.png",
+    "physicalSizeM": [
+      0.0885,
+      0.177
+    ],
+    "repeat": [
+      11.3024,
+      5.6512
+    ],
+    "roughnessMap": "wallpaper_arthouse_orson_navy_trellis_rough.png",
+    "source": "assets/source/wallpapers/arthouse-orson-navy-trellis-AH909702.jpg",
+    "rollWidthM": 0.5309,
+    "patternRepeatM": 0.5309,
+    "match": "straight",
+    "metalnessInRoughnessB": true,
+    "groundSrgb": "#3A495C",
+    "inkSrgb": "#D1D4C6",
+    "color": "#545E6A"
+  },
+  {
+    "name": "wallpaper_york_graceful_geo_navy_silver",
+    "map": "wallpaper_york_graceful_geo_navy_silver_albedo.jpg",
+    "normalMap": "wallpaper_york_graceful_geo_navy_silver_normal.png",
+    "physicalSizeM": [
+      0.6858,
+      0.6401
+    ],
+    "repeat": [
+      1.4582,
+      1.5623
+    ],
+    "roughnessMap": "wallpaper_york_graceful_geo_navy_silver_rough.png",
+    "source": "assets/source/wallpapers/york-graceful-geo-navy-silver-MD7174.jpg",
+    "rollWidthM": 0.6858,
+    "patternRepeatM": 0.6401,
+    "match": "straight",
+    "metalnessInRoughnessB": true,
+    "groundSrgb": "#394A5E",
+    "inkSrgb": "#A1A6A3",
+    "color": "#5A6570"
+  },
+  {
+    "name": "wallpaper_a_street_livia_dark_blue_trellis",
+    "map": "wallpaper_a_street_livia_dark_blue_trellis_albedo.jpg",
+    "normalMap": "wallpaper_a_street_livia_dark_blue_trellis_normal.png",
+    "physicalSizeM": [
+      0.2603,
+      0.2642
+    ],
+    "repeat": [
+      3.841,
+      3.7856
+    ],
+    "roughnessMap": "wallpaper_a_street_livia_dark_blue_trellis_rough.png",
+    "source": "assets/source/wallpapers/a-street-livia-dark-blue-trellis-4014-26411.jpg",
+    "rollWidthM": 0.5207,
+    "patternRepeatM": 0.2642,
+    "match": "straight",
+    "metalnessInRoughnessB": true,
+    "groundSrgb": "#33536A",
+    "inkSrgb": "#9FA7A4",
+    "color": "#8B959B"
   }
 ]

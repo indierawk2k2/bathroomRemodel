@@ -200,3 +200,165 @@ Read and downloaded 2026-10-02.
   (0.22 x 0.142 m, chevrons 3.55 cm apart), which agrees with both
   estimates and keeps the lattice continuous across the strips. **It is an
   estimate, about +/-10%**; the seller would have to confirm the repeat.
+
+## Six navy trellis / geometric papers (br-cru)
+
+Read and downloaded 2026-10-02 (same method: `curl -L`, browser User-Agent,
+product page as Referer; files unmodified, except that Spoonflower's swatch,
+served as JPEG data under a `.png` name, was saved with a `.jpg` extension).
+Specs were read from each page's HTML (and the Shopify product JSON,
+`<handle>.js`, for York and Wallpaper Warehouse) and, for Spoonflower and
+Schumacher, in Chrome. "Hale Navy" is Benjamin Moore HC-154, #434B56, the
+paint option. Lattices were measured with the zero-padded,
+overlap-normalised autocorrelation of each image's normalised luminance,
+refined with a parabolic fit (recipe step 9).
+
+### Chesapeake (York) Quelala Ring Ogee, Navy (3122-11002)
+
+- Page: https://yorkwallcoverings.com/products/chesapeake-quelala-ring-ogee-wallpaper
+  ("Chesapeake Quelala Ring Ogee Wallpaper", York Wallcoverings, book
+  Flora & Fauna; colourways Black, Coral, Green, Navy, Yellow). Navy
+  variant 3122-11002: "Large white circles form an interlocking chain
+  against a variegated navy backdrop"; **"Prepasted acrylic coated paper
+  material", "10.5-in repeat, straight match", "Washable and strippable",
+  "20.5-in by 33-ft long roll"**, covers about 56.4 sq ft. **$110.00 per
+  double roll** (20.5 in x 33.0 ft); sample $5.99. No bathroom wording.
+- `york-chesapeake-quelala-ring-ogee-navy-3122-11002-1.jpg`, 1800 x 1800,
+  from https://cdn.shopify.com/s/files/1/1000/3831/2247/files/3122-11002-1.jpg
+  (the Navy flat). **Texture source.** Autocorrelation: (0, 450) px 0.994,
+  (916.06, 0) px 0.992; the half-drop near-copies (457, +-225) reach only
+  0.75 (the distressed ring edges differ), so the exact repeat is
+  450 x 916 px. 916 px = 10.5" gives 87.2 px/in, and the 1800 px width =
+  4 x 450 px = 20.6": the image is one roll width x ~2 repeats. The four
+  copies across are averaged and upscaled 2x (900 x 1832 px);
+  physicalSizeM = (10.5" x 450/916, 10.5") = 0.131 x 0.2667 m (pixel
+  aspect kept; 4 rings = 20.6" vs the 20.5" roll, 0.6 %). Ground
+  (variegated) median #3C5670: bluer and a little lighter than Hale Navy;
+  rings sRGB 247,246,244.
+- `3122-11002-3.jpg` on the same CDN is a "How much wallpaper?" chart (not
+  kept).
+
+### Schumacher Imperial Trellis II, Ivory / Navy (5005801)
+
+- Page: https://schumacher.com/catalog/products/5005801 ("Imperial Trellis
+  II - Ivory / Navy", Print Happy collection; also as fabric 174411). Spec
+  table: Pretrim y, Pre-Pasted n, **Substrate Paper**, Flame ASTM E84
+  Class A, made and finished in the USA, **Care "washable"**, **27.0" x
+  162.0" roll (4.5 yd), 60.75 sq ft, Horizontal Repeat 6.75", Vertical
+  Repeat 12.625" (32 cm), Match STRAIGHT**, priced by single roll. **No
+  price is shown** without a trade sign-in (`priceUsd` null).
+- `schumacher-imperial-trellis-ii-ivory-navy-5005801-hd.jpg`, 1200 x 1200,
+  from https://cdn-webassets.schumacher.com/catalog/hd/5005801.jpg (the
+  largest size served; `xl/` and `original/` 404, the S3 original is
+  800 px). **Texture source.** Lattice (dy, dx) = (629.82, 0.65) and
+  (-0.46, 306.70) px (0.984 / 0.985), slightly sheared. With 12.625" =
+  629.8 px the image is 24.0" square at 49.9 px/in, and the horizontal
+  period is **6.15", not the listed 6.75"** (cell ratio 2.05 vs the
+  listed 1.87). The maker's front-on room photo `hd/5005801-1.jpg` gives
+  the same 2.03 : 1 cell (133 x 269 px), so the artwork's aspect is right
+  and the listing's horizontal figure is not. The texture keeps the
+  artwork's aspect and takes its scale from the vertical repeat:
+  0.1562 x 0.3207 m. The 3 copies across are resampled onto an exact
+  630 x 307 grid (`lattice_mean`, bilinear) and averaged; the ivory
+  coverage is upscaled 3x (921 x 1890 px), re-sharpened and drawn in the
+  median ivory sRGB 245,237,224 on the median navy #32415E (darker and
+  bluer than Hale Navy).
+
+### Spoonflower "Traditional Geometric Trellis White on Navy Blue" (design 15299902)
+
+- Page: https://www.spoonflower.com/en/wallpaper/15299902 (design by
+  allisonrichardson; curl gets 403, read in Chrome). "A timeless classic,
+  navy blue and white trellis pattern". **Paper width 24 inches, lengths
+  1, 3, 6, 9 or 12 ft, design vertical repeat 6 inches.** Types offered:
+  Peel and Stick (default; "100% paper with a woven linen texture"),
+  Pre-Pasted, Traditional, PVC-Free Type II, **Vinyl**, Grasscloth, Gold
+  and Silver Metallic. **$96.75 per panel** (peel and stick, default size,
+  25 % off $129.00). The page's type selector did not respond in the
+  automated browser, so the Vinyl type's own care text could not be read;
+  the owners' brief says Spoonflower lists vinyl for bathrooms, and the
+  option models that substrate.
+- `spoonflower-15299902-traditional-geometric-trellis-white-on-navy-l.jpg`,
+  400 x 400 (JPEG data), from
+  https://img.spoonflower.com/c/15299902/p/f/l/oryUjEALc6AFD2yU2BU5XsFRwjXhR3I4C3fW7g9Fba57ihZhC9NUf7M/15299902.png
+  **Texture source.** Every other size key (`m`, `xl`, `xxl`, `h`, `o`,
+  `?w=2880`) returns the same or a smaller file; the page's 1024 px images
+  (`/i/l/...`) are roll and room mock-ups at ~25 px/in, not kept.
+  Autocorrelation: exact square lattice (0, 262) and (262, 0) px at
+  0.9997, plus a (131, 131) centring vector at 0.90 (the over/under
+  interlace differs), so one 6" repeat = 262 px (43.7 px/in) and four fit
+  the 24" panel (the mock-ups show four crosses across).
+- **Rebuilt at 4x, not traced:** the swatch's single full 262 x 262 repeat
+  (top-left) is converted to white-line coverage (normalised luminance
+  between the 30th and 90th percentiles), upscaled 4x with a wrap-padded
+  Lanczos, re-thresholded (smoothstep 0.35-0.65) and softened by a 0.7 px
+  blur, then drawn in the swatch's median white (#FCFEFE) on its median
+  navy (#3B5272: bluer and a little lighter than Hale Navy). Result
+  1048 x 1048 px for 0.1524 m (0.145 mm/px). Edges are crisp but keep the
+  swatch's slight stair-stepping at one source pixel (0.58 mm); the
+  geometry is the swatch's, not redrawn vectors.
+
+### Arthouse Orson Navy Trellis (AH909702)
+
+- Page: https://wallpaperwarehouse.com/products/brewster-orson-navy-trellis-wallpaper-ah909702
+  ("Orson Navy Trellis by Arthouse ... Brewster Home Fashions AH909702"):
+  "crisp white linework over a rich navy ground"; **printed on paper,
+  unpasted, 20.9" x 33 ft (57.5 sq ft), "20.9-inch repeat with a straight
+  match", made in Poland, "spongeable and wet removable"**, paste the
+  paper. **$25.00 per roll.** No bathroom wording.
+- `arthouse-orson-navy-trellis-AH909702.jpg`, 1800 x 1800, from
+  https://cdn.shopify.com/s/files/1/0621/3605/7898/files/AH909702.jpg.
+  **Texture source.** The image is one roll width x one 20.9" repeat
+  (86.1 px/in). Inside it the linework repeats exactly every (0, 300) and
+  (600, 0) px (0.995 / 0.999), i.e. 3.48" x 6.97": the 6 x 3 = 18 copies
+  are averaged, upscaled 3x, re-sharpened and drawn in the median line
+  colour sRGB 209,212,198 on the median navy #3A495C (very close to Hale
+  Navy, a touch bluer). Texture 900 x 1800 px = 0.0885 x 0.177 m. The
+  detail photos (`AH909702_Detail.jpg`, `_Detail2.jpg`, not kept) show
+  matte off-white lines; the owners asked for them to read lightly
+  metallic silver, so the lines carry metalness 0.25 / roughness 0.45
+  (an interpretation, not the retailer's wording).
+
+### York Graceful Geo, Navy / Silver (MD7174)
+
+- Page: https://yorkwallcoverings.com/products/graceful-geo-wallpaper
+  (book Antonina Vella Modern Metals Second Edition; Navy/Silver variant
+  MD7174): "Sinuous recurve lines and diamonds construct a romantic
+  geometric of burnished, weathered metallic ... shown in navy with deep
+  silver metallic"; **"Unpasted non woven material", "25.2-in repeat,
+  straight match", "Washable and strippable", "27-in by 26.9-ft long
+  roll"**, about 60.5 sq ft. **$290.00 per double roll**; sample $5.99.
+  No bathroom wording.
+- `york-graceful-geo-navy-silver-MD7174.jpg`, 1800 x 1682, from
+  https://cdn.shopify.com/s/files/1/1000/3831/2247/files/MD7174.jpg (the
+  sample image `MD7174SAM.jpg` is byte-identical). **Texture source.**
+  1800 px = 27" (66.7 px/in) and 25.2" = 1680 px: the last two rows
+  repeat rows 0-1 (mean abs difference 0.015 vs 0.08-0.17 for other
+  rows), so the image is one roll width x one repeat and the texture is
+  its 1800 x 1680 crop, unchanged (0.6858 x 0.6401 m). Across it the
+  ribbons repeat every 450 px = 6.75" (0.96 only: the weathered texture in
+  the metal differs between copies, so they are not averaged). No light
+  sweep: silver median sRGB 163 in every 450 px block. Ground median
+  #394A5E (close to Hale Navy, a touch bluer); silver ~161,166,163.
+
+### A-Street Prints Livia Dark Blue Trellis (4014-26411)
+
+- Page: https://wallpaperwarehouse.com/products/livia-dark-blue-trellis-wallpaper
+  ("Livia Dark Blue Trellis Wallpaper with Metallic Silver Geometric
+  Bohemian Pattern - A-Street Prints 4014-26411", book Seychelles): "The
+  white geometric frame is accented with lines of metallic silver, all
+  richly offset by a deep blue backdrop"; **"Unpasted non woven
+  material", "10.4-in repeat, straight match", "Washable and strippable",
+  "20.5-in by 33-ft long roll"**, about 56.4 sq ft. **$162.00 per roll.**
+  No bathroom wording.
+- `a-street-livia-dark-blue-trellis-4014-26411.jpg`, 1770 x 1800, from
+  https://cdn.shopify.com/s/files/1/0621/3605/7898/files/4014-26411.jpg.
+  **Texture source.** Exact lattice (0, 885) and (900, 0) px (0.997), with
+  a (450, 442.5) near-copy at 0.85: the image is one roll width (20.5" at
+  86.3 px/in) x two repeats (900 px = 10.42"). The 4 copies are averaged
+  and upscaled 2x (1770 x 1800 px = 0.2603 x 0.2642 m), keeping the
+  maker's three colours. Ground median #33536A (bluer and more saturated
+  than Hale Navy); white bands ~240,242,237; the "metallic silver" lines
+  print as neutral grey ~158,166,163. Metalness is on the silver only:
+  neutral mid-grey pixels (not blue like the ground, darker than the
+  white). The detail photo (`4014-26411_Detail.jpg`, not kept) shows the
+  silver lines along both edges and the middle of each white band.

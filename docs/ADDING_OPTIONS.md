@@ -411,6 +411,17 @@ listing with no flat image, `wallpaper-heroad-gold-chevron-dark-green`
    printed cutting grid on the backing is the best ruler; furniture is a
    cross-check), prefer a whole number of repeats per roll width, and say
    in the option's `description` that the repeat is an estimate.
+12. **Fractional or sheared lattices, small swatches** (br-cru). When the
+   measured lattice vectors are not whole pixels (Schumacher Imperial
+   Trellis II: (629.82, 0.65) and (-0.46, 306.70) px), resample every
+   copy onto an exact grid with `lattice_mean(img, origins, v_row, v_col,
+   CH, CW)` and average them. If the listed horizontal and vertical
+   repeats disagree with the artwork's aspect, check a front-on room
+   photo, keep the artwork's aspect and scale by the vertical repeat. If
+   the only flat is a small swatch of a two-colour print (Spoonflower
+   15299902, 400 px), upscale its ink coverage with `resharpen()` and
+   redraw it in the measured median colours rather than upscaling the
+   colour image.
 
 ### Metallic and glitter papers
 
