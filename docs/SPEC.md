@@ -516,6 +516,38 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   57.7"), which the hang slider clamps to **60"** (capsule 64.5–80.1",
   centre 72.3"). Lights, per pendant, both mid-capsule: one
   shadow-casting and one unshadowed PointLight. E26.
+- Statement pendants (br-cmo), single, centre x = 54 in front of the
+  mirror like `monteaux-pendant`; each clamps its bottom to the ceiling minus
+  the product's shortest real hang (`realDropRangeIn`), and its description
+  gives the lowest real bottom for the ceiling. No bulb meshes: every bulb is
+  enclosed in opal / milk / frosted glass that glows (`glowingGlass` in
+  `lights/statement-parts.js`, emissive ramp over the height, driven by
+  onOff) and does not cast shadows. Lights: one shadow-casting PointLight at
+  the bulb plus one weak unshadowed fill.
+  - `reese-large-pendant`: Mitzi Reese large, H281701L-AGB, Aged Brass
+    (assets/source/lights/reese-large-pendant/SOURCES.md): 14" x 17.25"
+    glossy opal globe (profile measured off the studio photo), flared brass
+    trumpet cap, flat 12.3" brass ring at 2.45", a 9.2" x 2.4" opal dome
+    closing the bottom; black fabric cord, 4.75" x 0.5" canopy; hang
+    21.5–143"; cUL damp, A19 E26. Default bottom **76"** (body 76–93.25",
+    below the mirror top), **16"** off the wall.
+  - `sculptural-globe-13-pendant`: West Elm Sculptural Globe Pendant, 13",
+    Milk, Antique Brass (assets/source/lights/sculptural-globe-13-pendant/SOURCES.md):
+    13" x 12.9" milk globe with a short neck and a ~3.4" bottom opening
+    (the bulb at the globe centre, 6" above it, so it shows only from
+    straight below), brass socket cup, 7" sleeve, thin stem, 5" x 0.75"
+    canopy; hang 22.8–86.8"; damp rated, E26. Default bottom **77"** (globe
+    77–89.9"), **15"** off the wall.
+  - `belleville-rattan-pendant`: Nathan James Belleville, SKU 12040
+    (assets/source/lights/belleville-rattan-pendant/SOURCES.md): 17.1" x
+    5.1" convex rattan dome with a 2.2" woven collar and wrapped rim (the
+    `rattan` texture pack + alpha map, flat-colour fallback, so the weave
+    throws dappled light), a frosted glass bowl ~8" across closing the
+    middle and hanging 2.6" below the rim, brass-finish rods (joints at the
+    6 / 6 / 12 / 12" sections) and 5" canopy; hang 19.2–44.2" (lowest real
+    bottom 75.8" at a 120" ceiling). Default bottom **76"** (fixture
+    76–86", rim 78.6"), **17"** off the wall (shade back 8.5" clear). Bulb
+    type and damp rating not stated.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,

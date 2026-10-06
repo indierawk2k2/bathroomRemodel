@@ -203,6 +203,21 @@ when a pad is connected.
     slider's lowest, so the capsule centre sits 2.3" above the mirror's
     widest point. No longer on Hudson Valley's site. Photo, specs and the
     drop conflict: `assets/source/lights/miley-pendant/SOURCES.md`.
+  - *Mitzi Reese pendant, large (Aged Brass)* (br-cmo): one 14" x 17.25"
+    glossy opal globe under a flared aged-brass cap, with a second opal dome
+    below its brass ring hiding the bulb, on a black cord; hung in front of
+    the mirror at x 54", bottom 76" (body 76–93.25"), 16" off the wall.
+    Damp rated. `assets/source/lights/reese-large-pendant/SOURCES.md`.
+  - *West Elm Sculptural Globe pendant 13", milk glass* (br-cmo): one 13" x
+    12.9" milk-glass globe on an Antique Brass stem, in front of the mirror,
+    bottom 77" (globe 77–89.9"), 15" off the wall. Hang 22.8–86.8", damp
+    rated. `assets/source/lights/sculptural-globe-13-pendant/SOURCES.md`.
+  - *Nathan James Belleville rattan pendant, glass diffuser* (br-cmo): one
+    17.1" x 5.1" woven rattan dome with a frosted glass bowl closing the
+    bottom, brass-finish rods; in front of the mirror, bottom 76" (the
+    longest real hang, 44.2", reaches 75.8" at the 120" ceiling), 17" off
+    the wall. No damp rating or bulb type stated.
+    `assets/source/lights/belleville-rattan-pendant/SOURCES.md`.
 - **Accent extent**: *Full wall, around window* (the default) runs the tile
   or wallpaper across the whole vanity wall: from the tub column, behind the
   vanity, round the window (above its head trim, below the sill and apron
