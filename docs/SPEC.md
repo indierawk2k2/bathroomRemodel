@@ -432,6 +432,15 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   79.4" at the default mirror). Lights: one shadow-casting PointLight per
   sconce at the bulb in the upper globe (glass does not cast; collar, arm and
   plate do). Damp rating not verified.
+- `mill-valley-sconces` (br-d6l): pair of Hudson Valley Lighting "Mill
+  Valley" sconces (1261-AGB, Aged Brass;
+  assets/source/lights/mill-valley-sconce/SOURCES.md): 4.5" x 12.25", 4"
+  extension, tiered 4.5" square backplate at the bottom, a 3.2" brass band
+  with a knurled ring and a 2" x 11" opal matte cylinder closed by a knurled
+  cap. **x = 36.25" and 70.75"** (plate 4.0" / 3.0" clear of the frame).
+  Default **visible-glass centre on the mirror's widest point** (fixture
+  62.3–74.5" at the default mirror). Lights: one shadow-casting PointLight per
+  sconce at the T10 bulb (glass does not cast; band and plate do). cUL damp.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,
