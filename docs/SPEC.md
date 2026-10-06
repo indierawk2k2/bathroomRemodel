@@ -409,6 +409,18 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   height needs no clamp (the slider sets the glass centre, 56-84"; at 84"
   the finial is at 100.8"). Lights: one shadow-casting PointLight per
   sconce mid-glass (the opal glass does not cast).
+- `laval-sconces` (br-20r): pair of Hudson Valley "Laval" 1-light sconces,
+  8424-AGB Aged Brass (assets/source/lights/laval-sconces/SOURCES.md): a
+  **4.5"** "Nuage" globe (clear glass etched inside to a speckled opal,
+  canvas speckle texture) hung from the forward-curving top of a long flat
+  brass bar on a **4.75"** round two-step plate; **4.75" W x 23.75" H x 6"**
+  extension, top to plate centre 10.25"; G9; CETL damp; enclosed. At **x =
+  36.25" / 70.75"**; default globe centre on the **mirror's widest point**
+  (70": globe 67.75-72.25", plate centre 63.65", bar down to 50.2"),
+  following "Mirror bottom". Lights per sconce at the globe centre: one
+  shadow-casting PointLight and one weaker unshadowed fill (keeps the
+  hook's shadow on the wall soft); the bar is satin, isotropic brass so the
+  bulb 2.5" away does not streak it white.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,

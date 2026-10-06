@@ -61,6 +61,7 @@ export { default as andersPendants } from './lights/anders-pendants.js';
 export { default as claxyRodPendants } from './lights/claxy-rod-pendants.js';
 // sconces group B (br-20r): Mitzi Miley, HVL Laval, HVL Keswick, Claxy 2-light cylinder
 export { default as mileySconces } from './lights/miley-sconces.js';
+export { default as lavalSconces } from './lights/laval-sconces.js';
 
 // -------------------------------------------------------------------------
 export * from './registry.js';

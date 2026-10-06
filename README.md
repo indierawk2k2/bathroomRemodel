@@ -151,6 +151,12 @@ when a pad is connected.
     each side of the mirror at x 36.25" and 70.75", glass centred on the
     mirror's widest point. Damp rated. Photos and specs:
     `assets/source/lights/miley-sconces/SOURCES.md`.
+  - *Hudson Valley Laval sconces, etched globe, aged brass (pair)*: a 4.5"
+    speckled-opal ("Nuage" etched) globe hung from the curved top of a long
+    flat brass bar on a 4.75" round plate (23.75" tall, 6" out), at x
+    36.25" and 70.75", globe centred on the mirror's widest point. G9,
+    damp rated. Photos and specs:
+    `assets/source/lights/laval-sconces/SOURCES.md`.
 - **Accent extent**: *Full wall, around window* (the default) runs the tile
   or wallpaper across the whole vanity wall: from the tub column, behind the
   vanity, round the window (above its head trim, below the sill and apron
