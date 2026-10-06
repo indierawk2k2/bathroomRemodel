@@ -704,6 +704,10 @@ Tile / wallpaper options (registry):
   24" x 24" repeat (Ondecor's info card); texture = one repeat
   (0.6096 m square) averaged from the bench mock-up (no flat offered),
   matte, no metal; "water-resistant", not labelled for bathrooms (br-82c).
+- `wallpaper-spoonflower-boho-drop-white-navy`: Spoonflower 10023646
+  Jumbo Stripy Boho Drop, white on navy, printed to order, 24" panels,
+  22" vertical repeat (page) x 24" (swatch lattice); rebuilt 4x from the
+  400 px swatch (0.6096 x 0.5588 m), vinyl finish (br-wwq).
 
 ## 5. Viewer
 
@@ -838,8 +842,9 @@ Required texture names (section 7): `floor_plank`, `wainscot`, `accent_band`,
 `wallpaper_arthouse_orson_navy_trellis`,
 `wallpaper_york_graceful_geo_navy_silver`,
 `wallpaper_a_street_livia_dark_blue_trellis`,
-`wallpaper_chesapeake_tap_root_dark_blue` and
-`wallpaper_ondecor_vintage_botanical_c329` (from `assets/source/wallpapers/`).
+`wallpaper_chesapeake_tap_root_dark_blue`,
+`wallpaper_ondecor_vintage_botanical_c329` and
+`wallpaper_spoonflower_boho_drop_white_navy` (from `assets/source/wallpapers/`).
 
 ## 7. Textures
 

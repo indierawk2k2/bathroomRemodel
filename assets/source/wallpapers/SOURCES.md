@@ -442,3 +442,40 @@ refined with a parabolic fit (recipe step 9).
   highlight) to the card's flat detail (mock-up ground #3A363A, scene-
   graded warmer and darker) and upscaled to 2048 px for 0.6096 m.
   Finish: matte (0.80), no metal.
+
+### Spoonflower "Jumbo stripy boho drop white on navy" (design 10023646)
+
+- Page (owner's link): https://www.spoonflower.com/en/wallpaper/10023646-jumbo-stripy-boho-drop-white-on-navy-by-juliaschumacher
+  (design by juliaschumacher; curl gets 403, read in Chrome 2026-10-05).
+  "Also available in navy on white. Black and white and an Indian color
+  way." **Paper width 24 inches, lengths 1, 3, 6, 9 or 12 ft (Vinyl also
+  27 ft), "Design vertical repeat: 22 inches"**; no horizontal repeat is
+  listed (read off the swatch lattice below). Types offered: **Peel and
+  Stick** (default; "100% paper with a woven linen texture"; bedrooms,
+  living rooms, entryways), **Pre-Pasted, Traditional, PVC-Free Type II,
+  Vinyl** ("True vinyl ... highly durable and contract-grade"; "Paste
+  required, professional recommended"; **"Subtle, leather-textured
+  vinyl"**; great for "... Hotels, **Bathrooms**"; free of phthalates),
+  **Grasscloth, Gold Metallic, Silver Metallic**. Price: **$96.75 per
+  2 ft x 12 ft (25 % off $129.00)**, shown for both Peel and Stick ("per
+  panel") and Vinyl ("per roll"); the other types' prices were not read
+  (the selector stalls the automated browser). Certifications: FSC paper,
+  LEED, Class A fire rated, GREENGUARD Gold inks; printed in the USA.
+- `spoonflower-10023646-jumbo-stripy-boho-drop-white-on-navy-l.jpg`,
+  400 x 400 (JPEG data), from
+  https://img.spoonflower.com/c/10023646/p/f/l/YMqhqFJZdAmJoedifHhL0DXqx_z5z6Gv0u2lWCJQixp2AVa0ePVuh7U/10023646.png
+  **Texture source.** The `m`, `xl`, `o` and `p/w/xl` keys return a
+  294 px file, `p/w/l` the same 400 px one; the page's 1024 px images
+  (`/i/l/...`) are roll and room mock-ups, not kept.
+- **Repeat.** The swatch wraps vertically (one 22" repeat = 400 px,
+  18.2 px/in) but not across. White-mask correlation gives a centring
+  vector (200, 218) px (0.45 raw, 0.92 at a 1.5 px blur, 0.996 at 6 px:
+  the drops are copies), so the rectangular repeat is 400 x 436 px =
+  **22" x 24.0"**: one drop column per 24" panel with half drops at the
+  edges, as the roll mock-up shows. The swatch is 36 px short of the
+  width; the cell is filled from the swatch and its copy one centring
+  vector away (averaged where both exist), then rebuilt like 15299902:
+  white coverage upscaled 4x, re-thresholded, drawn in the swatch's
+  median white (#EEF8FF) on its median navy (#2D3D4C). Texture
+  1744 x 1600 px for 0.6096 x 0.5588 m (0.35 mm/px). Finish modelled on
+  the Vinyl type: satin 0.58 with a fine leather grain.
