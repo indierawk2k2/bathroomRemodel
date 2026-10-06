@@ -423,6 +423,19 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   off the wall; default glass centre on the **mirror's widest point**
   (bottom **66.75"**), following "Mirror bottom". Lights as the Stella.
   E26 A19 60 W; cUL damp.
+- `miley-pendants` (br-kv5): pair of Mitzi by Hudson Valley "Miley"
+  pendants, Aged Brass (H373701-AGB, no longer on hvlgroup.com;
+  assets/source/lights/miley-pendant/SOURCES.md): fully enclosed 4" x
+  15.63" opal glass capsule threaded on a brass rod (4.5" tube above, 4.5"
+  finial below), black cloth cord, 4.75" canopy; 4" x 26.75" fixture. The
+  listings give a 120" cord but a 32" "maximum height"; modelled on the
+  cord, `realDropRangeIn: [29, 120]` (reasons in SOURCES.md). Positions:
+  the sconce positions **x = 36.25" and 70.75"** (4" wide, so 4.25" /
+  3.25" clear of the frame). Default **7"** off the wall; the default
+  wants the capsule centre on the mirror's widest point (finial tip
+  57.7"), which the hang slider clamps to **60"** (capsule 64.5–80.1",
+  centre 72.3"). Lights, per pendant, both mid-capsule: one
+  shadow-casting and one unshadowed PointLight. E26.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,

@@ -157,6 +157,14 @@ when a pad is connected.
     cords, at x 37.1" and 70.9", 7" off the wall, centred on the mirror's
     widest point. Hangs 12"–139"; cUL damp. Photo and specs:
     `assets/source/lights/reese-small-pendant/SOURCES.md`.
+  - *Mitzi Miley opal capsule pendants (pair)*: two slim 4" x 15.6"
+    enclosed opal glass capsules on Aged Brass rod ends and black cloth
+    cords, at the sconce positions (x 36.25" and 70.75"), 7" off the wall.
+    The listings disagree on the drop (120" cord vs a 32" maximum height);
+    the model follows the cord. Default bottom (finial tip) 60", the
+    slider's lowest, so the capsule centre sits 2.3" above the mirror's
+    widest point. No longer on Hudson Valley's site. Photo, specs and the
+    drop conflict: `assets/source/lights/miley-pendant/SOURCES.md`.
 - **Accent extent**: *Full wall, around window* (the default) runs the tile
   or wallpaper across the whole vanity wall: from the tub column, behind the
   vanity, round the window (above its head trim, below the sill and apron
