@@ -68,6 +68,10 @@ export { default as rigdonSconces } from './lights/rigdon-sconces.js';
 export { default as paoloSconces } from './lights/paolo-sconces.js';
 export { default as imenaSconces } from './lights/imena-sconces.js';
 export { default as millValleySconces } from './lights/mill-valley-sconces.js';
+// flanking pendants group B, Mitzi cord pendants (br-kv5)
+export { default as stellaPendants } from './lights/stella-pendants.js';
+export { default as reeseSmallPendants } from './lights/reese-small-pendants.js';
+export { default as mileyPendants } from './lights/miley-pendants.js';
 
 // -------------------------------------------------------------------------
 export * from './registry.js';

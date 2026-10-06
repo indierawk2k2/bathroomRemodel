@@ -476,6 +476,46 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   Default **visible-glass centre on the mirror's widest point** (fixture
   62.3–74.5" at the default mirror). Lights: one shadow-casting PointLight per
   sconce at the T10 bulb (glass does not cast; band and plate do). cUL damp.
+<!-- flanking pendants group B (br-kv5) -->
+- `stella-pendants` (br-kv5): pair of Mitzi by Hudson Valley "Stella"
+  pendants, Aged Brass (H105701-AGB;
+  assets/source/lights/stella-pendant/SOURCES.md): 7" glossy opal glass
+  globe, **closed at the bottom** (bulb fully enclosed), under a shallow
+  3.8" brass cap and cord collar, black fabric cord, 4.5" round canopy;
+  7" x 7.75" overall; hangs 11.25–114.25" (HVL minimum / maximum height,
+  `realDropRangeIn`). Positions **x = 37" and 71"** (54 ∓ 17,
+  `offsetsClearOfMirror`: globe 2" clear of the frame at its widest
+  point, 3.5" from the tub-column tile, 1.5" from the casing edge).
+  Default **7"** off the wall; default globe centre on the **mirror's
+  widest point** (bottom **66.5"** at the default mirror), following
+  "Mirror bottom". Lights, per pendant, both at the bulb: a
+  shadow-casting PointLight (the opal does not cast; the brass cap and
+  cord do) and a weaker unshadowed one for the glow. E26 A19 60 W; cUL
+  damp.
+- `reese-small-pendants` (br-kv5): pair of Mitzi by Hudson Valley
+  "Reese" small pendants, Aged Brass (H281701S-AGB;
+  assets/source/lights/reese-small-pendant/SOURCES.md): 6.75" glossy opal
+  globe hanging from a flared brass neck, a brass rim round its lower
+  edge and a second opal shade beneath that closes the bottom (bulb
+  hidden), black fabric cord, 4.75" x 0.75" canopy; 6.75" x 8.25"
+  overall; hangs 12–139" (HVL). Positions **x = 37.1" and 70.9"** (54 ∓
+  16.875, `offsetsClearOfMirror`, 2" clear of the frame). Default **7"**
+  off the wall; default glass centre on the **mirror's widest point**
+  (bottom **66.75"**), following "Mirror bottom". Lights as the Stella.
+  E26 A19 60 W; cUL damp.
+- `miley-pendants` (br-kv5): pair of Mitzi by Hudson Valley "Miley"
+  pendants, Aged Brass (H373701-AGB, no longer on hvlgroup.com;
+  assets/source/lights/miley-pendant/SOURCES.md): fully enclosed 4" x
+  15.63" opal glass capsule threaded on a brass rod (4.5" tube above, 4.5"
+  finial below), black cloth cord, 4.75" canopy; 4" x 26.75" fixture. The
+  listings give a 120" cord but a 32" "maximum height"; modelled on the
+  cord, `realDropRangeIn: [29, 120]` (reasons in SOURCES.md). Positions:
+  the sconce positions **x = 36.25" and 70.75"** (4" wide, so 4.25" /
+  3.25" clear of the frame). Default **7"** off the wall; the default
+  wants the capsule centre on the mirror's widest point (finial tip
+  57.7"), which the hang slider clamps to **60"** (capsule 64.5–80.1",
+  centre 72.3"). Lights, per pendant, both mid-capsule: one
+  shadow-casting and one unshadowed PointLight. E26.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,
