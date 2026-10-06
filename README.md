@@ -151,6 +151,11 @@ when a pad is connected.
     on the mirror's widest point. Sizes from the brief (Rejuvenation blocks
     automated reads). Photo and notes:
     `assets/source/lights/rigdon-sconce/SOURCES.md`.
+  - *Mitzi Paolo up / down opal sconces (pair)*: 4.25" x 23.75" Aged Brass
+    2-light sconces, two 3" x 7.75" opal cylinders (one up, one down) in a
+    brass channel, at x 36.25" and 70.75", centred on the mirror's widest
+    point. cUL damp. Photo and specs:
+    `assets/source/lights/paolo-sconce/SOURCES.md`.
 - **Accent extent**: *Full wall, around window* (the default) runs the tile
   or wallpaper across the whole vanity wall: from the tub column, behind the
   vanity, round the window (above its head trim, below the sill and apron

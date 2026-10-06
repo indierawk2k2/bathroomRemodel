@@ -409,6 +409,19 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   a function of the mirror like the Harlan's. Lights: one shadow-casting
   PointLight per sconce at the bulb (glass does not cast; the cup darkens the
   wall just below it). Damp rating UL damp (brief, not verified).
+- `paolo-sconces` (br-d6l): pair of Mitzi "Paolo" 2-light sconces
+  (H634102-AGB, Aged Brass; assets/source/lights/paolo-sconce/SOURCES.md):
+  4.25" x 23.75", two opal matte cylinders 3" x 7.75" rising and hanging from
+  bullet-shaped brass caps that meet at the centre, inside a full-height
+  brass U-channel (the Harlan's up / down layout); open outer ends, bulbs
+  recessed ~3" inside them and not modelled. Projection not stated (glass
+  front ~4.45" assumed); the narrow mount follows the photo, not the page's
+  "4.25" square" backplate. **x = 36.25" and 70.75"** (channel 4.1" / 3.1"
+  clear of the frame). Default **fixture centre on the mirror's widest
+  point** (fixture 58.1–81.9" at the default mirror, so a standing eye at
+  60–68" sees into neither open end). Lights: one shadow-casting PointLight
+  per sconce between the caps (caps and glass do not cast, the channel does:
+  the wall behind stays dark, lit in scallops above and below). cUL damp.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,
