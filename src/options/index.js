@@ -59,6 +59,8 @@ export { default as monteauxPendant } from './lights/monteaux-pendant.js';
 export { default as harlanSconces } from './lights/harlan-sconces.js';
 export { default as andersPendants } from './lights/anders-pendants.js';
 export { default as claxyRodPendants } from './lights/claxy-rod-pendants.js';
+// statement pendants in front of the mirror (br-cmo)
+export { default as reeseLargePendant } from './lights/reese-large-pendant.js';
 
 // -------------------------------------------------------------------------
 export * from './registry.js';

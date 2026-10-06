@@ -145,6 +145,11 @@ when a pad is connected.
     centre). The slider can go lower to explore, past what the rods
     reach. No damp rating; Claxy advises a dry location. Photos and specs:
     `assets/source/lights/claxy-brass-rod-pendant/SOURCES.md`.
+  - *Mitzi Reese pendant, large (Aged Brass)* (br-cmo): one 14" x 17.25"
+    glossy opal globe under a flared aged-brass cap, with a second opal dome
+    below its brass ring hiding the bulb, on a black cord; hung in front of
+    the mirror at x 54", bottom 76" (body 76–93.25"), 16" off the wall.
+    Damp rated. `assets/source/lights/reese-large-pendant/SOURCES.md`.
 - **Accent extent**: *Full wall, around window* (the default) runs the tile
   or wallpaper across the whole vanity wall: from the tub column, behind the
   vanity, round the window (above its head trim, below the sill and apron

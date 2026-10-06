@@ -397,6 +397,21 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   below) and a weaker unshadowed one for the glow off the glass, which keeps
   that ring soft as in the maker's bathroom photo. Damp rating: not stated;
   Claxy lists bathrooms but advises a dry location.
+- Statement pendants (br-cmo), single, centre x = 54 in front of the
+  mirror like `monteaux-pendant`; each clamps its bottom to the ceiling minus
+  the product's shortest real hang (`realDropRangeIn`), and its description
+  gives the lowest real bottom for the ceiling. No bulb meshes: every bulb is
+  enclosed in opal / milk / frosted glass that glows (`glowingGlass` in
+  `lights/statement-parts.js`, emissive ramp over the height, driven by
+  onOff) and does not cast shadows. Lights: one shadow-casting PointLight at
+  the bulb plus one weak unshadowed fill.
+  - `reese-large-pendant`: Mitzi Reese large, H281701L-AGB, Aged Brass
+    (assets/source/lights/reese-large-pendant/SOURCES.md): 14" x 17.25"
+    glossy opal globe (profile measured off the studio photo), flared brass
+    trumpet cap, flat 12.3" brass ring at 2.45", a 9.2" x 2.4" opal dome
+    closing the bottom; black fabric cord, 4.75" x 0.5" canopy; hang
+    21.5–143"; cUL damp, A19 E26. Default bottom **76"** (body 76–93.25",
+    below the mirror top), **16"** off the wall.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,
