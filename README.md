@@ -151,6 +151,12 @@ when a pad is connected.
     mirror frame), 7" off the wall, globe centred on the mirror's widest
     point. Hangs 11.25"–114.25"; cUL damp. Photo and specs:
     `assets/source/lights/stella-pendant/SOURCES.md`.
+  - *Mitzi Reese small opal pendants (pair)*: two 6.75" x 8.25" glossy
+    opal globes on a slender Aged Brass neck, with a brass rim and a
+    second opal shade underneath that hides the bulb, on black cloth
+    cords, at x 37.1" and 70.9", 7" off the wall, centred on the mirror's
+    widest point. Hangs 12"–139"; cUL damp. Photo and specs:
+    `assets/source/lights/reese-small-pendant/SOURCES.md`.
 - **Accent extent**: *Full wall, around window* (the default) runs the tile
   or wallpaper across the whole vanity wall: from the tub column, behind the
   vanity, round the window (above its head trim, below the sill and apron

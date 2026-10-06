@@ -412,6 +412,17 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   shadow-casting PointLight (the opal does not cast; the brass cap and
   cord do) and a weaker unshadowed one for the glow. E26 A19 60 W; cUL
   damp.
+- `reese-small-pendants` (br-kv5): pair of Mitzi by Hudson Valley
+  "Reese" small pendants, Aged Brass (H281701S-AGB;
+  assets/source/lights/reese-small-pendant/SOURCES.md): 6.75" glossy opal
+  globe hanging from a flared brass neck, a brass rim round its lower
+  edge and a second opal shade beneath that closes the bottom (bulb
+  hidden), black fabric cord, 4.75" x 0.75" canopy; 6.75" x 8.25"
+  overall; hangs 12–139" (HVL). Positions **x = 37.1" and 70.9"** (54 ∓
+  16.875, `offsetsClearOfMirror`, 2" clear of the frame). Default **7"**
+  off the wall; default glass centre on the **mirror's widest point**
+  (bottom **66.75"**), following "Mirror bottom". Lights as the Stella.
+  E26 A19 60 W; cUL damp.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,
