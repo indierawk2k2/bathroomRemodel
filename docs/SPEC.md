@@ -397,6 +397,125 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   below) and a weaker unshadowed one for the glow off the glass, which keeps
   that ring soft as in the maker's bathroom photo. Damp rating: not stated;
   Claxy lists bathrooms but advises a dry location.
+<!-- flanking pendants group A (br-kmt) -->
+- `alto-rod-pendants` (br-kmt): pair of Cedar & Moss Alto Rod 6", Brass,
+  opal globe (assets/source/lights/alto-rod-pendants/SOURCES.md): 6"
+  hand-blown opal globe, fully enclosed, its top ~1.65" in a spun brass cap,
+  3/8" rigid solid-brass rod, 5.75" shallow-dish canopy. Sold in six
+  **overall** lengths (canopy top to globe bottom, the maker's drawing):
+  9.75, 13.75, 19.75, 25.75, 31.75, 43.75" (`realDropStepsIn`; custom
+  lengths on request); the slider stays continuous. Positions **x = 37.5"
+  and 70.5"** (54 ∓ 16.5, `offsetsClearOfMirror`, globe 2" clear of the
+  frame), **7"** off the wall. Default: globe centre on the mirror's widest
+  point snapped to the longest stock length at or above it: 43.75", **globe
+  bottom 76.25" / centre 79.25"** at the default mirror (centring it on the
+  mirror needs a custom ~53" length). Lights: per pendant one
+  shadow-casting PointLight at the bulb (the glass does not cast; cap, rod
+  and canopy do). Damp rated, E26 60 W.
+- `imena-pendants` (br-kmt): pair of West Elm Imena Glass Pendants, 6"
+  (assets/source/lights/imena-pendants/SOURCES.md): 6" x 10" milk-glass egg,
+  closed bottom, small Burnished Brass cap, loops, thin brass hanger in
+  sections, 5" domed canopy; real drop 27.75–63.75" (continuous, clamped to
+  the minimum). Positions **x = 37.5" and 70.5"** (`offsetsClearOfMirror`),
+  **7"** off the wall. Default glass centre on the mirror's widest point:
+  **bottom 65"** (drop 55") at the default mirror. Lights: one
+  shadow-casting PointLight per pendant at the bulb. Damp rating not stated.
+- `sculptural-globe-pendants` (br-kmt): pair of West Elm Sculptural Globe
+  Pendants, 6.5", **Milk** glass, Antique Brass (the page defaults to Clear;
+  only Milk is modelled; assets/source/lights/sculptural-globe-pendants/
+  SOURCES.md): 6.6" x 5.9" globe with a small top neck, brass socket cup,
+  ~6" stem, cord, 5" x 0.75" canopy; real drop 15.9–80" (continuous).
+  Positions **x = 37.2" and 70.8"** (54 ∓ 16.8, `offsetsClearOfMirror`),
+  **7"** off the wall. Default globe centre on the mirror's widest point:
+  **bottom 67.05"** (drop 52.95"). Lights: one shadow-casting PointLight per
+  pendant. Damp rated, E26, dimmable.
+  All three model the opal / milk glass as an opaque glowing shell (emissive
+  driven by onOff, no shadow casting, no bulb mesh), so no bulb is ever seen.
+<!-- sconce pairs group A (br-d6l) -->
+- `rigdon-sconces` (br-d6l): pair of Rejuvenation "Rigdon Glass Sconce"
+  (single tube, SKU 7618680, Aged Brass;
+  assets/source/lights/rigdon-sconce/SOURCES.md): 4.75" x 13" x 3.75"
+  projection (from the brief; Rejuvenation blocks automated reads, so not
+  re-read from the page), a 4.75" round backplate at the bottom, a 3.1" brass
+  cup and a 2.5" opal tube rising to a closed brass cap ring, so the bulb
+  never shows. Sconce positions **x = 36.25" and 70.75"** (plate 3.9" / 2.9"
+  clear of the frame at its widest point). Default **visible-glass centre on
+  the mirror's widest point** (70" at the default mirror: fixture 61.8–74.8"),
+  a function of the mirror like the Harlan's. Lights: one shadow-casting
+  PointLight per sconce at the bulb (glass does not cast; the cup darkens the
+  wall just below it). Damp rating UL damp (brief, not verified).
+- `paolo-sconces` (br-d6l): pair of Mitzi "Paolo" 2-light sconces
+  (H634102-AGB, Aged Brass; assets/source/lights/paolo-sconce/SOURCES.md):
+  4.25" x 23.75", two opal matte cylinders 3" x 7.75" rising and hanging from
+  bullet-shaped brass caps that meet at the centre, inside a full-height
+  brass U-channel (the Harlan's up / down layout); open outer ends, bulbs
+  recessed ~3" inside them and not modelled. Projection not stated (glass
+  front ~4.45" assumed); the narrow mount follows the photo, not the page's
+  "4.25" square" backplate. **x = 36.25" and 70.75"** (channel 4.1" / 3.1"
+  clear of the frame). Default **fixture centre on the mirror's widest
+  point** (fixture 58.1–81.9" at the default mirror, so a standing eye at
+  60–68" sees into neither open end). Lights: one shadow-casting PointLight
+  per sconce between the caps (caps and glass do not cast, the channel does:
+  the wall behind stays dark, lit in scallops above and below). cUL damp.
+- `imena-sconces` (br-d6l): pair of West Elm "Imena Glass Sconce" 13.5"
+  (Burnished Brass; assets/source/lights/imena-sconce/SOURCES.md): 5" x
+  13.5" x 5.5" projection, a closed 5" x 8.25" egg-shaped milk-glass globe
+  hanging from a brass collar, stem and arm below a round ~4.75" backplate
+  (sizes from the brief; West Elm blocks automated page reads). **x = 36.25"
+  and 70.75"** (globe 3.75" / 2.75" clear of the frame). Default **globe
+  centre on the mirror's widest point** (globe 65.9–74.1", top of plate
+  79.4" at the default mirror). Lights: one shadow-casting PointLight per
+  sconce at the bulb in the upper globe (glass does not cast; collar, arm and
+  plate do). Damp rating not verified.
+- `mill-valley-sconces` (br-d6l): pair of Hudson Valley Lighting "Mill
+  Valley" sconces (1261-AGB, Aged Brass;
+  assets/source/lights/mill-valley-sconce/SOURCES.md): 4.5" x 12.25", 4"
+  extension, tiered 4.5" square backplate at the bottom, a 3.2" brass band
+  with a knurled ring and a 2" x 11" opal matte cylinder closed by a knurled
+  cap. **x = 36.25" and 70.75"** (plate 4.0" / 3.0" clear of the frame).
+  Default **visible-glass centre on the mirror's widest point** (fixture
+  62.3–74.5" at the default mirror). Lights: one shadow-casting PointLight per
+  sconce at the T10 bulb (glass does not cast; band and plate do). cUL damp.
+<!-- flanking pendants group B (br-kv5) -->
+- `stella-pendants` (br-kv5): pair of Mitzi by Hudson Valley "Stella"
+  pendants, Aged Brass (H105701-AGB;
+  assets/source/lights/stella-pendant/SOURCES.md): 7" glossy opal glass
+  globe, **closed at the bottom** (bulb fully enclosed), under a shallow
+  3.8" brass cap and cord collar, black fabric cord, 4.5" round canopy;
+  7" x 7.75" overall; hangs 11.25–114.25" (HVL minimum / maximum height,
+  `realDropRangeIn`). Positions **x = 37" and 71"** (54 ∓ 17,
+  `offsetsClearOfMirror`: globe 2" clear of the frame at its widest
+  point, 3.5" from the tub-column tile, 1.5" from the casing edge).
+  Default **7"** off the wall; default globe centre on the **mirror's
+  widest point** (bottom **66.5"** at the default mirror), following
+  "Mirror bottom". Lights, per pendant, both at the bulb: a
+  shadow-casting PointLight (the opal does not cast; the brass cap and
+  cord do) and a weaker unshadowed one for the glow. E26 A19 60 W; cUL
+  damp.
+- `reese-small-pendants` (br-kv5): pair of Mitzi by Hudson Valley
+  "Reese" small pendants, Aged Brass (H281701S-AGB;
+  assets/source/lights/reese-small-pendant/SOURCES.md): 6.75" glossy opal
+  globe hanging from a flared brass neck, a brass rim round its lower
+  edge and a second opal shade beneath that closes the bottom (bulb
+  hidden), black fabric cord, 4.75" x 0.75" canopy; 6.75" x 8.25"
+  overall; hangs 12–139" (HVL). Positions **x = 37.1" and 70.9"** (54 ∓
+  16.875, `offsetsClearOfMirror`, 2" clear of the frame). Default **7"**
+  off the wall; default glass centre on the **mirror's widest point**
+  (bottom **66.75"**), following "Mirror bottom". Lights as the Stella.
+  E26 A19 60 W; cUL damp.
+- `miley-pendants` (br-kv5): pair of Mitzi by Hudson Valley "Miley"
+  pendants, Aged Brass (H373701-AGB, no longer on hvlgroup.com;
+  assets/source/lights/miley-pendant/SOURCES.md): fully enclosed 4" x
+  15.63" opal glass capsule threaded on a brass rod (4.5" tube above, 4.5"
+  finial below), black cloth cord, 4.75" canopy; 4" x 26.75" fixture. The
+  listings give a 120" cord but a 32" "maximum height"; modelled on the
+  cord, `realDropRangeIn: [29, 120]` (reasons in SOURCES.md). Positions:
+  the sconce positions **x = 36.25" and 70.75"** (4" wide, so 4.25" /
+  3.25" clear of the frame). Default **7"** off the wall; the default
+  wants the capsule centre on the mirror's widest point (finial tip
+  57.7"), which the hang slider clamps to **60"** (capsule 64.5–80.1",
+  centre 72.3"). Lights, per pendant, both mid-capsule: one
+  shadow-casting and one unshadowed PointLight. E26.
 - Statement pendants (br-cmo), single, centre x = 54 in front of the
   mirror like `monteaux-pendant`; each clamps its bottom to the ceiling minus
   the product's shortest real hang (`realDropRangeIn`), and its description
