@@ -476,5 +476,48 @@
     "repeatNote": "Brewster 10.25 in; Total Wallcovering lists 20.86 in",
     "groundSrgb": "#364656",
     "color": "#7A8082"
+  },
+  {
+    "name": "wallpaper_ondecor_vintage_botanical_c329",
+    "map": "wallpaper_ondecor_vintage_botanical_c329_albedo.jpg",
+    "normalMap": "wallpaper_ondecor_vintage_botanical_c329_normal.png",
+    "roughnessMap": "wallpaper_ondecor_vintage_botanical_c329_rough.png",
+    "physicalSizeM": [
+      0.6096,
+      0.6096
+    ],
+    "repeat": [
+      1.6404,
+      1.6404
+    ],
+    "source": "assets/source/wallpapers/ondecor-c329-vintage-botanical-04-wall.jpg",
+    "rollWidthM": 0.6096,
+    "patternRepeatM": 0.6096,
+    "match": "straight (one 24 in repeat per roll width)",
+    "rebuiltFrom": "bench mock-up C329_04, 1039 px lattice, masked copies averaged, graded to the flat card",
+    "groundSrgb": "#3E3E42",
+    "color": "#898781"
+  },
+  {
+    "name": "wallpaper_spoonflower_boho_drop_white_navy",
+    "map": "wallpaper_spoonflower_boho_drop_white_navy_albedo.jpg",
+    "normalMap": "wallpaper_spoonflower_boho_drop_white_navy_normal.png",
+    "roughnessMap": "wallpaper_spoonflower_boho_drop_white_navy_rough.png",
+    "physicalSizeM": [
+      0.6096,
+      0.5588
+    ],
+    "repeat": [
+      1.6404,
+      1.7895
+    ],
+    "source": "assets/source/wallpapers/spoonflower-10023646-jumbo-stripy-boho-drop-white-on-navy-l.jpg",
+    "rollWidthM": 0.6096,
+    "patternRepeatM": 0.5588,
+    "match": "straight (printed to order)",
+    "rebuiltFrom": "400 px swatch, 400 x 436 px repeat completed from its centring copy, mask upscaled 4x",
+    "groundSrgb": "#2D3D4C",
+    "inkSrgb": "#EEF8FF",
+    "color": "#69737C"
   }
 ]

@@ -49,7 +49,8 @@ ORDER = [
     "wallpaper_chesapeake_quelala_ring_ogee_navy", "wallpaper_schumacher_imperial_trellis_ii_ivory_navy",
     "wallpaper_spoonflower_geometric_trellis_white_navy", "wallpaper_arthouse_orson_navy_trellis",
     "wallpaper_york_graceful_geo_navy_silver", "wallpaper_a_street_livia_dark_blue_trellis",
-    "wallpaper_chesapeake_tap_root_dark_blue",
+    "wallpaper_chesapeake_tap_root_dark_blue", "wallpaper_ondecor_vintage_botanical_c329",
+    "wallpaper_spoonflower_boho_drop_white_navy",
 ]
 
 # --------------------------------------------------------------------------
@@ -1490,6 +1491,180 @@ def tex_wallpaper_chesapeake_tap_root_dark_blue():
                  groundSrgb=lin2hex(np.median(lin[ink < 0.03], 0)), color=lin2hex(lin.reshape(-1, 3).mean(0)))
 
 
+# ---- br-82c / br-wwq: Ondecor C329 botanical, Spoonflower boho drop -------
+
+def _bilinear(img, y, x):
+    """Sample img at float (y, x) arrays (clamped to the image)."""
+    H, W = img.shape[:2]
+    y = np.clip(y, 0, H - 1); x = np.clip(x, 0, W - 1)
+    y0 = np.clip(np.floor(y).astype(int), 0, H - 2); x0 = np.clip(np.floor(x).astype(int), 0, W - 2)
+    fy, fx = y - y0, x - x0
+    if img.ndim == 3:
+        fy, fx = fy[..., None], fx[..., None]
+    return (img[y0, x0] * (1 - fy) * (1 - fx) + img[y0 + 1, x0] * fy * (1 - fx)
+            + img[y0, x0 + 1] * (1 - fy) * fx + img[y0 + 1, x0 + 1] * fy * fx)
+
+
+def lattice_mean_masked(a, valid, v_row, v_col, CH, CW, offsets):
+    """lattice_mean for a photo with objects in front of the paper: every
+    lattice copy at offsets (n, m) (n * v_row + m * v_col from the origin)
+    contributes only where it lies inside the image and on `valid` pixels.
+    Returns the mean cell and the number of copies behind each pixel."""
+    H, W = a.shape[:2]
+    ii, jj = np.meshgrid(np.arange(CH) / CH, np.arange(CW) / CW, indexing="ij")
+    acc, cnt = 0, 0
+    vf = valid.astype(np.float64)
+    for n, m in offsets:
+        y = n * v_row[0] + m * v_col[0] + ii * v_row[0] + jj * v_col[0]
+        x = n * v_row[1] + m * v_col[1] + ii * v_row[1] + jj * v_col[1]
+        ok = (y >= 0) & (x >= 0) & (y <= H - 1) & (x <= W - 1) & (_bilinear(vf, y, x) > 0.999)
+        acc = acc + _bilinear(a, y, x) * ok[..., None]
+        cnt = cnt + ok
+    assert cnt.min() >= 1
+    return acc / cnt[..., None], cnt
+
+
+def _tile_cell(cell, shape, v_row, v_col):
+    """The cell repeated over an image of `shape` (rectangular lattice)."""
+    CH, CW = cell.shape[:2]
+    yy, xx = np.mgrid[0:shape[0], 0:shape[1]].astype(np.float64)
+    y = (yy % v_row[0]) * CH / v_row[0]; x = (xx % v_col[1]) * CW / v_col[1]
+    cw = np.pad(cell, ((0, 1), (0, 1), (0, 0)), mode="wrap")
+    y0, x0 = np.floor(y).astype(int), np.floor(x).astype(int)
+    fy, fx = (y - y0)[..., None], (x - x0)[..., None]
+    return (cw[y0, x0] * (1 - fy) * (1 - fx) + cw[y0 + 1, x0] * fy * (1 - fx)
+            + cw[y0, x0 + 1] * (1 - fy) * fx + cw[y0 + 1, x0 + 1] * fy * fx)
+
+
+def _modal_srgb(s, q=4):
+    """Most common colour (sRGB 0..1) after quantising to 256 / q levels."""
+    k = np.round(s.reshape(-1, 3) * 255).astype(np.int64) // q
+    key = k[:, 0] * 65536 + k[:, 1] * 256 + k[:, 2]
+    u, c = np.unique(key, return_counts=True)
+    v = u[c.argmax()]
+    return (np.array([v // 65536, (v // 256) % 256, v % 256]) * q + q / 2) / 255
+
+
+def tex_wallpaper_ondecor_vintage_botanical_c329():
+    """Ondecor C329 "Floral Wallpaper with a Vintage Botanical Motif in Blue,
+    Beige, and Teal" (ondecor.com, Shopify; printed to order in the USA on
+    Canon UVgel).  24"-wide rolls, 76-148" long; the product's info card
+    (`ondecor-c329-repeat-card.jpg`) says "A full 24" pattern repeats once
+    in a 24" wide roll", horizontal and vertical repeat 24".  Ondecor
+    offers no flat repeat image: the cleanest source is the bench mock-up
+    C329_04.png (2280 px square, stored as its top 1450 rows, the wall above
+    the bench).  Luminance correlation over the clean wall: lattice
+    (0, 1039.18) px at 0.970 and (1039.46, 0) px at 0.961, a square straight
+    repeat of 1039 px = 24" (43.3 px/in).  The mock-up carries a soft
+    vignette (illumination 0.80-1.18 over the wall), so the photo is
+    divided by a 120 px-blurred illumination ratio (photo / tiled cell, 3
+    passes) and every lattice copy that falls on clean wall (cushion, pot,
+    plants and bench masked out; 1 to 4 copies per pixel, 2.7 on average)
+    is averaged.  The cell is then graded per channel (sRGB, two points:
+    the modal ground and the 97th-percentile highlight) to the info card's
+    flat pattern detail, whose ground is #3E3E42 against the mock-up's
+    scene-graded #3A363A, and upscaled to 2048 px with a wrap-padded
+    Lanczos (0.3 mm/px).  Finish: matte (smooth / canvas papers), flat
+    inks, no metal."""
+    fname = "ondecor-c329-vintage-botanical-04-wall.jpg"
+    src = wallpaper_src(fname)
+    assert src.shape[:2] == (1450, 2280), src.shape
+    H0, W0 = src.shape[:2]
+    yy, xx = np.mgrid[0:H0, 0:W0]
+    valid = ((yy < 990) | ((yy < 1240) & (xx < 1620)) | ((yy < 1440) & (xx < 920))
+             | ((yy < 1440) & (xx > 1320) & (xx < 1620)))          # wall not hidden by the props
+    v_row, v_col = (1039.46, 0.0), (0.0, 1039.18)
+    C = 1039
+    offs = [(n, m) for n in range(2) for m in range(-1, 3)]
+    lin0 = s2l(src)
+    img, vm = lin0, valid.astype(np.float64)
+    for _ in range(3):                                    # flatten the mock-up's lighting
+        cell, cnt = lattice_mean_masked(img, valid, v_row, v_col, C, C, offs)
+        t = _tile_cell(cell, (H0, W0), v_row, v_col)
+        num, den = gblur(lin0.mean(2) * vm, 120), gblur(t.mean(2) * vm, 120)
+        illum = np.where(den > 1e-6, num / np.maximum(den, 1e-6), 1.0)
+        img = lin0 / np.maximum(illum, 0.2)[..., None]
+    cell, cnt = lattice_mean_masked(img, valid, v_row, v_col, C, C, offs)
+    # grade to the info card's flat pattern detail (left panel, above its label)
+    card = wallpaper_src("ondecor-c329-repeat-card.jpg")[0:940, 0:410]
+    cs = l2s(cell)
+    def anchors(s):
+        L = s.mean(2)
+        return _modal_srgb(s), np.median(s[L > np.percentile(L, 97)], 0)
+    (g_c, h_c), (g_t, h_t) = anchors(cs), anchors(card)
+    cs = np.clip(g_t + (cs - g_c) * (h_t - g_t) / (h_c - g_c), 0, 1)
+    N = 2048
+    big_s = resize_wrap(cs, N, N, 36)
+    lin = s2l(big_s)
+    size = (24 * IN, 24 * IN)                             # 0.6096 m square
+    px_mm = size[1] * 1000 / N
+    Ls = big_s.mean(2)
+    ink = smoothstep(g_t.mean() + 0.06, g_t.mean() + 0.20, Ls)   # motifs vs the charcoal ground
+    h = paper_height((N, N), 931, 0.010) + 0.004 * gblur(ink, 1.0, wrap=True)
+    grain = gblur(np.random.default_rng(932).standard_normal((N, N)), 1, wrap=True)
+    rough = np.clip(0.80 + 0.02 * grain, 0, 1)
+    name = "wallpaper_ondecor_vintage_botanical_c329"
+    return entry(name, lin, size, normal_map(h, px_mm), rough,
+                 source="assets/source/wallpapers/" + fname, rollWidthM=round(24 * IN, 4),
+                 patternRepeatM=round(24 * IN, 4), match="straight (one 24 in repeat per roll width)",
+                 rebuiltFrom="bench mock-up C329_04, 1039 px lattice, masked copies averaged, graded to the flat card",
+                 groundSrgb=lin2hex(s2l(g_t)), color=lin2hex(lin.reshape(-1, 3).mean(0)))
+
+
+def tex_wallpaper_spoonflower_boho_drop_white_navy():
+    """Spoonflower design 10023646 "Jumbo stripy boho drop white on navy"
+    (juliaschumacher), printed to order on 24"-wide panels, design
+    vertical repeat 22".  Spoonflower serves only a 400 x 400 swatch
+    (the `m`, `xl`, `o` keys return a 294 px file; the 1024 px images are
+    roll and room mock-ups).  The swatch is one 22" repeat tall (400 px,
+    18.2 px/in) and wraps vertically; the drops sit on a centred lattice
+    with centring vector (200, 218) px (white-mask correlation 0.92 at a
+    1.5 px blur, 0.996 at 6 px), so the rectangular repeat is 400 x 436 px
+    = 22" x 24": one drop column per panel width, as the roll mock-up
+    shows.  The swatch is 36 px short of that width, so the cell is
+    rebuilt from the swatch and its copy one centring vector away
+    (averaged where both exist, the missing strip from the copy alone),
+    its white coverage upscaled 4x and re-thresholded, and drawn in the
+    swatch's median white on its median navy.  Finish: the Vinyl type (the
+    one Spoonflower lists for bathrooms; "subtle, leather-textured vinyl"),
+    modelled as satin vinyl with a fine leather grain."""
+    fname = "spoonflower-10023646-jumbo-stripy-boho-drop-white-on-navy-l.jpg"
+    src = wallpaper_src(fname)
+    assert src.shape[:2] == (400, 400), src.shape
+    cov, ground_s, ink_s = two_tone(src, 40, 93)
+    CH, CW, cy, cx = 400, 436, 200, 218
+    yy, xx = np.mgrid[0:CH, 0:CW]
+    acc = np.zeros((CH, CW)); n = np.zeros((CH, CW))
+    a_ok = xx < 400                                       # the swatch itself
+    acc[a_ok] += cov[yy[a_ok], xx[a_ok]]; n += a_ok
+    yb = (yy + cy) % CH
+    for sx in (-cx, cx):                                  # the copy one centring vector away
+        xb = xx + sx
+        ok = (xb >= 0) & (xb < 400)
+        acc[ok] += cov[yb[ok], xb[ok]]; n += ok
+    assert n.min() >= 1
+    cell = acc / n
+    K = 4
+    ink = resharpen(cell, K, 16, soft=0.7)
+    H, W = ink.shape                                      # 1600 x 1744
+    size = (24 * IN, 22 * IN)                             # 0.6096 x 0.5588 m
+    px_mm = size[1] * 1000 / H
+    g_lin, k_lin = s2l(ground_s), s2l(ink_s)
+    paper = value_noise((H, W), 16, 941, octaves=3)
+    lin = np.clip((g_lin * (1 - ink)[..., None] + k_lin * ink[..., None]) * (1 + 0.01 * paper)[..., None], 0, 1)
+    emb = gblur(np.random.default_rng(942).standard_normal((H, W)), 1.2, wrap=True)
+    emb /= emb.std() + 1e-9
+    leather = value_noise((H, W), 96, 943, octaves=2)
+    h = 0.006 * emb + 0.008 * leather + paper_height((H, W), 944, 0.004)
+    rough = np.clip(0.58 * (1 - ink) + 0.55 * ink + 0.02 * emb, 0, 1)
+    name = "wallpaper_spoonflower_boho_drop_white_navy"
+    return entry(name, lin, size, normal_map(h, px_mm), rough,
+                 source="assets/source/wallpapers/" + fname, rollWidthM=round(24 * IN, 4),
+                 patternRepeatM=round(22 * IN, 4), match="straight (printed to order)",
+                 rebuiltFrom="400 px swatch, 400 x 436 px repeat completed from its centring copy, mask upscaled 4x",
+                 groundSrgb=lin2hex(g_lin), inkSrgb=lin2hex(k_lin), color=lin2hex(lin.reshape(-1, 3).mean(0)))
+
+
 BUILDERS = {
     "floor_plank": tex_floor_plank,
     "wainscot": tex_wainscot,
@@ -1517,6 +1692,8 @@ BUILDERS = {
     "wallpaper_york_graceful_geo_navy_silver": tex_wallpaper_york_graceful_geo_navy_silver,
     "wallpaper_a_street_livia_dark_blue_trellis": tex_wallpaper_a_street_livia_dark_blue_trellis,
     "wallpaper_chesapeake_tap_root_dark_blue": tex_wallpaper_chesapeake_tap_root_dark_blue,
+    "wallpaper_ondecor_vintage_botanical_c329": tex_wallpaper_ondecor_vintage_botanical_c329,
+    "wallpaper_spoonflower_boho_drop_white_navy": tex_wallpaper_spoonflower_boho_drop_white_navy,
 }
 
 
