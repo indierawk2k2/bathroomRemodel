@@ -397,6 +397,41 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   below) and a weaker unshadowed one for the glow off the glass, which keeps
   that ring soft as in the maker's bathroom photo. Damp rating: not stated;
   Claxy lists bathrooms but advises a dry location.
+<!-- flanking pendants group A (br-kmt) -->
+- `alto-rod-pendants` (br-kmt): pair of Cedar & Moss Alto Rod 6", Brass,
+  opal globe (assets/source/lights/alto-rod-pendants/SOURCES.md): 6"
+  hand-blown opal globe, fully enclosed, its top ~1.65" in a spun brass cap,
+  3/8" rigid solid-brass rod, 5.75" shallow-dish canopy. Sold in six
+  **overall** lengths (canopy top to globe bottom, the maker's drawing):
+  9.75, 13.75, 19.75, 25.75, 31.75, 43.75" (`realDropStepsIn`; custom
+  lengths on request); the slider stays continuous. Positions **x = 37.5"
+  and 70.5"** (54 ∓ 16.5, `offsetsClearOfMirror`, globe 2" clear of the
+  frame), **7"** off the wall. Default: globe centre on the mirror's widest
+  point snapped to the longest stock length at or above it: 43.75", **globe
+  bottom 76.25" / centre 79.25"** at the default mirror (centring it on the
+  mirror needs a custom ~53" length). Lights: per pendant one
+  shadow-casting PointLight at the bulb (the glass does not cast; cap, rod
+  and canopy do). Damp rated, E26 60 W.
+- `imena-pendants` (br-kmt): pair of West Elm Imena Glass Pendants, 6"
+  (assets/source/lights/imena-pendants/SOURCES.md): 6" x 10" milk-glass egg,
+  closed bottom, small Burnished Brass cap, loops, thin brass hanger in
+  sections, 5" domed canopy; real drop 27.75–63.75" (continuous, clamped to
+  the minimum). Positions **x = 37.5" and 70.5"** (`offsetsClearOfMirror`),
+  **7"** off the wall. Default glass centre on the mirror's widest point:
+  **bottom 65"** (drop 55") at the default mirror. Lights: one
+  shadow-casting PointLight per pendant at the bulb. Damp rating not stated.
+- `sculptural-globe-pendants` (br-kmt): pair of West Elm Sculptural Globe
+  Pendants, 6.5", **Milk** glass, Antique Brass (the page defaults to Clear;
+  only Milk is modelled; assets/source/lights/sculptural-globe-pendants/
+  SOURCES.md): 6.6" x 5.9" globe with a small top neck, brass socket cup,
+  ~6" stem, cord, 5" x 0.75" canopy; real drop 15.9–80" (continuous).
+  Positions **x = 37.2" and 70.8"** (54 ∓ 16.8, `offsetsClearOfMirror`),
+  **7"** off the wall. Default globe centre on the mirror's widest point:
+  **bottom 67.05"** (drop 52.95"). Lights: one shadow-casting PointLight per
+  pendant. Damp rated, E26, dimmable.
+  All three model the opal / milk glass as an opaque glowing shell (emissive
+  driven by onOff, no shadow casting, no bulb mesh), so no bulb is ever seen.
+<!-- flanking pendants group B (br-kv5) -->
 - `stella-pendants` (br-kv5): pair of Mitzi by Hudson Valley "Stella"
   pendants, Aged Brass (H105701-AGB;
   assets/source/lights/stella-pendant/SOURCES.md): 7" glossy opal glass

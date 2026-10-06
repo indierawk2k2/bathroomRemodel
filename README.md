@@ -145,6 +145,23 @@ when a pad is connected.
     centre). The slider can go lower to explore, past what the rods
     reach. No damp rating; Claxy advises a dry location. Photos and specs:
     `assets/source/lights/claxy-brass-rod-pendant/SOURCES.md`.
+  - *Cedar & Moss Alto Rod 6" pendants, opal globe (pair)*: two 6" opal
+    glass globes under a brass cap on rigid brass rods, at x 37.5" and
+    70.5" (2" clear of the mirror frame), 7" off the wall. Sold in overall
+    lengths of 9.75"–43.75", so at the 120" ceiling the globe bottom can go
+    no lower than 76.25" (centre 79.25", above the mirror's widest point);
+    lower needs a custom length. Damp rated. Photos and specs:
+    `assets/source/lights/alto-rod-pendants/SOURCES.md`.
+  - *West Elm Imena milk-glass pendants (pair)*: two 6" x 10" milk-glass
+    eggs on thin Burnished Brass hangers, at x 37.5" and 70.5", 7" off the
+    wall, glass centred on the mirror's widest point (bottom 65"). Drop
+    27.75"–63.75"; no damp rating. Photos and specs:
+    `assets/source/lights/imena-pendants/SOURCES.md`.
+  - *West Elm Sculptural Globe pendants, milk glass (pair)*: two 6.6" x 5.9"
+    milk-glass globes on Antique Brass stems and cords, at x 37.2" and
+    70.8", 7" off the wall, globe centred on the mirror's widest point
+    (bottom 67.05"). Drop 15.9"–80"; damp rated, dimmable. Photos and specs:
+    `assets/source/lights/sculptural-globe-pendants/SOURCES.md`.
   - *Mitzi Stella opal globe pendants (pair)*: two 7" glossy opal glass
     globes (closed at the bottom) under a shallow Aged Brass cap, on black
     cloth cords from 4.5" canopies, at x 37" and 71" (2" clear of the
