@@ -145,6 +145,12 @@ when a pad is connected.
     centre). The slider can go lower to explore, past what the rods
     reach. No damp rating; Claxy advises a dry location. Photos and specs:
     `assets/source/lights/claxy-brass-rod-pendant/SOURCES.md`.
+  - *Mitzi Stella opal globe pendants (pair)*: two 7" glossy opal glass
+    globes (closed at the bottom) under a shallow Aged Brass cap, on black
+    cloth cords from 4.5" canopies, at x 37" and 71" (2" clear of the
+    mirror frame), 7" off the wall, globe centred on the mirror's widest
+    point. Hangs 11.25"–114.25"; cUL damp. Photo and specs:
+    `assets/source/lights/stella-pendant/SOURCES.md`.
 - **Accent extent**: *Full wall, around window* (the default) runs the tile
   or wallpaper across the whole vanity wall: from the tub column, behind the
   vanity, round the window (above its head trim, below the sill and apron

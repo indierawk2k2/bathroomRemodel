@@ -397,6 +397,21 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   below) and a weaker unshadowed one for the glow off the glass, which keeps
   that ring soft as in the maker's bathroom photo. Damp rating: not stated;
   Claxy lists bathrooms but advises a dry location.
+- `stella-pendants` (br-kv5): pair of Mitzi by Hudson Valley "Stella"
+  pendants, Aged Brass (H105701-AGB;
+  assets/source/lights/stella-pendant/SOURCES.md): 7" glossy opal glass
+  globe, **closed at the bottom** (bulb fully enclosed), under a shallow
+  3.8" brass cap and cord collar, black fabric cord, 4.5" round canopy;
+  7" x 7.75" overall; hangs 11.25–114.25" (HVL minimum / maximum height,
+  `realDropRangeIn`). Positions **x = 37" and 71"** (54 ∓ 17,
+  `offsetsClearOfMirror`: globe 2" clear of the frame at its widest
+  point, 3.5" from the tub-column tile, 1.5" from the casing edge).
+  Default **7"** off the wall; default globe centre on the **mirror's
+  widest point** (bottom **66.5"** at the default mirror), following
+  "Mirror bottom". Lights, per pendant, both at the bulb: a
+  shadow-casting PointLight (the opal does not cast; the brass cap and
+  cord do) and a weaker unshadowed one for the glow. E26 A19 60 W; cUL
+  damp.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,

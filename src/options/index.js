@@ -59,6 +59,8 @@ export { default as monteauxPendant } from './lights/monteaux-pendant.js';
 export { default as harlanSconces } from './lights/harlan-sconces.js';
 export { default as andersPendants } from './lights/anders-pendants.js';
 export { default as claxyRodPendants } from './lights/claxy-rod-pendants.js';
+// flanking pendants group B, Mitzi cord pendants (br-kv5)
+export { default as stellaPendants } from './lights/stella-pendants.js';
 
 // -------------------------------------------------------------------------
 export * from './registry.js';
