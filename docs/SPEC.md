@@ -412,6 +412,13 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
     closing the bottom; black fabric cord, 4.75" x 0.5" canopy; hang
     21.5–143"; cUL damp, A19 E26. Default bottom **76"** (body 76–93.25",
     below the mirror top), **16"** off the wall.
+  - `sculptural-globe-13-pendant`: West Elm Sculptural Globe Pendant, 13",
+    Milk, Antique Brass (assets/source/lights/sculptural-globe-13-pendant/SOURCES.md):
+    13" x 12.9" milk globe with a short neck and a ~3.4" bottom opening
+    (the bulb at the globe centre, 6" above it, so it shows only from
+    straight below), brass socket cup, 7" sleeve, thin stem, 5" x 0.75"
+    canopy; hang 22.8–86.8"; damp rated, E26. Default bottom **77"** (globe
+    77–89.9"), **15"** off the wall.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,
