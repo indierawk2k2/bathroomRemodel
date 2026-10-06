@@ -99,7 +99,7 @@ function sconce(THREE, mats, shadows, candela) {
 export default {
   id: 'miley-sconces',
   name: 'Mitzi Miley sconces, opal capsule, aged brass (pair)',
-  order: 44,
+  order: 35,
   mount: 'wall',
   description: 'Two Mitzi Miley sconces (H373101-AGB): 4" x 15.75" glossy opal-glass capsules on a slim aged-brass rod, ' +
     'oval 4.75" x 7.5" backplate, 29.5" tall overall, 5.75" extension; fully enclosed (no bulb visible), cUL damp. ' +

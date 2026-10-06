@@ -119,7 +119,7 @@ function sconce(THREE, mats, shadows, candela) {
 export default {
   id: 'laval-sconces',
   name: 'Hudson Valley Laval sconces, etched globe, aged brass (pair)',
-  order: 45,
+  order: 36,
   mount: 'wall',
   description: 'Two Hudson Valley Laval sconces (8424-AGB): a 4.5" "Nuage" globe (clear glass etched inside to a speckled opal) ' +
     'hung from the curved top of a long flat aged-brass bar on a 4.75" round plate; 4.75" W x 23.75" H x 6" extension, ' +

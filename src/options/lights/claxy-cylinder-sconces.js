@@ -92,7 +92,7 @@ function sconce(THREE, mats, shadows, candela) {
 export default {
   id: 'claxy-cylinder-sconces',
   name: 'Claxy brass 2-light cylinder sconces, frosted glass (pair)',
-  order: 47,
+  order: 38,
   mount: 'wall',
   description: 'Two Claxy brass 2-light cylinder sconces (DZ-B3200BU-J-M-2): acid-washed frosted glass tubes 3.1" in diameter, ' +
     '15.4" long with angled open ends (12" on the wall side), up and down light, on 4.7" round brushed-brass plates; ' +

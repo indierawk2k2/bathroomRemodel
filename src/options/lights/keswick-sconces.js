@@ -129,7 +129,7 @@ function sconce(THREE, mats, shadows, candela) {
 export default {
   id: 'keswick-sconces',
   name: 'Hudson Valley Keswick sconces, opal bell, aged brass (pair)',
-  order: 46,
+  order: 37,
   mount: 'wall',
   description: 'Two Hudson Valley Keswick bath sconces (1971-AGB): glossy opal bell shades (5" x 5") hung shade-down from an ' +
     'aged-brass gooseneck on a 4.75" x 6" plate; 5" W x 11" H x 8.75" extension, A19 E26, dimmable, damp rated. ' +
