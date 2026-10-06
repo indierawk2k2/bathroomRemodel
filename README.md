@@ -154,6 +154,12 @@ when a pad is connected.
     12.9" milk-glass globe on an Antique Brass stem, in front of the mirror,
     bottom 77" (globe 77–89.9"), 15" off the wall. Hang 22.8–86.8", damp
     rated. `assets/source/lights/sculptural-globe-13-pendant/SOURCES.md`.
+  - *Nathan James Belleville rattan pendant, glass diffuser* (br-cmo): one
+    17.1" x 5.1" woven rattan dome with a frosted glass bowl closing the
+    bottom, brass-finish rods; in front of the mirror, bottom 76" (the
+    longest real hang, 44.2", reaches 75.8" at the 120" ceiling), 17" off
+    the wall. No damp rating or bulb type stated.
+    `assets/source/lights/belleville-rattan-pendant/SOURCES.md`.
 - **Accent extent**: *Full wall, around window* (the default) runs the tile
   or wallpaper across the whole vanity wall: from the tub column, behind the
   vanity, round the window (above its head trim, below the sill and apron

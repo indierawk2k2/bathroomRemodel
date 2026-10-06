@@ -419,6 +419,16 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
     straight below), brass socket cup, 7" sleeve, thin stem, 5" x 0.75"
     canopy; hang 22.8–86.8"; damp rated, E26. Default bottom **77"** (globe
     77–89.9"), **15"** off the wall.
+  - `belleville-rattan-pendant`: Nathan James Belleville, SKU 12040
+    (assets/source/lights/belleville-rattan-pendant/SOURCES.md): 17.1" x
+    5.1" convex rattan dome with a 2.2" woven collar and wrapped rim (the
+    `rattan` texture pack + alpha map, flat-colour fallback, so the weave
+    throws dappled light), a frosted glass bowl ~8" across closing the
+    middle and hanging 2.6" below the rim, brass-finish rods (joints at the
+    6 / 6 / 12 / 12" sections) and 5" canopy; hang 19.2–44.2" (lowest real
+    bottom 75.8" at a 120" ceiling). Default bottom **76"** (fixture
+    76–86", rim 78.6"), **17"** off the wall (shade back 8.5" clear). Bulb
+    type and damp rating not stated.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,

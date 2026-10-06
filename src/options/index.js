@@ -62,6 +62,7 @@ export { default as claxyRodPendants } from './lights/claxy-rod-pendants.js';
 // statement pendants in front of the mirror (br-cmo)
 export { default as reeseLargePendant } from './lights/reese-large-pendant.js';
 export { default as sculpturalGlobe13Pendant } from './lights/sculptural-globe-13-pendant.js';
+export { default as bellevilleRattanPendant } from './lights/belleville-rattan-pendant.js';
 
 // -------------------------------------------------------------------------
 export * from './registry.js';
