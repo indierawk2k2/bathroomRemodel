@@ -157,6 +157,12 @@ when a pad is connected.
     36.25" and 70.75", globe centred on the mirror's widest point. G9,
     damp rated. Photos and specs:
     `assets/source/lights/laval-sconces/SOURCES.md`.
+  - *Hudson Valley Keswick sconces, opal bell, aged brass (pair)*: glossy
+    opal 5" bells hung shade-down from an aged-brass gooseneck on a 4.75" x
+    6" plate (11" tall, 8.75" out), at x 36.25" and 70.75", shade centred on
+    the mirror's widest point. The bulb sits up inside the bell, so it does
+    not show from eye level (use a short A19 / A15 frosted LED). Damp
+    rated. Photos and specs: `assets/source/lights/keswick-sconces/SOURCES.md`.
 - **Accent extent**: *Full wall, around window* (the default) runs the tile
   or wallpaper across the whole vanity wall: from the tub column, behind the
   vanity, round the window (above its head trim, below the sill and apron

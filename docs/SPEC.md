@@ -421,6 +421,19 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   shadow-casting PointLight and one weaker unshadowed fill (keeps the
   hook's shadow on the wall soft); the bar is satin, isotropic brass so the
   bulb 2.5" away does not streak it white.
+- `keswick-sconces` (br-20r): pair of Hudson Valley "Keswick" bath sconces,
+  1971-AGB Aged Brass, glossy opal glass
+  (assets/source/lights/keswick-sconces/SOURCES.md): **4.75" x 6" x 0.75"**
+  rectangular plate with two bosses, gooseneck tube arm, swivel knob with a
+  decorative thumb knob, ringed socket holder with a knurled fitter, opal
+  **bell 2" top / 5" bottom / 5" tall** (lathe); **5" W x 11" H x 8.75"**
+  extension; A19 E26, dimmable, cUL damp. Mounted **shade down**, with the
+  frosted bulb recessed to end **2.1" above the rim**, so it is hidden from
+  standing eye level (60-68"). At **x = 36.25" / 70.75"**; default shade
+  centre on the **mirror's widest point** (70": bell 67.5-72.5", top
+  78.5"), following "Mirror bottom". Lights per sconce at the bulb: one
+  shadow-casting PointLight (the bell does not cast; socket, arm and plate
+  do) and a weak unshadowed fill for the glow off the bell.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,
