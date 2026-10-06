@@ -5,3 +5,14 @@ __pycache__/
 screenshots/
 node_modules/
 .claude/worktrees/
+
+# not in the public repo (kept locally only): room photos, proof screenshots,
+# and retailer product images referenced by assets/source/**/SOURCES.md
+photos/
+shots/
+assets/source/**/*.jpg
+assets/source/**/*.jpeg
+assets/source/**/*.png
+assets/source/**/*.webp
+assets/source/**/*.gif
+assets/source/**/*.avif

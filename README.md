@@ -5,6 +5,14 @@ A first-person 3D walk-through of the bathroom as it is today, plus a
 tiled (or wallpapered) accent wall above the existing wainscot. It is built
 with Three.js r170 straight from a CDN: no build step, nothing to install.
 
+## Not in this repository
+
+The owners' room photos (`photos/`), the proof screenshots (`shots/`) and the
+retailer product images that the `assets/source/**/SOURCES.md` notes describe are
+kept locally only and are not published here. Every texture the app needs is in
+`assets/textures/`, so the viewer runs from a clone as is; `tools/make_textures.py`
+rebuilds textures only where its source image is present.
+
 ## Run
 
 ```sh
