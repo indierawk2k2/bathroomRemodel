@@ -50,7 +50,7 @@ function globeProfile() {
 export default {
   id: 'sculptural-globe-13-pendant',
   name: 'West Elm Sculptural Globe pendant 13", milk glass',
-  order: 31,
+  order: 22,
   ...REAL,
   description: (ctx) => '13" x 12.9" milk-glass globe on an Antique Brass stem and 5" canopy (hang 22.8–86.8"; at this ceiling the bottom can go ' +
     `no lower than ${lowestRealBottomIn(remodelDims(ctx).ceiling / inch(1), REAL).toFixed(1)}"), damp rated, E26. Small opening at the bottom; the bulb sits 6" above it.`,

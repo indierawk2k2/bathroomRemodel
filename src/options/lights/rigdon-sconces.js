@@ -83,7 +83,7 @@ function sconce(THREE, mats, shadows, candela) {
 export default {
   id: 'rigdon-sconces',
   name: 'Rejuvenation Rigdon opal tube sconces (pair)',
-  order: 40,
+  order: 31,
   mount: 'wall',
   description: 'Two 4.75" x 13" Aged Brass sconces, an opal glass tube rising from a brass cup on a round backplate, flanking the mirror',
   // Glass centre on the mirror's widest point (follows "Mirror bottom").

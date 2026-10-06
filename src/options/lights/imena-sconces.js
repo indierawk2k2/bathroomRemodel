@@ -90,7 +90,7 @@ function sconce(THREE, mats, geos, shadows, candela) {
 export default {
   id: 'imena-sconces',
   name: 'West Elm Imena milk-glass globe sconces (pair)',
-  order: 42,
+  order: 33,
   mount: 'wall',
   description: 'Two 5" x 13.5" Burnished Brass sconces, a 5" x 8.25" milk-glass egg globe hanging from a round backplate, flanking the mirror',
   // Globe centre on the mirror's widest point (follows "Mirror bottom").

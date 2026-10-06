@@ -117,7 +117,7 @@ function sconce(THREE, mats, geos, shadows, candela) {
 export default {
   id: 'paolo-sconces',
   name: 'Mitzi Paolo up / down opal sconces (pair)',
-  order: 41,
+  order: 32,
   mount: 'wall',
   description: 'Two 4.25" x 23.75" Aged Brass 2-light sconces, opal cylinders up and down inside a brass channel, flanking the mirror',
   // Fixture centre (where the caps meet) on the mirror's widest point.

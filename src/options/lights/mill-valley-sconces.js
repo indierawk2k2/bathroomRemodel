@@ -83,7 +83,7 @@ function sconce(THREE, mats, shadows, candela) {
 export default {
   id: 'mill-valley-sconces',
   name: 'Hudson Valley Mill Valley opal sconces (pair)',
-  order: 43,
+  order: 34,
   mount: 'wall',
   description: 'Two 4.5" x 12.25" Aged Brass sconces, a 2" opal matte cylinder with knurled brass band and cap on a square backplate, flanking the mirror',
   defaultMountCentreIn: mirrorCentreIn,

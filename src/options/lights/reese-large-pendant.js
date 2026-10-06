@@ -36,7 +36,7 @@ const CAP_Y0 = 10.85;                      // cap skirt bottom (overlaps the glo
 export default {
   id: 'reese-large-pendant',
   name: 'Mitzi Reese pendant, large (Aged Brass)',
-  order: 30,
+  order: 21,
   ...REAL,
   description: (ctx) => '14" x 17.25" glossy opal glass globe with a second opal dome under the brass ring hiding the bulb, ' +
     'aged-brass trumpet cap on a black fabric cord (hang 21.5–143"; at this ceiling the bottom can go no lower than ' +

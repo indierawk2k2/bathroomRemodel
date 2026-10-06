@@ -60,7 +60,7 @@ function weaveUV(geo, profileIn, rep, rimRIn) {
 export default {
   id: 'belleville-rattan-pendant',
   name: 'Nathan James Belleville rattan pendant, glass diffuser',
-  order: 32,
+  order: 23,
   ...REAL,
   description: (ctx) => '17.1" x 5.1" woven rattan dome with a frosted glass diffuser closing the bottom, brass-finish rods and 5" canopy ' +
     `(hang 19.2–44.2"; at this ceiling the bottom can go no lower than ${lowestRealBottomIn(remodelDims(ctx).ceiling / inch(1), REAL).toFixed(1)}"). ` +
