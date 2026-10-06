@@ -699,6 +699,11 @@ Tile / wallpaper options (registry):
   10.25" repeat (Total Wallcovering lists 20.86"; the artwork agrees with
   10.25"), straight; texture = half the roll width x one repeat
   (0.2603 m square), matte, no metal (br-pov).
+- `wallpaper-ondecor-vintage-botanical-c329`: Ondecor C329 vintage
+  botanical, blue / beige / teal on charcoal, printed to order, 24" rolls,
+  24" x 24" repeat (Ondecor's info card); texture = one repeat
+  (0.6096 m square) averaged from the bench mock-up (no flat offered),
+  matte, no metal; "water-resistant", not labelled for bathrooms (br-82c).
 
 ## 5. Viewer
 
@@ -832,8 +837,9 @@ Required texture names (section 7): `floor_plank`, `wainscot`, `accent_band`,
 `wallpaper_spoonflower_geometric_trellis_white_navy`,
 `wallpaper_arthouse_orson_navy_trellis`,
 `wallpaper_york_graceful_geo_navy_silver`,
-`wallpaper_a_street_livia_dark_blue_trellis` and
-`wallpaper_chesapeake_tap_root_dark_blue` (from `assets/source/wallpapers/`).
+`wallpaper_a_street_livia_dark_blue_trellis`,
+`wallpaper_chesapeake_tap_root_dark_blue` and
+`wallpaper_ondecor_vintage_botanical_c329` (from `assets/source/wallpapers/`).
 
 ## 7. Textures
 
