@@ -163,6 +163,12 @@ when a pad is connected.
     the mirror's widest point. The bulb sits up inside the bell, so it does
     not show from eye level (use a short A19 / A15 frosted LED). Damp
     rated. Photos and specs: `assets/source/lights/keswick-sconces/SOURCES.md`.
+  - *Claxy brass 2-light cylinder sconces, frosted glass (pair)*: 3.1"
+    frosted glass tubes, 15.4" long with slanted open ends (up and down
+    light), on 4.7" round brass plates (4.1" out), at x 36.25" and 70.75",
+    centred on the mirror's widest point. Claxy rates them for dry
+    locations only (no damp rating). Photos and specs:
+    `assets/source/lights/claxy-cylinder-sconces/SOURCES.md`.
 - **Accent extent**: *Full wall, around window* (the default) runs the tile
   or wallpaper across the whole vanity wall: from the tub column, behind the
   vanity, round the window (above its head trim, below the sill and apron

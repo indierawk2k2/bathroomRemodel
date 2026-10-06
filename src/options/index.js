@@ -63,6 +63,7 @@ export { default as claxyRodPendants } from './lights/claxy-rod-pendants.js';
 export { default as mileySconces } from './lights/miley-sconces.js';
 export { default as lavalSconces } from './lights/laval-sconces.js';
 export { default as keswickSconces } from './lights/keswick-sconces.js';
+export { default as claxyCylinderSconces } from './lights/claxy-cylinder-sconces.js';
 
 // -------------------------------------------------------------------------
 export * from './registry.js';

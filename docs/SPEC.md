@@ -434,6 +434,20 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   78.5"), following "Mirror bottom". Lights per sconce at the bulb: one
   shadow-casting PointLight (the bell does not cast; socket, arm and plate
   do) and a weak unshadowed fill for the glow off the bell.
+- `claxy-cylinder-sconces` (br-20r): pair of Claxy "Modern Brass 2-Light
+  Cylinder Sconce" (set of 2, DZ-B3200BU-J-M-2;
+  assets/source/lights/claxy-cylinder-sconces/SOURCES.md): acid-washed
+  frosted glass tube **3.1"** diam., both ends open and cut on a slant
+  (**15.4"** on the room side, **12"** on the wall side, from the maker's
+  drawing), on a **4.7"** round brushed-brass drum plate; **4.1"**
+  extension; 2 x E26 (up and down), dimmable; **dry rated only** (Claxy: dry
+  environment; no damp rating). Frosted glass glows like the Claxy rod
+  pendants' (two glow spots at the bulbs); the slanted ends open towards
+  the wall, so no bulb shows from in front. At **x = 36.25" / 70.75"**;
+  default tube centre on the **mirror's widest point** (70": glass
+  62.3-77.7"), following "Mirror bottom". Lights per sconce: a
+  shadow-casting PointLight at the upper bulb and an unshadowed one at the
+  lower bulb.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,
