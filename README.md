@@ -145,6 +145,79 @@ when a pad is connected.
     centre). The slider can go lower to explore, past what the rods
     reach. No damp rating; Claxy advises a dry location. Photos and specs:
     `assets/source/lights/claxy-brass-rod-pendant/SOURCES.md`.
+  - *Cedar & Moss Alto Rod 6" pendants, opal globe (pair)*: two 6" opal
+    glass globes under a brass cap on rigid brass rods, at x 37.5" and
+    70.5" (2" clear of the mirror frame), 7" off the wall. Sold in overall
+    lengths of 9.75"–43.75", so at the 120" ceiling the globe bottom can go
+    no lower than 76.25" (centre 79.25", above the mirror's widest point);
+    lower needs a custom length. Damp rated. Photos and specs:
+    `assets/source/lights/alto-rod-pendants/SOURCES.md`.
+  - *West Elm Imena milk-glass pendants (pair)*: two 6" x 10" milk-glass
+    eggs on thin Burnished Brass hangers, at x 37.5" and 70.5", 7" off the
+    wall, glass centred on the mirror's widest point (bottom 65"). Drop
+    27.75"–63.75"; no damp rating. Photos and specs:
+    `assets/source/lights/imena-pendants/SOURCES.md`.
+  - *West Elm Sculptural Globe pendants, milk glass (pair)*: two 6.6" x 5.9"
+    milk-glass globes on Antique Brass stems and cords, at x 37.2" and
+    70.8", 7" off the wall, globe centred on the mirror's widest point
+    (bottom 67.05"). Drop 15.9"–80"; damp rated, dimmable. Photos and specs:
+    `assets/source/lights/sculptural-globe-pendants/SOURCES.md`.
+  - *Rejuvenation Rigdon opal tube sconces (pair)*: 4.75" x 13" Aged
+    Brass sconces, an opal glass tube rising from a brass cup on a round
+    backplate, at the sconce positions (x 36.25" and 70.75"), glass centred
+    on the mirror's widest point. Sizes from the brief (Rejuvenation blocks
+    automated reads). Photo and notes:
+    `assets/source/lights/rigdon-sconce/SOURCES.md`.
+  - *Mitzi Paolo up / down opal sconces (pair)*: 4.25" x 23.75" Aged Brass
+    2-light sconces, two 3" x 7.75" opal cylinders (one up, one down) in a
+    brass channel, at x 36.25" and 70.75", centred on the mirror's widest
+    point. cUL damp. Photo and specs:
+    `assets/source/lights/paolo-sconce/SOURCES.md`.
+  - *West Elm Imena milk-glass globe sconces (pair)*: 5" x 13.5" Burnished
+    Brass sconces, a 5" x 8.25" egg-shaped milk-glass globe hanging below a
+    round backplate, at x 36.25" and 70.75", globe centred on the mirror's
+    widest point. Sizes from the brief (West Elm blocks automated reads).
+    Photo and notes: `assets/source/lights/imena-sconce/SOURCES.md`.
+  - *Hudson Valley Mill Valley opal sconces (pair)*: 4.5" x 12.25" Aged
+    Brass sconces, a 2" opal matte cylinder with knurled band and cap on a
+    square backplate, at x 36.25" and 70.75", glass centred on the mirror's
+    widest point. cUL damp. Photo and specs:
+    `assets/source/lights/mill-valley-sconce/SOURCES.md`.
+  - *Mitzi Stella opal globe pendants (pair)*: two 7" glossy opal glass
+    globes (closed at the bottom) under a shallow Aged Brass cap, on black
+    cloth cords from 4.5" canopies, at x 37" and 71" (2" clear of the
+    mirror frame), 7" off the wall, globe centred on the mirror's widest
+    point. Hangs 11.25"–114.25"; cUL damp. Photo and specs:
+    `assets/source/lights/stella-pendant/SOURCES.md`.
+  - *Mitzi Reese small opal pendants (pair)*: two 6.75" x 8.25" glossy
+    opal globes on a slender Aged Brass neck, with a brass rim and a
+    second opal shade underneath that hides the bulb, on black cloth
+    cords, at x 37.1" and 70.9", 7" off the wall, centred on the mirror's
+    widest point. Hangs 12"–139"; cUL damp. Photo and specs:
+    `assets/source/lights/reese-small-pendant/SOURCES.md`.
+  - *Mitzi Miley opal capsule pendants (pair)*: two slim 4" x 15.6"
+    enclosed opal glass capsules on Aged Brass rod ends and black cloth
+    cords, at the sconce positions (x 36.25" and 70.75"), 7" off the wall.
+    The listings disagree on the drop (120" cord vs a 32" maximum height);
+    the model follows the cord. Default bottom (finial tip) 60", the
+    slider's lowest, so the capsule centre sits 2.3" above the mirror's
+    widest point. No longer on Hudson Valley's site. Photo, specs and the
+    drop conflict: `assets/source/lights/miley-pendant/SOURCES.md`.
+  - *Mitzi Reese pendant, large (Aged Brass)* (br-cmo): one 14" x 17.25"
+    glossy opal globe under a flared aged-brass cap, with a second opal dome
+    below its brass ring hiding the bulb, on a black cord; hung in front of
+    the mirror at x 54", bottom 76" (body 76–93.25"), 16" off the wall.
+    Damp rated. `assets/source/lights/reese-large-pendant/SOURCES.md`.
+  - *West Elm Sculptural Globe pendant 13", milk glass* (br-cmo): one 13" x
+    12.9" milk-glass globe on an Antique Brass stem, in front of the mirror,
+    bottom 77" (globe 77–89.9"), 15" off the wall. Hang 22.8–86.8", damp
+    rated. `assets/source/lights/sculptural-globe-13-pendant/SOURCES.md`.
+  - *Nathan James Belleville rattan pendant, glass diffuser* (br-cmo): one
+    17.1" x 5.1" woven rattan dome with a frosted glass bowl closing the
+    bottom, brass-finish rods; in front of the mirror, bottom 76" (the
+    longest real hang, 44.2", reaches 75.8" at the 120" ceiling), 17" off
+    the wall. No damp rating or bulb type stated.
+    `assets/source/lights/belleville-rattan-pendant/SOURCES.md`.
   - *Mitzi Miley sconces, opal capsule, aged brass (pair)*: 4" x 15.75"
     glossy opal-glass capsules on a slim aged-brass rod with an oval 4.75"
     x 7.5" backplate (29.5" tall overall, 5.75" out from the wall), one

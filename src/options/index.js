@@ -59,6 +59,23 @@ export { default as monteauxPendant } from './lights/monteaux-pendant.js';
 export { default as harlanSconces } from './lights/harlan-sconces.js';
 export { default as andersPendants } from './lights/anders-pendants.js';
 export { default as claxyRodPendants } from './lights/claxy-rod-pendants.js';
+// flanking pendants group A (br-kmt)
+export { default as altoRodPendants } from './lights/alto-rod-pendants.js';
+export { default as imenaPendants } from './lights/imena-pendants.js';
+export { default as sculpturalGlobePendants } from './lights/sculptural-globe-pendants.js';
+// opal-glass sconce pairs, group A (br-d6l)
+export { default as rigdonSconces } from './lights/rigdon-sconces.js';
+export { default as paoloSconces } from './lights/paolo-sconces.js';
+export { default as imenaSconces } from './lights/imena-sconces.js';
+export { default as millValleySconces } from './lights/mill-valley-sconces.js';
+// flanking pendants group B, Mitzi cord pendants (br-kv5)
+export { default as stellaPendants } from './lights/stella-pendants.js';
+export { default as reeseSmallPendants } from './lights/reese-small-pendants.js';
+export { default as mileyPendants } from './lights/miley-pendants.js';
+// statement pendants in front of the mirror (br-cmo)
+export { default as reeseLargePendant } from './lights/reese-large-pendant.js';
+export { default as sculpturalGlobe13Pendant } from './lights/sculptural-globe-13-pendant.js';
+export { default as bellevilleRattanPendant } from './lights/belleville-rattan-pendant.js';
 // sconces group B (br-20r): Mitzi Miley, HVL Laval, HVL Keswick, Claxy 2-light cylinder
 export { default as mileySconces } from './lights/miley-sconces.js';
 export { default as lavalSconces } from './lights/laval-sconces.js';
