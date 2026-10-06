@@ -97,6 +97,15 @@ when a pad is connected.
     image, so it is built from a front-on room scene and shown at an
     **estimated** 22 x 14.2 cm repeat (chevrons ~1.4" apart). The seller
     says waterproof "but not for bathroom use".
+  - *Ondecor Vintage Botanical C329, Blue / Beige / Teal (wallpaper)*:
+    botanicals on a near-black charcoal ground, printed to order on 24"
+    rolls, 24" x 24" repeat. No flat image is offered, so it is averaged
+    from a room mock-up. Ondecor calls it "water-resistant"; it is not
+    labelled for bathrooms.
+  - *Spoonflower Jumbo Stripy Boho Drop, White on Navy (wallpaper)*:
+    design 10023646, large drops of white dashes on navy, printed to order
+    on 24" panels, 22" repeat; rebuilt from Spoonflower's 400 px swatch and
+    shown as the vinyl type, which Spoonflower lists for bathrooms.
   The product wallpapers are built from the makers' or retailers' own artwork
   (`assets/source/wallpapers/SOURCES.md`) at true scale.
   - **Paint colours** (eggshell), five bold colours picked to contrast with

@@ -404,3 +404,78 @@ refined with a parabolic fit (recipe step 9).
   0.2603 m square, the listed 10.25"; the artwork's vertical is 0.2%
   shorter). Maker's colours kept: ground median #364656 (darker and
   bluer than Hale Navy #434B56).
+
+### Ondecor Vintage Botanical, Blue / Beige / Teal (C329)
+
+- Page (owner's link): https://ondecor.com/products/floral-wallpaper-vintage-botanical-motif-blue-beige-teal-c329
+  (Shopify; `<handle>.js` lists the variants), read 2026-10-05: "Floral
+  Wallpaper with a Vintage Botanical Motif in Blue, Beige, and Teal -
+  C329", "sophisticated shades of blue, beige, and teal against a dramatic
+  dark backdrop"; made in the USA, Canon UVgel print. **Rolls 24" wide x
+  76, 100, 112, 124 or 148"** (samples 8.5" x 7" $1.50, 24" x 24"
+  $19.00). Materials: Smooth, Canvas or Fabric peel and stick (Commercial
+  Grade Type I), Smooth or Canvas traditional (Type II, paste; Ondecor
+  recommends PRO-880). **$51.00 (24" x 76" smooth peel and stick) to
+  $119.00 (24" x 148" canvas / fabric / traditional) per roll.** Care: the
+  FAQ says the materials are **"water-resistant, fade-resistant, and
+  scratch-resistant"**; nothing says bathroom-rated, washable or
+  scrubbable. The page text gives no repeat.
+- `ondecor-c329-repeat-card.jpg`, 1000 x 1000 (the gallery's 3000 px
+  `il_fullxfull.5433196216_lwez.jpg`, downsized): Ondecor's info card,
+  **"A full 24" pattern repeats once in a 24" wide roll", "Horizontal
+  Repeat: 24"", "Vertical Repeat: 24""**, beside a flat pattern detail
+  (a zoomed crop, not a whole repeat). Kept as the repeat evidence and the
+  colour reference: its modal ground is #3E3E42.
+- `ondecor-c329-vintage-botanical-04-wall.jpg`, 2280 x 1450: the top 1450
+  rows of the gallery's bench mock-up
+  https://cdn.shopify.com/s/files/1/0491/5203/2932/files/C329_04.png
+  (2280 px square, 9.3 MB PNG; JPEG q88 here). **Texture source.** No flat
+  repeat is offered; the other mock-ups (C329_01-03, 05) carry more
+  furniture or perspective. Luminance correlation over the clean wall:
+  (0, 1039.18) px at 0.970 and (1039.46, 0) px at 0.961, so the wall is a
+  front-on composite of a square 1039 px = 24" repeat (43.3 px/in, about
+  2.2 repeats across the image). The mock-up's soft vignette (0.80-1.18)
+  is divided out (120 px-blurred photo / tiled-cell ratio, 3 passes),
+  the props (cushion, pot, plants, bench) are masked, and every lattice
+  copy on clean wall is averaged (1-4 per pixel, mean 2.7). The cell is
+  graded per channel (two points: modal ground, 97th-percentile
+  highlight) to the card's flat detail (mock-up ground #3A363A, scene-
+  graded warmer and darker) and upscaled to 2048 px for 0.6096 m.
+  Finish: matte (0.80), no metal.
+
+### Spoonflower "Jumbo stripy boho drop white on navy" (design 10023646)
+
+- Page (owner's link): https://www.spoonflower.com/en/wallpaper/10023646-jumbo-stripy-boho-drop-white-on-navy-by-juliaschumacher
+  (design by juliaschumacher; curl gets 403, read in Chrome 2026-10-05).
+  "Also available in navy on white. Black and white and an Indian color
+  way." **Paper width 24 inches, lengths 1, 3, 6, 9 or 12 ft (Vinyl also
+  27 ft), "Design vertical repeat: 22 inches"**; no horizontal repeat is
+  listed (read off the swatch lattice below). Types offered: **Peel and
+  Stick** (default; "100% paper with a woven linen texture"; bedrooms,
+  living rooms, entryways), **Pre-Pasted, Traditional, PVC-Free Type II,
+  Vinyl** ("True vinyl ... highly durable and contract-grade"; "Paste
+  required, professional recommended"; **"Subtle, leather-textured
+  vinyl"**; great for "... Hotels, **Bathrooms**"; free of phthalates),
+  **Grasscloth, Gold Metallic, Silver Metallic**. Price: **$96.75 per
+  2 ft x 12 ft (25 % off $129.00)**, shown for both Peel and Stick ("per
+  panel") and Vinyl ("per roll"); the other types' prices were not read
+  (the selector stalls the automated browser). Certifications: FSC paper,
+  LEED, Class A fire rated, GREENGUARD Gold inks; printed in the USA.
+- `spoonflower-10023646-jumbo-stripy-boho-drop-white-on-navy-l.jpg`,
+  400 x 400 (JPEG data), from
+  https://img.spoonflower.com/c/10023646/p/f/l/YMqhqFJZdAmJoedifHhL0DXqx_z5z6Gv0u2lWCJQixp2AVa0ePVuh7U/10023646.png
+  **Texture source.** The `m`, `xl`, `o` and `p/w/xl` keys return a
+  294 px file, `p/w/l` the same 400 px one; the page's 1024 px images
+  (`/i/l/...`) are roll and room mock-ups, not kept.
+- **Repeat.** The swatch wraps vertically (one 22" repeat = 400 px,
+  18.2 px/in) but not across. White-mask correlation gives a centring
+  vector (200, 218) px (0.45 raw, 0.92 at a 1.5 px blur, 0.996 at 6 px:
+  the drops are copies), so the rectangular repeat is 400 x 436 px =
+  **22" x 24.0"**: one drop column per 24" panel with half drops at the
+  edges, as the roll mock-up shows. The swatch is 36 px short of the
+  width; the cell is filled from the swatch and its copy one centring
+  vector away (averaged where both exist), then rebuilt like 15299902:
+  white coverage upscaled 4x, re-thresholded, drawn in the swatch's
+  median white (#EEF8FF) on its median navy (#2D3D4C). Texture
+  1744 x 1600 px for 0.6096 x 0.5588 m (0.35 mm/px). Finish modelled on
+  the Vinyl type: satin 0.58 with a fine leather grain.
