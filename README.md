@@ -162,6 +162,27 @@ when a pad is connected.
     70.8", 7" off the wall, globe centred on the mirror's widest point
     (bottom 67.05"). Drop 15.9"–80"; damp rated, dimmable. Photos and specs:
     `assets/source/lights/sculptural-globe-pendants/SOURCES.md`.
+  - *Rejuvenation Rigdon opal tube sconces (pair)*: 4.75" x 13" Aged
+    Brass sconces, an opal glass tube rising from a brass cup on a round
+    backplate, at the sconce positions (x 36.25" and 70.75"), glass centred
+    on the mirror's widest point. Sizes from the brief (Rejuvenation blocks
+    automated reads). Photo and notes:
+    `assets/source/lights/rigdon-sconce/SOURCES.md`.
+  - *Mitzi Paolo up / down opal sconces (pair)*: 4.25" x 23.75" Aged Brass
+    2-light sconces, two 3" x 7.75" opal cylinders (one up, one down) in a
+    brass channel, at x 36.25" and 70.75", centred on the mirror's widest
+    point. cUL damp. Photo and specs:
+    `assets/source/lights/paolo-sconce/SOURCES.md`.
+  - *West Elm Imena milk-glass globe sconces (pair)*: 5" x 13.5" Burnished
+    Brass sconces, a 5" x 8.25" egg-shaped milk-glass globe hanging below a
+    round backplate, at x 36.25" and 70.75", globe centred on the mirror's
+    widest point. Sizes from the brief (West Elm blocks automated reads).
+    Photo and notes: `assets/source/lights/imena-sconce/SOURCES.md`.
+  - *Hudson Valley Mill Valley opal sconces (pair)*: 4.5" x 12.25" Aged
+    Brass sconces, a 2" opal matte cylinder with knurled band and cap on a
+    square backplate, at x 36.25" and 70.75", glass centred on the mirror's
+    widest point. cUL damp. Photo and specs:
+    `assets/source/lights/mill-valley-sconce/SOURCES.md`.
 - **Accent extent**: *Full wall, around window* (the default) runs the tile
   or wallpaper across the whole vanity wall: from the tub column, behind the
   vanity, round the window (above its head trim, below the sill and apron

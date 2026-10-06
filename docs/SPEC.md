@@ -431,6 +431,51 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   pendant. Damp rated, E26, dimmable.
   All three model the opal / milk glass as an opaque glowing shell (emissive
   driven by onOff, no shadow casting, no bulb mesh), so no bulb is ever seen.
+<!-- sconce pairs group A (br-d6l) -->
+- `rigdon-sconces` (br-d6l): pair of Rejuvenation "Rigdon Glass Sconce"
+  (single tube, SKU 7618680, Aged Brass;
+  assets/source/lights/rigdon-sconce/SOURCES.md): 4.75" x 13" x 3.75"
+  projection (from the brief; Rejuvenation blocks automated reads, so not
+  re-read from the page), a 4.75" round backplate at the bottom, a 3.1" brass
+  cup and a 2.5" opal tube rising to a closed brass cap ring, so the bulb
+  never shows. Sconce positions **x = 36.25" and 70.75"** (plate 3.9" / 2.9"
+  clear of the frame at its widest point). Default **visible-glass centre on
+  the mirror's widest point** (70" at the default mirror: fixture 61.8–74.8"),
+  a function of the mirror like the Harlan's. Lights: one shadow-casting
+  PointLight per sconce at the bulb (glass does not cast; the cup darkens the
+  wall just below it). Damp rating UL damp (brief, not verified).
+- `paolo-sconces` (br-d6l): pair of Mitzi "Paolo" 2-light sconces
+  (H634102-AGB, Aged Brass; assets/source/lights/paolo-sconce/SOURCES.md):
+  4.25" x 23.75", two opal matte cylinders 3" x 7.75" rising and hanging from
+  bullet-shaped brass caps that meet at the centre, inside a full-height
+  brass U-channel (the Harlan's up / down layout); open outer ends, bulbs
+  recessed ~3" inside them and not modelled. Projection not stated (glass
+  front ~4.45" assumed); the narrow mount follows the photo, not the page's
+  "4.25" square" backplate. **x = 36.25" and 70.75"** (channel 4.1" / 3.1"
+  clear of the frame). Default **fixture centre on the mirror's widest
+  point** (fixture 58.1–81.9" at the default mirror, so a standing eye at
+  60–68" sees into neither open end). Lights: one shadow-casting PointLight
+  per sconce between the caps (caps and glass do not cast, the channel does:
+  the wall behind stays dark, lit in scallops above and below). cUL damp.
+- `imena-sconces` (br-d6l): pair of West Elm "Imena Glass Sconce" 13.5"
+  (Burnished Brass; assets/source/lights/imena-sconce/SOURCES.md): 5" x
+  13.5" x 5.5" projection, a closed 5" x 8.25" egg-shaped milk-glass globe
+  hanging from a brass collar, stem and arm below a round ~4.75" backplate
+  (sizes from the brief; West Elm blocks automated page reads). **x = 36.25"
+  and 70.75"** (globe 3.75" / 2.75" clear of the frame). Default **globe
+  centre on the mirror's widest point** (globe 65.9–74.1", top of plate
+  79.4" at the default mirror). Lights: one shadow-casting PointLight per
+  sconce at the bulb in the upper globe (glass does not cast; collar, arm and
+  plate do). Damp rating not verified.
+- `mill-valley-sconces` (br-d6l): pair of Hudson Valley Lighting "Mill
+  Valley" sconces (1261-AGB, Aged Brass;
+  assets/source/lights/mill-valley-sconce/SOURCES.md): 4.5" x 12.25", 4"
+  extension, tiered 4.5" square backplate at the bottom, a 3.2" brass band
+  with a knurled ring and a 2" x 11" opal matte cylinder closed by a knurled
+  cap. **x = 36.25" and 70.75"** (plate 4.0" / 3.0" clear of the frame).
+  Default **visible-glass centre on the mirror's widest point** (fixture
+  62.3–74.5" at the default mirror). Lights: one shadow-casting PointLight per
+  sconce at the T10 bulb (glass does not cast; band and plate do). cUL damp.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,
