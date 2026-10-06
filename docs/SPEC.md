@@ -397,6 +397,18 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   below) and a weaker unshadowed one for the glow off the glass, which keeps
   that ring soft as in the maker's bathroom photo. Damp rating: not stated;
   Claxy lists bathrooms but advises a dry location.
+- `rigdon-sconces` (br-d6l): pair of Rejuvenation "Rigdon Glass Sconce"
+  (single tube, SKU 7618680, Aged Brass;
+  assets/source/lights/rigdon-sconce/SOURCES.md): 4.75" x 13" x 3.75"
+  projection (from the brief; Rejuvenation blocks automated reads, so not
+  re-read from the page), a 4.75" round backplate at the bottom, a 3.1" brass
+  cup and a 2.5" opal tube rising to a closed brass cap ring, so the bulb
+  never shows. Sconce positions **x = 36.25" and 70.75"** (plate 3.9" / 2.9"
+  clear of the frame at its widest point). Default **visible-glass centre on
+  the mirror's widest point** (70" at the default mirror: fixture 61.8–74.8"),
+  a function of the mirror like the Harlan's. Lights: one shadow-casting
+  PointLight per sconce at the bulb (glass does not cast; the cup darkens the
+  wall just below it). Damp rating UL damp (brief, not verified).
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,

@@ -145,6 +145,12 @@ when a pad is connected.
     centre). The slider can go lower to explore, past what the rods
     reach. No damp rating; Claxy advises a dry location. Photos and specs:
     `assets/source/lights/claxy-brass-rod-pendant/SOURCES.md`.
+  - *Rejuvenation Rigdon opal tube sconces (pair)*: 4.75" x 13" Aged
+    Brass sconces, an opal glass tube rising from a brass cup on a round
+    backplate, at the sconce positions (x 36.25" and 70.75"), glass centred
+    on the mirror's widest point. Sizes from the brief (Rejuvenation blocks
+    automated reads). Photo and notes:
+    `assets/source/lights/rigdon-sconce/SOURCES.md`.
 - **Accent extent**: *Full wall, around window* (the default) runs the tile
   or wallpaper across the whole vanity wall: from the tub column, behind the
   vanity, round the window (above its head trim, below the sill and apron
