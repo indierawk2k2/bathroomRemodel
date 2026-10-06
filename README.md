@@ -156,6 +156,11 @@ when a pad is connected.
     brass channel, at x 36.25" and 70.75", centred on the mirror's widest
     point. cUL damp. Photo and specs:
     `assets/source/lights/paolo-sconce/SOURCES.md`.
+  - *West Elm Imena milk-glass globe sconces (pair)*: 5" x 13.5" Burnished
+    Brass sconces, a 5" x 8.25" egg-shaped milk-glass globe hanging below a
+    round backplate, at x 36.25" and 70.75", globe centred on the mirror's
+    widest point. Sizes from the brief (West Elm blocks automated reads).
+    Photo and notes: `assets/source/lights/imena-sconce/SOURCES.md`.
 - **Accent extent**: *Full wall, around window* (the default) runs the tile
   or wallpaper across the whole vanity wall: from the tub column, behind the
   vanity, round the window (above its head trim, below the sill and apron

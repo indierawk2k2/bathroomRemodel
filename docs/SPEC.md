@@ -422,6 +422,16 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   60–68" sees into neither open end). Lights: one shadow-casting PointLight
   per sconce between the caps (caps and glass do not cast, the channel does:
   the wall behind stays dark, lit in scallops above and below). cUL damp.
+- `imena-sconces` (br-d6l): pair of West Elm "Imena Glass Sconce" 13.5"
+  (Burnished Brass; assets/source/lights/imena-sconce/SOURCES.md): 5" x
+  13.5" x 5.5" projection, a closed 5" x 8.25" egg-shaped milk-glass globe
+  hanging from a brass collar, stem and arm below a round ~4.75" backplate
+  (sizes from the brief; West Elm blocks automated page reads). **x = 36.25"
+  and 70.75"** (globe 3.75" / 2.75" clear of the frame). Default **globe
+  centre on the mirror's widest point** (globe 65.9–74.1", top of plate
+  79.4" at the default mirror). Lights: one shadow-casting PointLight per
+  sconce at the bulb in the upper globe (glass does not cast; collar, arm and
+  plate do). Damp rating not verified.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,

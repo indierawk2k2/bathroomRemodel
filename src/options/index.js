@@ -62,6 +62,7 @@ export { default as claxyRodPendants } from './lights/claxy-rod-pendants.js';
 // opal-glass sconce pairs, group A (br-d6l)
 export { default as rigdonSconces } from './lights/rigdon-sconces.js';
 export { default as paoloSconces } from './lights/paolo-sconces.js';
+export { default as imenaSconces } from './lights/imena-sconces.js';
 
 // -------------------------------------------------------------------------
 export * from './registry.js';
