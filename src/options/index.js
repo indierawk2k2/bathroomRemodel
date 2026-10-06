@@ -59,6 +59,10 @@ export { default as monteauxPendant } from './lights/monteaux-pendant.js';
 export { default as harlanSconces } from './lights/harlan-sconces.js';
 export { default as andersPendants } from './lights/anders-pendants.js';
 export { default as claxyRodPendants } from './lights/claxy-rod-pendants.js';
+// flanking pendants group A (br-kmt)
+export { default as altoRodPendants } from './lights/alto-rod-pendants.js';
+export { default as imenaPendants } from './lights/imena-pendants.js';
+export { default as sculpturalGlobePendants } from './lights/sculptural-globe-pendants.js';
 // opal-glass sconce pairs, group A (br-d6l)
 export { default as rigdonSconces } from './lights/rigdon-sconces.js';
 export { default as paoloSconces } from './lights/paolo-sconces.js';
