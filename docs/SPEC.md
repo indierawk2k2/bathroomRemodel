@@ -548,6 +548,57 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
     bottom 75.8" at a 120" ceiling). Default bottom **76"** (fixture
     76–86", rim 78.6"), **17"** off the wall (shade back 8.5" clear). Bulb
     type and damp rating not stated.
+- `miley-sconces` (br-20r): pair of Mitzi "Miley" wall sconces, H373101-AGB
+  Aged Brass (assets/source/lights/miley-sconces/SOURCES.md): fully enclosed
+  glossy opal-glass capsule **4" x 15.75"** on a slender brass rod with
+  rounded finials above and below, oval **4.75" x 7.5"** backplate wholly
+  above the glass, short arm and collar; overall **4.75" W x 29.5" H x
+  5.75"** extension; 1 x E26; cUL damp. At the sconce positions **x =
+  36.25" / 70.75"** (Harlan rule; glass 4.25" / 3.25" clear of the frame).
+  Default glass centre on the **mirror's widest point** (70": glass
+  62.1-77.9", fixture 57.3-86.8"), following "Mirror bottom"; the 29.5"
+  height needs no clamp (the slider sets the glass centre, 56-84"; at 84"
+  the finial is at 100.8"). Lights: one shadow-casting PointLight per
+  sconce mid-glass (the opal glass does not cast).
+- `laval-sconces` (br-20r): pair of Hudson Valley "Laval" 1-light sconces,
+  8424-AGB Aged Brass (assets/source/lights/laval-sconces/SOURCES.md): a
+  **4.5"** "Nuage" globe (clear glass etched inside to a speckled opal,
+  canvas speckle texture) hung from the forward-curving top of a long flat
+  brass bar on a **4.75"** round two-step plate; **4.75" W x 23.75" H x 6"**
+  extension, top to plate centre 10.25"; G9; CETL damp; enclosed. At **x =
+  36.25" / 70.75"**; default globe centre on the **mirror's widest point**
+  (70": globe 67.75-72.25", plate centre 63.65", bar down to 50.2"),
+  following "Mirror bottom". Lights per sconce at the globe centre: one
+  shadow-casting PointLight and one weaker unshadowed fill (keeps the
+  hook's shadow on the wall soft); the bar is satin, isotropic brass so the
+  bulb 2.5" away does not streak it white.
+- `keswick-sconces` (br-20r): pair of Hudson Valley "Keswick" bath sconces,
+  1971-AGB Aged Brass, glossy opal glass
+  (assets/source/lights/keswick-sconces/SOURCES.md): **4.75" x 6" x 0.75"**
+  rectangular plate with two bosses, gooseneck tube arm, swivel knob with a
+  decorative thumb knob, ringed socket holder with a knurled fitter, opal
+  **bell 2" top / 5" bottom / 5" tall** (lathe); **5" W x 11" H x 8.75"**
+  extension; A19 E26, dimmable, cUL damp. Mounted **shade down**, with the
+  frosted bulb recessed to end **2.1" above the rim**, so it is hidden from
+  standing eye level (60-68"). At **x = 36.25" / 70.75"**; default shade
+  centre on the **mirror's widest point** (70": bell 67.5-72.5", top
+  78.5"), following "Mirror bottom". Lights per sconce at the bulb: one
+  shadow-casting PointLight (the bell does not cast; socket, arm and plate
+  do) and a weak unshadowed fill for the glow off the bell.
+- `claxy-cylinder-sconces` (br-20r): pair of Claxy "Modern Brass 2-Light
+  Cylinder Sconce" (set of 2, DZ-B3200BU-J-M-2;
+  assets/source/lights/claxy-cylinder-sconces/SOURCES.md): acid-washed
+  frosted glass tube **3.1"** diam., both ends open and cut on a slant
+  (**15.4"** on the room side, **12"** on the wall side, from the maker's
+  drawing), on a **4.7"** round brushed-brass drum plate; **4.1"**
+  extension; 2 x E26 (up and down), dimmable; **dry rated only** (Claxy: dry
+  environment; no damp rating). Frosted glass glows like the Claxy rod
+  pendants' (two glow spots at the bulbs); the slanted ends open towards
+  the wall, so no bulb shows from in front. At **x = 36.25" / 70.75"**;
+  default tube centre on the **mirror's widest point** (70": glass
+  62.3-77.7"), following "Mirror bottom". Lights per sconce: a
+  shadow-casting PointLight at the upper bulb and an unshadowed one at the
+  lower bulb.
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,

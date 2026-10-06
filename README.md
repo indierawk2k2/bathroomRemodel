@@ -218,6 +218,30 @@ when a pad is connected.
     longest real hang, 44.2", reaches 75.8" at the 120" ceiling), 17" off
     the wall. No damp rating or bulb type stated.
     `assets/source/lights/belleville-rattan-pendant/SOURCES.md`.
+  - *Mitzi Miley sconces, opal capsule, aged brass (pair)*: 4" x 15.75"
+    glossy opal-glass capsules on a slim aged-brass rod with an oval 4.75"
+    x 7.5" backplate (29.5" tall overall, 5.75" out from the wall), one
+    each side of the mirror at x 36.25" and 70.75", glass centred on the
+    mirror's widest point. Damp rated. Photos and specs:
+    `assets/source/lights/miley-sconces/SOURCES.md`.
+  - *Hudson Valley Laval sconces, etched globe, aged brass (pair)*: a 4.5"
+    speckled-opal ("Nuage" etched) globe hung from the curved top of a long
+    flat brass bar on a 4.75" round plate (23.75" tall, 6" out), at x
+    36.25" and 70.75", globe centred on the mirror's widest point. G9,
+    damp rated. Photos and specs:
+    `assets/source/lights/laval-sconces/SOURCES.md`.
+  - *Hudson Valley Keswick sconces, opal bell, aged brass (pair)*: glossy
+    opal 5" bells hung shade-down from an aged-brass gooseneck on a 4.75" x
+    6" plate (11" tall, 8.75" out), at x 36.25" and 70.75", shade centred on
+    the mirror's widest point. The bulb sits up inside the bell, so it does
+    not show from eye level (use a short A19 / A15 frosted LED). Damp
+    rated. Photos and specs: `assets/source/lights/keswick-sconces/SOURCES.md`.
+  - *Claxy brass 2-light cylinder sconces, frosted glass (pair)*: 3.1"
+    frosted glass tubes, 15.4" long with slanted open ends (up and down
+    light), on 4.7" round brass plates (4.1" out), at x 36.25" and 70.75",
+    centred on the mirror's widest point. Claxy rates them for dry
+    locations only (no damp rating). Photos and specs:
+    `assets/source/lights/claxy-cylinder-sconces/SOURCES.md`.
 - **Accent extent**: *Full wall, around window* (the default) runs the tile
   or wallpaper across the whole vanity wall: from the tub column, behind the
   vanity, round the window (above its head trim, below the sill and apron

@@ -76,6 +76,11 @@ export { default as mileyPendants } from './lights/miley-pendants.js';
 export { default as reeseLargePendant } from './lights/reese-large-pendant.js';
 export { default as sculpturalGlobe13Pendant } from './lights/sculptural-globe-13-pendant.js';
 export { default as bellevilleRattanPendant } from './lights/belleville-rattan-pendant.js';
+// sconces group B (br-20r): Mitzi Miley, HVL Laval, HVL Keswick, Claxy 2-light cylinder
+export { default as mileySconces } from './lights/miley-sconces.js';
+export { default as lavalSconces } from './lights/laval-sconces.js';
+export { default as keswickSconces } from './lights/keswick-sconces.js';
+export { default as claxyCylinderSconces } from './lights/claxy-cylinder-sconces.js';
 
 // -------------------------------------------------------------------------
 export * from './registry.js';
