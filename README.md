@@ -145,6 +145,12 @@ when a pad is connected.
     centre). The slider can go lower to explore, past what the rods
     reach. No damp rating; Claxy advises a dry location. Photos and specs:
     `assets/source/lights/claxy-brass-rod-pendant/SOURCES.md`.
+  - *Mitzi Miley sconces, opal capsule, aged brass (pair)*: 4" x 15.75"
+    glossy opal-glass capsules on a slim aged-brass rod with an oval 4.75"
+    x 7.5" backplate (29.5" tall overall, 5.75" out from the wall), one
+    each side of the mirror at x 36.25" and 70.75", glass centred on the
+    mirror's widest point. Damp rated. Photos and specs:
+    `assets/source/lights/miley-sconces/SOURCES.md`.
 - **Accent extent**: *Full wall, around window* (the default) runs the tile
   or wallpaper across the whole vanity wall: from the tub column, behind the
   vanity, round the window (above its head trim, below the sill and apron

@@ -397,6 +397,18 @@ height slider sets the glass centre (56–84"); the distance slider is hidden.
   below) and a weaker unshadowed one for the glow off the glass, which keeps
   that ring soft as in the maker's bathroom photo. Damp rating: not stated;
   Claxy lists bathrooms but advises a dry location.
+- `miley-sconces` (br-20r): pair of Mitzi "Miley" wall sconces, H373101-AGB
+  Aged Brass (assets/source/lights/miley-sconces/SOURCES.md): fully enclosed
+  glossy opal-glass capsule **4" x 15.75"** on a slender brass rod with
+  rounded finials above and below, oval **4.75" x 7.5"** backplate wholly
+  above the glass, short arm and collar; overall **4.75" W x 29.5" H x
+  5.75"** extension; 1 x E26; cUL damp. At the sconce positions **x =
+  36.25" / 70.75"** (Harlan rule; glass 4.25" / 3.25" clear of the frame).
+  Default glass centre on the **mirror's widest point** (70": glass
+  62.1-77.9", fixture 57.3-86.8"), following "Mirror bottom"; the 29.5"
+  height needs no clamp (the slider sets the glass centre, 56-84"; at 84"
+  the finial is at 100.8"). Lights: one shadow-casting PointLight per
+  sconce mid-glass (the opal glass does not cast).
 
 Tile / wallpaper options (registry):
 - `sage-fan`: Daltile Handcrafted Sage Fan, ~4" scallop (fish-scale) mosaic,
