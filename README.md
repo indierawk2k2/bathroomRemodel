@@ -13,6 +13,8 @@ kept locally only and are not published here. Every texture the app needs is in
 `assets/textures/`, so the viewer runs from a clone as is; `tools/make_textures.py`
 rebuilds textures only where its source image is present.
 
+**Live:** https://indierawk2k2.github.io/bathroomRemodel/ (GitHub Pages from `main`; works on a phone: drag to look, use the camera preset buttons to move).
+
 ## Run
 
 ```sh
